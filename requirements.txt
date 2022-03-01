@@ -7,3 +7,4 @@ graphene-django
 # psycopg2
 python-dateutil
 Pillow
+django-environ
