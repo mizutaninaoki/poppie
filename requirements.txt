@@ -1,0 +1,9 @@
+Django==3.2.12
+django-extensions
+django-cors-headers
+djangorestframework
+graphene-django
+# PyJWT
+# psycopg2
+python-dateutil
+Pillow
