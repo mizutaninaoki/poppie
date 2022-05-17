@@ -1,0 +1,24 @@
+overwrite: true
+schema:
+  # Djangoから自動生成するサーバー側のスキーマ
+  - "../app/graphql/schema.graphql"
+documents: "src/**/*"
+generates:
+  src/generated/graphql.tsx: # 出力するファイル名
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      # 下の3つはtypescript-react-apolloのオプション
+      withComponent: false # falseなので出力ファイル拡張子が.tsでもいい。
+                           # このオプションを設定しないとデフォルトtrueなので、.tsx拡張子にしろとエラーが出る
+      withHOC: false
+      withHooks: true
+      apolloReactCommonImportFrom: "@apollo/client"
+      apolloReactComponentsImportFrom: "@apollo/client"
+      apolloReactHocImportFrom: "@apollo/client"
+      apolloReactHooksImportFrom: "@apollo/client"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

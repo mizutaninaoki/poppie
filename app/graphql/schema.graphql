@@ -1,0 +1,341 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AccountType {
+  id: ID!
+  user: CustomUserType!
+  givablePoint: Int!
+  receivedPoint: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  company: CompanyType!
+}
+
+type ArchiveAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type CompanyType {
+  id: ID!
+  plan: PlanType!
+  name: String!
+  email: String!
+  tel: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateCompanyAndAdminUserInput {
+  planId: ID!
+  name: String!
+  email: String!
+  tel: String!
+  clientMutationId: String
+}
+
+type CreateCompanyAndAdminUserPayload {
+  adminUser: CustomUserType
+  clientMutationId: String
+}
+
+input CreateDealingInput {
+  userId: ID!
+  amount: Int!
+  message: String!
+  clientMutationId: String
+}
+
+type CreateDealingPayload {
+  dealing: DealingType
+  clientMutationId: String
+}
+
+input CreatePurchasePointInput {
+  companyId: ID!
+  point: Int!
+  price: Int!
+  clientMutationId: String
+}
+
+type CreatePurchasePointPayload {
+  purchasedPointLog: PurchasedPointLogType
+  clientMutationId: String
+}
+
+input CreateUserInput {
+  companyId: ID!
+  name: String!
+  email: String!
+  password1: String!
+  password2: String!
+  clientMutationId: String
+}
+
+type CreateUserPayload {
+  user: CustomUserType
+  clientMutationId: String
+}
+
+type CustomUserType {
+  id: ID!
+  email: String!
+  name: String!
+  isActive: Boolean!
+  isAdmin: Boolean!
+  password: String!
+  company: CompanyType!
+  profile: ProfileType!
+  account: AccountType!
+}
+
+scalar DateTime
+
+type DealingType {
+  id: ID!
+  company: CompanyType!
+  giver: AccountType!
+  receiver: AccountType!
+  amount: Int!
+  message: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type DeleteAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+scalar ExpectedErrorType
+
+scalar GenericScalar
+
+type Mutation {
+  createPurchasePoint(input: CreatePurchasePointInput!): CreatePurchasePointPayload
+  createDealing(input: CreateDealingInput!): CreateDealingPayload
+  createCompanyAndAdminUser(input: CreateCompanyAndAdminUserInput!): CreateCompanyAndAdminUserPayload
+  updateProfile(input: UpdateProfileInput!): UpdateProfilePayload
+  updatePlan(input: UpdatePlanInput!): UpdatePlanPayload
+  createUser(input: CreateUserInput!): CreateUserPayload
+  customRegister(input: CreateUserInput!): CreateUserPayload
+  verifyAccount(input: VerifyAccountInput!): VerifyAccountPayload
+  resendActivationEmail(email: String!): ResendActivationEmail
+  sendPasswordResetEmail(email: String!): SendPasswordResetEmail
+  passwordReset(token: String!, newPassword1: String!, newPassword2: String!): PasswordReset
+  passwordSet(token: String!, newPassword1: String!, newPassword2: String!): PasswordSet
+  passwordChange(oldPassword: String!, newPassword1: String!, newPassword2: String!): PasswordChange
+  updateAccount: UpdateAccount
+  archiveAccount(password: String!): ArchiveAccount
+  deleteAccount(password: String!): DeleteAccount
+  sendSecondaryEmailActivation(email: String!, password: String!): SendSecondaryEmailActivation
+  verifySecondaryEmail(token: String!): VerifySecondaryEmail
+  swapEmails(password: String!): SwapEmails
+  removeSecondaryEmail(password: String!): RemoveSecondaryEmail
+  tokenAuth(input: ObtainJSONWebTokenInput!): ObtainJSONWebTokenPayload
+  verifyToken(input: VerifyInput!): VerifyPayload
+  refreshToken(input: RefreshInput!): RefreshPayload
+  revokeToken(refreshToken: String!): RevokeToken
+}
+
+interface Node {
+  id: ID!
+}
+
+input ObtainJSONWebTokenInput {
+  clientMutationId: String
+  email: String!
+  password: String!
+}
+
+type ObtainJSONWebTokenPayload {
+  token: String
+  user: CustomUserType
+  clientMutationId: String
+  refreshToken: String
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type PasswordChange {
+  success: Boolean
+  errors: ExpectedErrorType
+  refreshToken: String
+  token: String
+}
+
+type PasswordReset {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type PasswordSet {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type PlanType {
+  id: ID!
+  name: String!
+  fee: Int!
+}
+
+type ProfileType {
+  id: ID!
+  user: CustomUserType!
+  department: String
+  comment: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PurchasedPointLogType {
+  id: ID!
+  company: CompanyType!
+  point: Int!
+  price: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  accounts: [AccountType]!
+  profile(userId: ID): ProfileType
+  plans: [PlanType]
+  plan(id: ID!): PlanType
+  companyUsers(companyId: ID!): [CustomUserType]
+  me: UserNode
+  user(id: ID!): UserNode
+  users(offset: Int, before: String, after: String, first: Int, last: Int, id: Float, email: String, name: String, name_Icontains: String, name_Istartswith: String, isActive: Boolean, isAdmin: Boolean, status_Archived: Boolean, status_Verified: Boolean, status_SecondaryEmail: String): UserNodeConnection
+}
+
+input RefreshInput {
+  refreshToken: String!
+  clientMutationId: String
+}
+
+type RefreshPayload {
+  token: String
+  payload: GenericScalar
+  clientMutationId: String
+  refreshToken: String
+}
+
+type RemoveSecondaryEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type ResendActivationEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type RevokeToken {
+  revoked: Int
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type SendPasswordResetEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type SendSecondaryEmailActivation {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type SwapEmails {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type UpdateAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+input UpdatePlanInput {
+  planId: ID!
+  clientMutationId: String
+}
+
+type UpdatePlanPayload {
+  plan: PlanType
+  clientMutationId: String
+}
+
+input UpdateProfileInput {
+  userId: ID!
+  name: String!
+  department: String
+  comment: String
+  clientMutationId: String
+}
+
+type UpdateProfilePayload {
+  profile: ProfileType
+  clientMutationId: String
+}
+
+type UserNode implements Node {
+  id: ID!
+  lastLogin: DateTime
+  company: CompanyType!
+  email: String!
+  name: String!
+  isActive: Boolean!
+  isStaff: Boolean!
+  isAdmin: Boolean!
+  account: AccountType
+  profile: ProfileType
+  pk: Int
+  archived: Boolean
+  verified: Boolean
+  secondaryEmail: String
+}
+
+type UserNodeConnection {
+  pageInfo: PageInfo!
+  edges: [UserNodeEdge]!
+}
+
+type UserNodeEdge {
+  node: UserNode
+  cursor: String!
+}
+
+input VerifyAccountInput {
+  clientMutationId: String
+  token: String!
+}
+
+type VerifyAccountPayload {
+  success: Boolean
+  errors: ExpectedErrorType
+  clientMutationId: String
+}
+
+input VerifyInput {
+  token: String!
+  clientMutationId: String
+}
+
+type VerifyPayload {
+  payload: GenericScalar
+  clientMutationId: String
+}
+
+type VerifySecondaryEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}

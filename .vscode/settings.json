@@ -1,0 +1,13 @@
+{
+    "editor.tabSize": 4,
+    "eslint.workingDirectories": ["./frontend", "/app", "/account" ],
+    // pythonのフォーマッターであるblackの設定
+    // see: https://github.com/microsoft/vscode-python/issues/1883#issuecomment-699605274
+    "python.formatting.provider": "black",
+    "[python]": {
+      "editor.formatOnPaste": false,
+      "editor.formatOnSaveMode": "file"
+    },
+    "python.formatting.blackArgs": ["--line-length", "88"],
+    "editor.formatOnSave": true
+}

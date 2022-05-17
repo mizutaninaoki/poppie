@@ -12,6 +12,12 @@ python-dateutil = "*"
 Django = "==3.2.12"
 Pillow = "*"
 django-environ = "*"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
+django-graphql-jwt = "*"
+django-graphql-auth = "*"
+django-filter = "*"
+colorlog = "*"
+black = "*"
 
 [dev-packages]
 

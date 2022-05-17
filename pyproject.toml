@@ -1,0 +1,28 @@
+# pythonのフォーマッターであるblackの設定
+# see: https://hesma2.hatenablog.com/entry/2021/01/18/080000
+
+[tool.black]
+line-length = 88 # 1行の最大文字数
+target-version = ['py37'] # 指定したバージョンに対応できる形にフォーマットされます。
+include = '\.py$' # 対象ファイル
+exclude = ''' # 対象外ファイル
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | db.sqlite3
+    | .pytest_cache
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''

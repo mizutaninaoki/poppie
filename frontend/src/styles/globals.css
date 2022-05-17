@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic",'ヒラギノ角ゴ ProN', "メイリオ", sans-serif;
+}
+
+.m-header {
+  margin-top: 60px;
+}
+
+.min-h-screen-except-header {
+  min-height: calc(100vh - 60px);
+}
+
+.pt-except-header {
+  padding-top: 60px;
+}

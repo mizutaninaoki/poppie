@@ -1,0 +1,9 @@
+---
+extends:
+  - stylelint-config-standard
+  - stylelint-config-sass-guidelines
+  - stylelint-config-prettier
+rules:
+  selector-class-pattern: ^[a-z][a-zA-Z0-9]+$
+  value-keyword-case: null
+  max-nesting-depth: 2

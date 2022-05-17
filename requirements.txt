@@ -1,10 +1,14 @@
 Django==3.2.12
+django-filter
 django-extensions
 django-cors-headers
 djangorestframework
 graphene-django
+django-graphql-jwt
+django-graphql-auth
 # PyJWT
 # psycopg2
 python-dateutil
 Pillow
 django-environ
+django-phonenumber-field[phonenumbers]
