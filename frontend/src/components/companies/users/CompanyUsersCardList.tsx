@@ -27,7 +27,7 @@ export const CompanyUsersCardList: FC<Props> = ({ users }) => {
     <>
       {users.map((user) => {
         return (
-          <div className="m-2">
+          <div className="m-2" key={user.id}>
             <div className="card w-96 bg-base-100 shadow-xl">
               <div className="card-body p-6">
                 <p>

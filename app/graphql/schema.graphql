@@ -24,6 +24,7 @@ type CompanyType {
   name: String!
   email: String!
   tel: String
+  point: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -53,6 +54,16 @@ type CreateDealingPayload {
   clientMutationId: String
 }
 
+input CreateDistributesInput {
+  attributes: [DistributeAttributes]
+  clientMutationId: String
+}
+
+type CreateDistributesPayload {
+  distributeLog: DistributeLogType!
+  clientMutationId: String
+}
+
 input CreatePurchasePointInput {
   companyId: ID!
   point: Int!
@@ -61,7 +72,7 @@ input CreatePurchasePointInput {
 }
 
 type CreatePurchasePointPayload {
-  purchasedPointLog: PurchasedPointLogType
+  purchasedPointLog: PurchasedPointLogType!
   clientMutationId: String
 }
 
@@ -109,11 +120,26 @@ type DeleteAccount {
   errors: ExpectedErrorType
 }
 
+input DistributeAttributes {
+  accountId: ID!
+  distributePoint: Int!
+}
+
+type DistributeLogType {
+  id: ID!
+  point: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  company: CompanyType!
+  account: AccountType!
+}
+
 scalar ExpectedErrorType
 
 scalar GenericScalar
 
 type Mutation {
+  createDistributes(input: CreateDistributesInput!): CreateDistributesPayload
   createPurchasePoint(input: CreatePurchasePointInput!): CreatePurchasePointPayload
   createDealing(input: CreateDealingInput!): CreateDealingPayload
   createCompanyAndAdminUser(input: CreateCompanyAndAdminUserInput!): CreateCompanyAndAdminUserPayload

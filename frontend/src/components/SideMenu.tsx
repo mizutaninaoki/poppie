@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import Link from 'next/link';
-import { PageError } from '@/components/common/PageError';
+import { AuthContext } from '@/providers/AuthProvider';
 
 export const SideMenu: FC = () => {
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <div className="drawer drawer-mobile bg-gray-600">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -21,6 +23,15 @@ export const SideMenu: FC = () => {
               <h1 className="font-bold">Poppie</h1>
             </Link>
           </div>
+          <li>
+            <div className="m-2">
+              <div className="card w-full bg-base-100 shadow-md p-3">
+                <div className="card-body p-3">
+                  <p className="mb-0">配布可能ポイント: {currentUser.company.point}</p>
+                </div>
+              </div>
+            </div>
+          </li>
           <li>
             <Link href="/purchases/new/input/">
               <a>

@@ -1,91 +1,90 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { NextPageWithLayout } from '@/pages/_app';
-import { NormalLayout } from '@/components/layout/NormalLayout';
 import { PageContainerWithError } from '@/components/PageContainerWithError';
 import {
   useDistributesNewInputPageQuery,
-  // useCreateCompanyAndAdminUserMutation,
+  useCreateDistributesMutation,
 } from '@/generated/graphql';
 import { usePageFatalError } from '@/hooks/usePageFatalError';
 import { useFlash } from '@/hooks/useFlash';
 import { usePageError } from '@/hooks/usePageError';
 import userLoginRequired from '@/hoc/userLoginRequired';
 import {
-  DistributePointForm,
-  DistributePointFormDataType,
-} from '@/components/distribute-points/DistributePointForm';
+  DistributeForm,
+  DistributeFormDataType,
+} from '@/components/distributes/DistributeForm';
 import { PageLoading } from '@/components/PageLoading';
+import { AuthContext } from '@/providers/AuthProvider';
+import { useCompany } from '@/hooks/useCompany';
 
 gql`
   query DistributesNewInputPage {
     accounts {
-      ...DistributePointFormData
+      ...DistributeFormData
     }
   }
 
-  # mutation CreateCompanyAndAdminUser($input: CreateCompanyAndAdminUserInput!) {
-  #   createCompanyAndAdminUser(input: $input) {
-  #     adminUser {
-  #       email
-  #       password
-  #     }
-  #   }
-  # }
+  mutation CreateDistributes($input: CreateDistributesInput!) {
+    createDistributes(input: $input) {
+      distributeLog {
+        id
+        company {
+          id
+          point
+        }
+      }
+    }
+  }
 `;
-
-// TODO: 会社からユーザーへポイントを配布する機能を作成する！
 
 const DistributesNewInputPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { setFlash } = useFlash();
-  const { setPageError, resetPageError } = usePageError();
+  const { setPageError } = usePageError();
   const { setPageFatalError } = usePageFatalError();
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { updateCompanyPoint } = useCompany();
 
   const { data, loading } = useDistributesNewInputPageQuery({
     fetchPolicy: 'network-only',
     onError: setPageFatalError,
   });
 
-  // const [createCompanyAndAdminUser, { loading: createLoading, error }] =
-  //   useCreateCompanyAndAdminUserMutation({
-  //     onCompleted: async (res) => {
-  //       if (!res?.createCompanyAndAdminUser) return;
-  //       const { email } = res.createCompanyAndAdminUser.adminUser; // ここで返されるpasswordはエンコードされたpassword
-  //       const isLoggedIn = await login({ email, password: 'poppie1234' });
-  //       if (isLoggedIn) {
-  //         await router.push('/mypage/');
-  //         setFlash('会社情報を登録しました。');
-  //       }
-  //     },
-  //     onError: setPageError,
-  //   });
+  const [createDistributes, { loading: createLoading, error }] =
+    useCreateDistributesMutation({
+      onCompleted: async (res) => {
+        if (!res.createDistributes) return;
+        updateCompanyPoint(res.createDistributes.distributeLog.company.point);
+        await router.push('/mypage/');
+        setFlash('ポイントを配布しました。');
+      },
+      onError: setPageError,
+    });
 
-  const onSubmit = (formData: DistributePointFormDataType) => {
-    //   void createCompanyAndAdminUser({
-    //     variables: {
-    //       input: {
-    //         planId: formData.planId,
-    //         name: formData.name,
-    //         email: formData.email,
-    //         tel: formData.tel,
-    //       },
-    //     },
-    //   });
+  const onSubmit = (formDatas: DistributeFormDataType) => {
+    void createDistributes({
+      variables: {
+        input: {
+          attributes: formDatas.map((formData) => {
+            return {
+              accountId: formData.accountId,
+              distributePoint: formData.distributePoint,
+            };
+          }),
+        },
+      },
+    });
   };
-
-  if (data) {
-    debugger;
-  }
 
   return (
     <PageContainerWithError>
-      <div className="grid grid-cols-12 selection:place-items-center min-h-screen-except-header">
+      <div className="selection:place-items-center min-h-screen-except-header">
         <h2>ポイント配布</h2>
         {loading && <PageLoading />}
         {!loading && data && (
-          <DistributePointForm accounts={data.accounts} onSubmit={onSubmit} />
+          <DistributeForm accounts={data.accounts} onSubmit={onSubmit} />
         )}
       </div>
     </PageContainerWithError>

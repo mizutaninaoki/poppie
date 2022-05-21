@@ -13,7 +13,7 @@ class CreatePurchasePoint(graphene.relay.ClientIDMutation):
         point = graphene.Int(required=True)
         price = graphene.Int(required=True)
 
-    purchased_point_log = graphene.Field(PurchasedPointLogType)
+    purchased_point_log = graphene.Field(graphene.NonNull(PurchasedPointLogType))
 
     @classmethod
     @login_required

@@ -9,6 +9,7 @@ import { usePageError } from '@/hooks/usePageError';
 import { PurchasePointForm } from '@/components/purchase-points/PurchasePointForm';
 import userLoginRequired from '@/hoc/userLoginRequired';
 import { AuthContext } from '@/providers/AuthProvider';
+import { useCompany } from '@/hooks/useCompany';
 
 gql`
   mutation CreatePurchasePoint($input: CreatePurchasePointInput!) {
@@ -22,11 +23,13 @@ const PurchasesNewInputPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { setFlash } = useFlash();
   const { setPageError } = usePageError();
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { updateCompanyPoint } = useCompany();
 
   const [createPurchasePoint, { loading: createLoading, error }] =
     useCreatePurchasePointMutation({
-      onCompleted: async () => {
+      onCompleted: async (res) => {
+        // updateCompanyPoint()
         await router.push('/mypage/');
         setFlash('ポイントを購入しました。');
       },

@@ -43,6 +43,7 @@ export type CompanyType = {
   id: Scalars['ID'];
   name: Scalars['String'];
   plan: PlanType;
+  point: Scalars['Int'];
   tel?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
 };
@@ -74,6 +75,17 @@ export type CreateDealingPayload = {
   dealing?: Maybe<DealingType>;
 };
 
+export type CreateDistributesInput = {
+  attributes?: InputMaybe<Array<InputMaybe<DistributeAttributes>>>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateDistributesPayload = {
+  __typename?: 'CreateDistributesPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+  distributeLog: DistributeLogType;
+};
+
 export type CreatePurchasePointInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   companyId: Scalars['ID'];
@@ -84,7 +96,7 @@ export type CreatePurchasePointInput = {
 export type CreatePurchasePointPayload = {
   __typename?: 'CreatePurchasePointPayload';
   clientMutationId?: Maybe<Scalars['String']>;
-  purchasedPointLog?: Maybe<PurchasedPointLogType>;
+  purchasedPointLog: PurchasedPointLogType;
 };
 
 export type CreateUserInput = {
@@ -133,11 +145,27 @@ export type DeleteAccount = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+export type DistributeAttributes = {
+  accountId: Scalars['ID'];
+  distributePoint: Scalars['Int'];
+};
+
+export type DistributeLogType = {
+  __typename?: 'DistributeLogType';
+  account: AccountType;
+  company: CompanyType;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  point: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   archiveAccount?: Maybe<ArchiveAccount>;
   createCompanyAndAdminUser?: Maybe<CreateCompanyAndAdminUserPayload>;
   createDealing?: Maybe<CreateDealingPayload>;
+  createDistributes?: Maybe<CreateDistributesPayload>;
   createPurchasePoint?: Maybe<CreatePurchasePointPayload>;
   createUser?: Maybe<CreateUserPayload>;
   customRegister?: Maybe<CreateUserPayload>;
@@ -174,6 +202,11 @@ export type MutationCreateCompanyAndAdminUserArgs = {
 
 export type MutationCreateDealingArgs = {
   input: CreateDealingInput;
+};
+
+
+export type MutationCreateDistributesArgs = {
+  input: CreateDistributesInput;
 };
 
 
@@ -553,9 +586,11 @@ export type CompanyUsersListDataFragment = { __typename?: 'CustomUserType', id: 
 
 export type CompanyUserForDealingFormFragment = { __typename?: 'CustomUserType', id: string, name: string, profile: { __typename?: 'ProfileType', department?: string | null } };
 
-export type DistributePointFormDataFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } };
+export type DistributeFormDataFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } };
 
 export type ProfileDataFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } };
+
+export type CurrentCompanyFragment = { __typename?: 'CompanyType', id: string, name: string, point: number };
 
 export type TokenAuthMutationVariables = Exact<{
   input: ObtainJsonWebTokenInput;
@@ -602,6 +637,13 @@ export type DistributesNewInputPageQueryVariables = Exact<{ [key: string]: never
 
 export type DistributesNewInputPageQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } } | null> };
 
+export type CreateDistributesMutationVariables = Exact<{
+  input: CreateDistributesInput;
+}>;
+
+
+export type CreateDistributesMutation = { __typename?: 'Mutation', createDistributes?: { __typename?: 'CreateDistributesPayload', distributeLog: { __typename?: 'DistributeLogType', id: string, company: { __typename?: 'CompanyType', id: string, point: number } } } | null };
+
 export type ProfileInputPageQueryVariables = Exact<{
   userId: Scalars['ID'];
 }>;
@@ -640,7 +682,7 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typ
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string } } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number } } | null };
 
 export const PlanForCompanyFormFragmentDoc = gql`
     fragment PlanForCompanyForm on PlanType {
@@ -669,8 +711,8 @@ export const CompanyUserForDealingFormFragmentDoc = gql`
   }
 }
     `;
-export const DistributePointFormDataFragmentDoc = gql`
-    fragment DistributePointFormData on AccountType {
+export const DistributeFormDataFragmentDoc = gql`
+    fragment DistributeFormData on AccountType {
   id
   givablePoint
   receivedPoint
@@ -689,6 +731,13 @@ export const ProfileDataFragmentDoc = gql`
     id
     name
   }
+}
+    `;
+export const CurrentCompanyFragmentDoc = gql`
+    fragment CurrentCompany on CompanyType {
+  id
+  name
+  point
 }
     `;
 export const TokenAuthDocument = gql`
@@ -911,10 +960,10 @@ export type DealingsNewInputPageQueryResult = ApolloReactCommon.QueryResult<Deal
 export const DistributesNewInputPageDocument = gql`
     query DistributesNewInputPage {
   accounts {
-    ...DistributePointFormData
+    ...DistributeFormData
   }
 }
-    ${DistributePointFormDataFragmentDoc}`;
+    ${DistributeFormDataFragmentDoc}`;
 
 /**
  * __useDistributesNewInputPageQuery__
@@ -942,6 +991,45 @@ export function useDistributesNewInputPageLazyQuery(baseOptions?: ApolloReactHoo
 export type DistributesNewInputPageQueryHookResult = ReturnType<typeof useDistributesNewInputPageQuery>;
 export type DistributesNewInputPageLazyQueryHookResult = ReturnType<typeof useDistributesNewInputPageLazyQuery>;
 export type DistributesNewInputPageQueryResult = ApolloReactCommon.QueryResult<DistributesNewInputPageQuery, DistributesNewInputPageQueryVariables>;
+export const CreateDistributesDocument = gql`
+    mutation CreateDistributes($input: CreateDistributesInput!) {
+  createDistributes(input: $input) {
+    distributeLog {
+      id
+      company {
+        id
+        point
+      }
+    }
+  }
+}
+    `;
+export type CreateDistributesMutationFn = ApolloReactCommon.MutationFunction<CreateDistributesMutation, CreateDistributesMutationVariables>;
+
+/**
+ * __useCreateDistributesMutation__
+ *
+ * To run a mutation, you first call `useCreateDistributesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDistributesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDistributesMutation, { data, loading, error }] = useCreateDistributesMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateDistributesMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateDistributesMutation, CreateDistributesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateDistributesMutation, CreateDistributesMutationVariables>(CreateDistributesDocument, options);
+      }
+export type CreateDistributesMutationHookResult = ReturnType<typeof useCreateDistributesMutation>;
+export type CreateDistributesMutationResult = ApolloReactCommon.MutationResult<CreateDistributesMutation>;
+export type CreateDistributesMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDistributesMutation, CreateDistributesMutationVariables>;
 export const ProfileInputPageDocument = gql`
     query ProfileInputPage($userId: ID!) {
   profile(userId: $userId) {
@@ -1125,12 +1213,11 @@ export const GetCurrentUserDocument = gql`
     isActive
     isAdmin
     company {
-      id
-      name
+      ...CurrentCompany
     }
   }
 }
-    `;
+    ${CurrentCompanyFragmentDoc}`;
 
 /**
  * __useGetCurrentUserQuery__

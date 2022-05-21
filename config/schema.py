@@ -17,6 +17,7 @@ from app.schema.mutations.profiles.update_profile import ProfileMutation
 from app.schema.mutations.companies.create_company_and_admin_user import CompanyMutation
 from app.schema.mutations.dealings.create_dealing import DealingMutation
 from app.schema.mutations.purchases.create_purchase_point import PurchaseMutation
+from app.schema.mutations.distributes.create_distributes import DistributeMutation
 
 
 class Query(
@@ -39,6 +40,7 @@ class Mutation(
     CompanyMutation,
     DealingMutation,
     PurchaseMutation,
+    DistributeMutation,
     graphene.ObjectType,
 ):
     pass
