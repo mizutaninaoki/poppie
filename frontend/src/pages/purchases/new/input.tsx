@@ -14,7 +14,13 @@ import { useCompany } from '@/hooks/useCompany';
 gql`
   mutation CreatePurchasePoint($input: CreatePurchasePointInput!) {
     createPurchasePoint(input: $input) {
-      clientMutationId
+      purchasedPointLog {
+        id
+        company {
+          id
+          point
+        }
+      }
     }
   }
 `;
@@ -23,13 +29,14 @@ const PurchasesNewInputPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { setFlash } = useFlash();
   const { setPageError } = usePageError();
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const { updateCompanyPoint } = useCompany();
 
-  const [createPurchasePoint, { loading: createLoading, error }] =
+  const [createPurchasePoint, { loading: createLoading }] =
     useCreatePurchasePointMutation({
       onCompleted: async (res) => {
-        // updateCompanyPoint()
+        if (!res.createPurchasePoint) return;
+        updateCompanyPoint(res.createPurchasePoint.purchasedPointLog.company.point);
         await router.push('/mypage/');
         setFlash('ポイントを購入しました。');
       },
@@ -52,7 +59,7 @@ const PurchasesNewInputPage: NextPageWithLayout = () => {
     <PageContainerWithError>
       <div className="grid selection:place-items-center min-h-screen-except-header">
         <h2>ポイント購入</h2>
-        <PurchasePointForm onSubmit={onSubmit} />
+        <PurchasePointForm onSubmit={onSubmit} createLoading={createLoading} />
       </div>
     </PageContainerWithError>
   );

@@ -2,6 +2,7 @@ import { FC, useState, useMemo } from 'react';
 import { PurchasePointFormDataZodSchema } from '@/validations/validatePurchasePoint';
 import { useValidationErrors } from '@/hooks/useValidationErrors';
 import { PoppieDialog, PoppieDialogData } from '@/components/common/PoppieDialog';
+import { PageLoading } from '@/components/PageLoading';
 
 export type PurchasePointFormDataType = {
   thouPoint: number;
@@ -10,13 +11,14 @@ export type PurchasePointFormDataType = {
 };
 
 type Props = {
+  createLoading: boolean;
   onSubmit: (totalPoint: number, totalPrice: number) => void;
 };
 
 // 倍率(基本的には1ポイント === 1円)
 const MAGNIFICATION = 1;
 
-export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, profile }) => {
+export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoading }) => {
   const { errors, setErrors, resetErrors } = useValidationErrors();
 
   const [formData, setFormData] = useState<PurchasePointFormDataType>({
@@ -211,6 +213,7 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, profile }) 
       </div>
       <div>{totalPoint}ポイント</div>
       <div>{totalPrice}円</div>
+      {createLoading && <PageLoading /}
       <button
         className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         type="button"

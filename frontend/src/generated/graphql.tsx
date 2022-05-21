@@ -663,7 +663,7 @@ export type CreatePurchasePointMutationVariables = Exact<{
 }>;
 
 
-export type CreatePurchasePointMutation = { __typename?: 'Mutation', createPurchasePoint?: { __typename?: 'CreatePurchasePointPayload', clientMutationId?: string | null } | null };
+export type CreatePurchasePointMutation = { __typename?: 'Mutation', createPurchasePoint?: { __typename?: 'CreatePurchasePointPayload', purchasedPointLog: { __typename?: 'PurchasedPointLogType', id: string, company: { __typename?: 'CompanyType', id: string, point: number } } } | null };
 
 export type SettingsUsersPageQueryVariables = Exact<{
   companyId: Scalars['ID'];
@@ -1101,7 +1101,13 @@ export type UpdateProfileMutationOptions = ApolloReactCommon.BaseMutationOptions
 export const CreatePurchasePointDocument = gql`
     mutation CreatePurchasePoint($input: CreatePurchasePointInput!) {
   createPurchasePoint(input: $input) {
-    clientMutationId
+    purchasedPointLog {
+      id
+      company {
+        id
+        point
+      }
+    }
   }
 }
     `;

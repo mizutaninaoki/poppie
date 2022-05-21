@@ -224,11 +224,11 @@ type ProfileType {
 
 type PurchasedPointLogType {
   id: ID!
-  company: CompanyType!
   point: Int!
   price: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
+  company: CompanyType!
 }
 
 type Query {
