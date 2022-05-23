@@ -4,31 +4,25 @@ from graphql_jwt.decorators import login_required
 from app.models.dealing import Dealing
 from app.models.plan import Plan
 from account.models import Account
-from app.schema.types.dealing_type import DealingType
+from app.schema.types.user_received_dealings_type import UserReceivedDealingsType
+
+import datetime
+import calendar
 
 
-class UserGiveDealingsQuery(graphene.ObjectType):
-    """ユーザーのポイント贈与取引一覧取得"""
+class UserReceivedDealingsQuery(graphene.ObjectType):
+    """ユーザーのポイント受領取引一覧取得"""
 
-    user_give_dealings = graphene.List(graphene.List(DealingType))
+    user_received_dealings = graphene.List(
+        graphene.NonNull(UserReceivedDealingsType), required=True
+    )
 
     @login_required
-    # def resolve_user_give_dealings(root, info, account_id):
-    def resolve_user_give_dealings(root, info):
-        # breakpoint()
-        # return Dealing.objects.select_related("giver").filter(
-        # return Dealing.objects.filter(giver_id=info.context.user.account.id)
-
-        import datetime
-        from datetime import timedelta
-        import calendar
-        import itertools
-
-        gave_dealings = Dealing.objects.filter(
-            giver_id=info.context.user.account.id
+    def resolve_user_received_dealings(root, info):
+        received_dealings = Dealing.objects.filter(
+            receiver_id=info.context.user.account.id
         ).order_by("created_at")
 
-        # breakpoint()
         today = datetime.date.today()
 
         # 今月の月初日を取得
@@ -44,9 +38,16 @@ class UserGiveDealingsQuery(graphene.ObjectType):
 
         date_list = []
         for i in range(days_num):
-            date_list.append([])
+            date_list.append(
+                {
+                    "dealings": [],
+                    "created_at": today.replace(day=i + 1).isoformat(),
+                }
+            )
 
-        for gave_dealing in gave_dealings:
-            date_list[gave_dealing.created_at.day].append(gave_dealing)
+        for received_dealing in received_dealings:
+            date_list[received_dealing.created_at.day]["dealings"].append(
+                received_dealing
+            )
 
         return date_list

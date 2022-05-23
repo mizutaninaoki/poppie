@@ -109,6 +109,17 @@ export const formatShortDateWithSlash = (date: string | Date): string => {
 };
 
 /*
+ * dd
+ */
+export const formatOnlyDate = (date: string | Date): string => {
+  const dateFormat = 'd';
+  if (typeof date === 'object' && date instanceof Date) {
+    return format(date, dateFormat);
+  }
+  return format(new Date(date), dateFormat);
+};
+
+/*
  * yyyy-MM-dd
  */
 export const formatISO8601 = (date: string | Date): string => {

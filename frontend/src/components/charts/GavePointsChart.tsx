@@ -1,7 +1,8 @@
 // import { DailyReportSectionFragment } from '@/generated/graphql';
 import { FC, useEffect, useState } from 'react';
 import { gql } from '@apollo/client';
-import { formatShortDateWithSlash } from '@/utils/date';
+import { GaveDealingsForGavePointsChartFragment } from '@/generated/graphql';
+import { formatOnlyDate } from '@/utils/date';
 import {
   Bar,
   CartesianGrid,
@@ -14,59 +15,54 @@ import {
   Line,
 } from 'recharts';
 
-
 gql`
-  fragment GiveDealingsForGivePointsChart on DealingType {
-    id
-    amount
+  fragment GaveDealingsForGavePointsChart on UserGaveDealingsType {
+    dealings {
+      id
+      amount
+      createdAt
+    }
     createdAt
   }
-`
+`;
 
-interface Data {
-  bookingCount: DailyReportSectionFragment;
-  prospectedSalesAmount: DailyReportSectionFragment;
-}
-interface Props {
-  chartData: Data;
-}
+type Props = {
+  chartData: GaveDealingsForGavePointsChartFragment[];
+};
 
-interface ChartData {
-  givingPointsPerDay: number;
-  givingPeoplePerDay: number;
-}
+type ChartData = {
+  date: string;
+  gaveTotalPoint: number;
+  gaveCount: number;
+};
 
 /**
  * あげたポイントのチャートグラフ
  */
-export const GivePointsChart: FC<Props> = ({ chartData: initialChartData }) => {
+export const GavePointsChart: FC<Props> = ({ chartData: initialChartData }) => {
   const [chartData, setChartData] = useState<ChartData[]>([]);
 
-  // if (initialChartData) {
-  //   debugger;
-  // }
-
-  // initialChartData.give_dealings
-
+  // TODO: とりあえず今月
   useEffect(() => {
-    // const dates: string[] = initialChartData.map()
-    //   .map((v) => formatShortDateWithSlash(v.date));
+    const dates: string[] = initialChartData.map((data, i) =>
+      formatOnlyDate(data.createdAt),
+    );
 
-    const giveTotalPoint: number[] = initialChartData.map((data) => {
-      if (data.length === 0) return 0;
-      return data.reduce((prev, current) => prev + current.amount, 0);
+    const gaveTotalPoint: number[] = initialChartData.map((data) => {
+      if (data.dealings.length === 0) return 0;
+      return data.dealings.reduce((prev, current) => prev + (current?.amount ?? 0), 0);
     });
 
-    const giveCount: number[] = initialChartData.map((data) => data.length);
-
-    // debugger;
+    const gaveCount: number[] = initialChartData.map((data) => {
+      return data.dealings.length;
+    });
 
     setChartData(
-      initialChartData.map((date, i) => {
+      dates.map((date, i) => {
         return {
-          date
-          giveTotalPoint: giveTotalPoint[i],
-          giveCount: giveCount[i],
+          date,
+          gaveTotalPoint: gaveTotalPoint[i],
+          gaveCount: gaveCount[i],
         };
       }),
     );
@@ -75,13 +71,7 @@ export const GivePointsChart: FC<Props> = ({ chartData: initialChartData }) => {
   return (
     <ResponsiveContainer width="100%" aspect={5.0 / 1.0}>
       <ComposedChart data={chartData} margin={{ top: 30 }}>
-        <XAxis
-          dataKey="date"
-          tick={{ fontSize: '0.8vw' }}
-          // interval 0にしないとx軸が消えてしまう
-          // see: https://github.com/recharts/recharts/issues/1330
-          interval={0}
-        />
+        <XAxis dataKey="date" tick={{ fontSize: '0.8vw' }} interval={0} />
         <YAxis
           yAxisId={1}
           tick={{ fontSize: '12px' }}
@@ -90,7 +80,7 @@ export const GivePointsChart: FC<Props> = ({ chartData: initialChartData }) => {
           interval={0}
           label={{
             dy: -10,
-            value: '見込売上（円）',
+            value: '贈与ポイント',
             position: 'top',
             fontSize: '10px',
           }}
@@ -101,10 +91,11 @@ export const GivePointsChart: FC<Props> = ({ chartData: initialChartData }) => {
           tick={{ fontSize: '12px' }}
           tickFormatter={(value: number) => value.toLocaleString()}
           width={80}
-          interval={0}
+          // interval={1}
+          tickCount={1}
           label={{
             dy: -10,
-            value: '予約数（件）',
+            value: '贈与回数（回）',
             position: 'top',
             fontSize: '10px',
           }}
@@ -115,15 +106,15 @@ export const GivePointsChart: FC<Props> = ({ chartData: initialChartData }) => {
         <Bar
           yAxisId={1}
           type="monotone"
-          dataKey="prospectedSalesAmount"
-          name="見込売上"
+          dataKey="gaveTotalPoint"
+          name="贈与ポイント"
           fill="#ff638d"
         />
         <Line
           yAxisId={2}
           type="monotone"
-          dataKey="bookingCount"
-          name="予約数"
+          dataKey="gaveCount"
+          name="贈与回数"
           stroke="#8884d8"
         />
       </ComposedChart>

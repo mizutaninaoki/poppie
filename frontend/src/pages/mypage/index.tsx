@@ -7,28 +7,17 @@ import { PageContainerWithError } from '@/components/PageContainerWithError';
 import { NextPageWithLayout } from '@/pages/_app';
 import userLoginRequired from '@/hoc/userLoginRequired';
 import { clearSession } from '@/utils/storage';
-import { GivePointsChart } from '@/components/charts/GivePointsChart';
-
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
+import { GavePointsChart } from '@/components/charts/GavePointsChart';
+import { ReceivedPointsChart } from '@/components/charts/ReceivedPointsChart';
 
 gql`
   query MypagePage {
-    receive_dealings: userReceiveDealings {
-      id
-      amount
-      createdAt
+    receivedDealings: userReceivedDealings {
+      ...ReceivedDealingsForReceivedPointsChart
     }
 
-    give_dealings: userGiveDealings {
-      ...GiveDealingsForGivePointsChart
+    gaveDealings: userGaveDealings {
+      ...GaveDealingsForGavePointsChart
     }
   }
 `;
@@ -37,7 +26,7 @@ const MypagePage: NextPageWithLayout = () => {
   const router = useRouter();
   const { setPageFatalError } = usePageFatalError();
 
-  // TODO: dealingレコードが１つもないから、手動で作って、receive_dealingsとgive_dealings動くか確認して、グラフ表示を完成させる！！！
+  // TODO: dealingレコードが１つもないから、手動で作って、receive_dealingsとgave_dealings動くか確認して、グラフ表示を完成させる！！！
   const {
     data: userDealingsData,
     loading,
@@ -47,10 +36,6 @@ const MypagePage: NextPageWithLayout = () => {
     onError: setPageFatalError,
   });
 
-  // if (userDealingsData) {
-  //   debugger;
-  // }
-
   const onClick = () => {
     clearSession();
     void router.push('/dealings/new/input/');
@@ -58,35 +43,22 @@ const MypagePage: NextPageWithLayout = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center min-h-screen-except-header">
+      <div className="grid place-items-center">
         <div className="w-full h-64">
-          <h2>今週のあげたポイント</h2>
+          <div className="text-right m-8 mr-12">
+            <button className="btn btn-primary" onClick={onClick}>
+              ポイントをあげる
+            </button>
+          </div>
           {!loading && userDealingsData && (
-            <GivePointsChart chartData={userDealingsData.give_dealings} />
+            <div className="pb-6">
+              <h2>今月の贈与したポイント</h2>
+              <GavePointsChart chartData={userDealingsData.gaveDealings} />
+              <h2>今月の受領したポイント</h2>
+              <ReceivedPointsChart chartData={userDealingsData.receivedDealings} />
+            </div>
           )}
-          {/* <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={data}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </ResponsiveContainer> */}
         </div>
-        <button className="btn btn-primary" onClick={onClick}>
-          ポイントをあげる
-        </button>
       </div>
     </PageContainerWithError>
   );

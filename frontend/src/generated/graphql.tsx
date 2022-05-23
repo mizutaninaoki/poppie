@@ -398,8 +398,8 @@ export type Query = {
   plans?: Maybe<Array<Maybe<PlanType>>>;
   profile?: Maybe<ProfileType>;
   user?: Maybe<UserNode>;
-  userGiveDealings: Array<Maybe<DealingType>>;
-  userReceiveDealings: Array<Maybe<DealingType>>;
+  userGaveDealings: Array<UserGaveDealingsType>;
+  userReceivedDealings: Array<UserReceivedDealingsType>;
   users?: Maybe<UserNodeConnection>;
 };
 
@@ -523,6 +523,12 @@ export type UpdateProfilePayload = {
   profile?: Maybe<ProfileType>;
 };
 
+export type UserGaveDealingsType = {
+  __typename?: 'UserGaveDealingsType';
+  createdAt: Scalars['String'];
+  dealings: Array<DealingType>;
+};
+
 export type UserNode = Node & {
   __typename?: 'UserNode';
   account?: Maybe<AccountType>;
@@ -553,6 +559,12 @@ export type UserNodeEdge = {
   node?: Maybe<UserNode>;
 };
 
+export type UserReceivedDealingsType = {
+  __typename?: 'UserReceivedDealingsType';
+  createdAt: Scalars['String'];
+  dealings: Array<DealingType>;
+};
+
 export type VerifyAccountInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   token: Scalars['String'];
@@ -581,6 +593,10 @@ export type VerifySecondaryEmail = {
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
 };
+
+export type GaveDealingsForGavePointsChartFragment = { __typename?: 'UserGaveDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> };
+
+export type ReceivedDealingsForReceivedPointsChartFragment = { __typename?: 'UserReceivedDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> };
 
 export type PlanForCompanyFormFragment = { __typename?: 'PlanType', id: string, name: string, fee: number };
 
@@ -649,7 +665,7 @@ export type CreateDistributesMutation = { __typename?: 'Mutation', createDistrib
 export type MypagePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MypagePageQuery = { __typename?: 'Query', receive_dealings: Array<{ __typename?: 'DealingType', id: string, amount: number } | null>, give_dealings: Array<{ __typename?: 'DealingType', id: string, amount: number } | null> };
+export type MypagePageQuery = { __typename?: 'Query', receivedDealings: Array<{ __typename?: 'UserReceivedDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> }>, gaveDealings: Array<{ __typename?: 'UserGaveDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> }> };
 
 export type ProfileInputPageQueryVariables = Exact<{
   userId: Scalars['ID'];
@@ -691,6 +707,26 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number } } | null };
 
+export const GaveDealingsForGavePointsChartFragmentDoc = gql`
+    fragment GaveDealingsForGavePointsChart on UserGaveDealingsType {
+  dealings {
+    id
+    amount
+    createdAt
+  }
+  createdAt
+}
+    `;
+export const ReceivedDealingsForReceivedPointsChartFragmentDoc = gql`
+    fragment ReceivedDealingsForReceivedPointsChart on UserReceivedDealingsType {
+  dealings {
+    id
+    amount
+    createdAt
+  }
+  createdAt
+}
+    `;
 export const PlanForCompanyFormFragmentDoc = gql`
     fragment PlanForCompanyForm on PlanType {
   id
@@ -1039,16 +1075,15 @@ export type CreateDistributesMutationResult = ApolloReactCommon.MutationResult<C
 export type CreateDistributesMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDistributesMutation, CreateDistributesMutationVariables>;
 export const MypagePageDocument = gql`
     query MypagePage {
-  receive_dealings: userReceiveDealings {
-    id
-    amount
+  receivedDealings: userReceivedDealings {
+    ...ReceivedDealingsForReceivedPointsChart
   }
-  give_dealings: userGiveDealings {
-    id
-    amount
+  gaveDealings: userGaveDealings {
+    ...GaveDealingsForGavePointsChart
   }
 }
-    `;
+    ${ReceivedDealingsForReceivedPointsChartFragmentDoc}
+${GaveDealingsForGavePointsChartFragmentDoc}`;
 
 /**
  * __useMypagePageQuery__

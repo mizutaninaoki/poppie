@@ -106,12 +106,12 @@ scalar DateTime
 
 type DealingType {
   id: ID!
-  giver: AccountType!
-  receiver: AccountType!
   amount: Int!
   message: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  giver: AccountType!
+  receiver: AccountType!
   company: CompanyType!
 }
 
@@ -237,8 +237,8 @@ type Query {
   plans: [PlanType]
   plan(id: ID!): PlanType
   companyUsers(companyId: ID!): [CustomUserType]
-  userReceiveDealings: [DealingType]!
-  userGiveDealings: [[DealingType]]
+  userReceivedDealings: [UserReceivedDealingsType!]!
+  userGaveDealings: [UserGaveDealingsType!]!
   user(id: ID!): UserNode
   users(offset: Int, before: String, after: String, first: Int, last: Int, id: Float, email: String, name: String, name_Icontains: String, name_Istartswith: String, isActive: Boolean, isAdmin: Boolean, status_Archived: Boolean, status_Verified: Boolean, status_SecondaryEmail: String): UserNodeConnection
   me: UserNode
@@ -315,6 +315,11 @@ type UpdateProfilePayload {
   clientMutationId: String
 }
 
+type UserGaveDealingsType {
+  dealings: [DealingType!]!
+  createdAt: String!
+}
+
 type UserNode implements Node {
   id: ID!
   lastLogin: DateTime
@@ -340,6 +345,11 @@ type UserNodeConnection {
 type UserNodeEdge {
   node: UserNode
   cursor: String!
+}
+
+type UserReceivedDealingsType {
+  dealings: [DealingType!]!
+  createdAt: String!
 }
 
 input VerifyAccountInput {
