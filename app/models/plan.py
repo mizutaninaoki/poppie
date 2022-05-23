@@ -12,4 +12,4 @@ class Plan(models.Model):
         ordering = ["id"]
 
     def __str__(self):
-        return self.name
+        return f"ID: {self.id}のPlan(name: {self.name})"

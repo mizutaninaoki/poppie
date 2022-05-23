@@ -18,4 +18,4 @@ class Dealing(models.Model):
         db_table = "dealings"
 
     def __str__(self):
-        return f"{self.giver.name} -> {self.receiver.name}の取引"
+        return f"id: {self.id}, amount: {self.amount}, message: {self.message}, created_at: {self.created_at}, updated_at: {self.updated_at}"

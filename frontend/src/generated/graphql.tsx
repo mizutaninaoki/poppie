@@ -398,6 +398,8 @@ export type Query = {
   plans?: Maybe<Array<Maybe<PlanType>>>;
   profile?: Maybe<ProfileType>;
   user?: Maybe<UserNode>;
+  userGiveDealings: Array<Maybe<DealingType>>;
+  userReceiveDealings: Array<Maybe<DealingType>>;
   users?: Maybe<UserNodeConnection>;
 };
 
@@ -643,6 +645,11 @@ export type CreateDistributesMutationVariables = Exact<{
 
 
 export type CreateDistributesMutation = { __typename?: 'Mutation', createDistributes?: { __typename?: 'CreateDistributesPayload', distributeLog: { __typename?: 'DistributeLogType', id: string, company: { __typename?: 'CompanyType', id: string, point: number } } } | null };
+
+export type MypagePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MypagePageQuery = { __typename?: 'Query', receive_dealings: Array<{ __typename?: 'DealingType', id: string, amount: number } | null>, give_dealings: Array<{ __typename?: 'DealingType', id: string, amount: number } | null> };
 
 export type ProfileInputPageQueryVariables = Exact<{
   userId: Scalars['ID'];
@@ -1030,6 +1037,45 @@ export function useCreateDistributesMutation(baseOptions?: ApolloReactHooks.Muta
 export type CreateDistributesMutationHookResult = ReturnType<typeof useCreateDistributesMutation>;
 export type CreateDistributesMutationResult = ApolloReactCommon.MutationResult<CreateDistributesMutation>;
 export type CreateDistributesMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDistributesMutation, CreateDistributesMutationVariables>;
+export const MypagePageDocument = gql`
+    query MypagePage {
+  receive_dealings: userReceiveDealings {
+    id
+    amount
+  }
+  give_dealings: userGiveDealings {
+    id
+    amount
+  }
+}
+    `;
+
+/**
+ * __useMypagePageQuery__
+ *
+ * To run a query within a React component, call `useMypagePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMypagePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMypagePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMypagePageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MypagePageQuery, MypagePageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<MypagePageQuery, MypagePageQueryVariables>(MypagePageDocument, options);
+      }
+export function useMypagePageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MypagePageQuery, MypagePageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<MypagePageQuery, MypagePageQueryVariables>(MypagePageDocument, options);
+        }
+export type MypagePageQueryHookResult = ReturnType<typeof useMypagePageQuery>;
+export type MypagePageLazyQueryHookResult = ReturnType<typeof useMypagePageLazyQuery>;
+export type MypagePageQueryResult = ApolloReactCommon.QueryResult<MypagePageQuery, MypagePageQueryVariables>;
 export const ProfileInputPageDocument = gql`
     query ProfileInputPage($userId: ID!) {
   profile(userId: $userId) {

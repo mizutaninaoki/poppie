@@ -14,4 +14,4 @@ class Item(models.Model):
         db_table = "items"
 
     def __str__(self):
-        return self.name
+        return f"ID: {self.id}のItem(name: {self.name})"

@@ -1,5 +1,7 @@
+import graphene
 from graphene_django import DjangoObjectType
 from app.models.dealing import Dealing
+from app.schema.types.company_type import CompanyType
 
 
 class DealingType(DjangoObjectType):
@@ -7,7 +9,6 @@ class DealingType(DjangoObjectType):
         model = Dealing
         fields = (
             "id",
-            "company",
             "giver",
             "receiver",
             "amount",
@@ -15,3 +16,5 @@ class DealingType(DjangoObjectType):
             "created_at",
             "updated_at",
         )
+
+    company = graphene.Field(graphene.NonNull(CompanyType))

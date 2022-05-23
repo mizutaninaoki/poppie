@@ -13,4 +13,4 @@ class PurchasedPointLog(models.Model):
         db_table = "purchased_point_logs"
 
     def __str__(self):
-        return f"{self.company.name}が{self.point}ポイント購入({self.price}円)"
+        return f"id: {self.id}, point: {self.point}, point: {self.price}"

@@ -14,4 +14,4 @@ class DistributeLog(models.Model):
         db_table = "distribute_logs"
 
     def __str__(self):
-        return f"{self.company.name}:{self.user.name}へ{self.point}ポイント配布"
+        return f"ID: {self.id}のDistributionLog"

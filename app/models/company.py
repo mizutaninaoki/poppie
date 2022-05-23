@@ -20,3 +20,8 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+    # 会社が持つポイントを減らす
+    def decrease_point(self, point):
+        self.point -= point
+        self.save()

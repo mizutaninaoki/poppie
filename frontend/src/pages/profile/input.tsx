@@ -28,7 +28,6 @@ const ProfileInputPage: FC = () => {
   const { setFlash } = useFlash();
   const { setPageError } = usePageError();
   const { setPageFatalError } = usePageFatalError();
-
   const { currentUser } = useContext(AuthContext);
 
   const { data, loading, error } = useProfileInputPageQuery({

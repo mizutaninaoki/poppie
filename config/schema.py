@@ -9,6 +9,14 @@ from app.schema.resolvers.plans.plan_query import PlanQuery
 from app.schema.resolvers.profiles.profile_query import ProfileQuery
 from app.schema.resolvers.accounts.accounts_query import AccountQuery
 
+# users
+from app.schema.resolvers.users.user_give_dealings_query import (
+    UserGiveDealingsQuery,
+)
+from app.schema.resolvers.users.user_receive_dealings_query import (
+    UserReceiveDealingsQuery,
+)
+
 #
 # Mutations
 #
@@ -21,8 +29,10 @@ from app.schema.mutations.distributes.create_distributes import DistributeMutati
 
 
 class Query(
-    UserQuery,
     MeQuery,
+    UserQuery,
+    UserGiveDealingsQuery,
+    UserReceiveDealingsQuery,
     CompanyUsersQuery,
     PlanQuery,
     ProfileQuery,

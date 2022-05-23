@@ -213,7 +213,7 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
       </div>
       <div>{totalPoint}ポイント</div>
       <div>{totalPrice}円</div>
-      {createLoading && <PageLoading /}
+      {createLoading && <PageLoading />}
       <button
         className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         type="button"
