@@ -64,6 +64,20 @@ type CreateDistributesPayload {
   clientMutationId: String
 }
 
+input CreateItemInput {
+  companyId: ID!
+  name: String!
+  unit: String!
+  exchangablePoint: Int!
+  status: ItemStatusEnum!
+  quantity: Int!
+  clientMutationId: String
+}
+
+type CreateItemPayload {
+  clientMutationId: String
+}
+
 input CreatePurchasePointInput {
   companyId: ID!
   point: Int!
@@ -138,7 +152,26 @@ scalar ExpectedErrorType
 
 scalar GenericScalar
 
+enum ItemStatusEnum {
+  PUBLIC
+  PRIVATE
+}
+
+type ItemType {
+  id: ID!
+  name: String!
+  unit: String!
+  exchangablePoint: Int!
+  quantity: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  status: ItemStatusEnum!
+  company: CompanyType!
+}
+
 type Mutation {
+  updateItem(input: UpdateItemInput!): UpdateItemPayload
+  createItem(input: CreateItemInput!): CreateItemPayload
   createDistributes(input: CreateDistributesInput!): CreateDistributesPayload
   createPurchasePoint(input: CreatePurchasePointInput!): CreatePurchasePointPayload
   createDealing(input: CreateDealingInput!): CreateDealingPayload
@@ -232,6 +265,8 @@ type PurchasedPointLogType {
 }
 
 type Query {
+  items(companyId: ID!): [ItemType!]!
+  item(itemId: ID!): ItemType!
   accounts: [AccountType]!
   profile(userId: ID): ProfileType
   plans: [PlanType]
@@ -290,6 +325,20 @@ type SwapEmails {
 type UpdateAccount {
   success: Boolean
   errors: ExpectedErrorType
+}
+
+input UpdateItemInput {
+  id: ID!
+  name: String!
+  unit: String!
+  exchangablePoint: Int!
+  status: ItemStatusEnum!
+  quantity: Int!
+  clientMutationId: String
+}
+
+type UpdateItemPayload {
+  clientMutationId: String
 }
 
 input UpdatePlanInput {

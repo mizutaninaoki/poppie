@@ -86,6 +86,21 @@ export type CreateDistributesPayload = {
   distributeLog: DistributeLogType;
 };
 
+export type CreateItemInput = {
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  companyId: Scalars['ID'];
+  exchangablePoint: Scalars['Int'];
+  name: Scalars['String'];
+  quantity: Scalars['Int'];
+  status: ItemStatusEnum;
+  unit: Scalars['String'];
+};
+
+export type CreateItemPayload = {
+  __typename?: 'CreateItemPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 export type CreatePurchasePointInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   companyId: Scalars['ID'];
@@ -160,12 +175,31 @@ export type DistributeLogType = {
   updatedAt: Scalars['DateTime'];
 };
 
+export enum ItemStatusEnum {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
+
+export type ItemType = {
+  __typename?: 'ItemType';
+  company: CompanyType;
+  createdAt: Scalars['DateTime'];
+  exchangablePoint: Scalars['Int'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  quantity: Scalars['Int'];
+  status: ItemStatusEnum;
+  unit: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   archiveAccount?: Maybe<ArchiveAccount>;
   createCompanyAndAdminUser?: Maybe<CreateCompanyAndAdminUserPayload>;
   createDealing?: Maybe<CreateDealingPayload>;
   createDistributes?: Maybe<CreateDistributesPayload>;
+  createItem?: Maybe<CreateItemPayload>;
   createPurchasePoint?: Maybe<CreatePurchasePointPayload>;
   createUser?: Maybe<CreateUserPayload>;
   customRegister?: Maybe<CreateUserPayload>;
@@ -182,6 +216,7 @@ export type Mutation = {
   swapEmails?: Maybe<SwapEmails>;
   tokenAuth?: Maybe<ObtainJsonWebTokenPayload>;
   updateAccount?: Maybe<UpdateAccount>;
+  updateItem?: Maybe<UpdateItemPayload>;
   updatePlan?: Maybe<UpdatePlanPayload>;
   updateProfile?: Maybe<UpdateProfilePayload>;
   verifyAccount?: Maybe<VerifyAccountPayload>;
@@ -207,6 +242,11 @@ export type MutationCreateDealingArgs = {
 
 export type MutationCreateDistributesArgs = {
   input: CreateDistributesInput;
+};
+
+
+export type MutationCreateItemArgs = {
+  input: CreateItemInput;
 };
 
 
@@ -289,6 +329,11 @@ export type MutationSwapEmailsArgs = {
 
 export type MutationTokenAuthArgs = {
   input: ObtainJsonWebTokenInput;
+};
+
+
+export type MutationUpdateItemArgs = {
+  input: UpdateItemInput;
 };
 
 
@@ -393,6 +438,8 @@ export type Query = {
   __typename?: 'Query';
   accounts: Array<Maybe<AccountType>>;
   companyUsers?: Maybe<Array<Maybe<CustomUserType>>>;
+  item: ItemType;
+  items: Array<ItemType>;
   me?: Maybe<UserNode>;
   plan?: Maybe<PlanType>;
   plans?: Maybe<Array<Maybe<PlanType>>>;
@@ -405,6 +452,16 @@ export type Query = {
 
 
 export type QueryCompanyUsersArgs = {
+  companyId: Scalars['ID'];
+};
+
+
+export type QueryItemArgs = {
+  itemId: Scalars['ID'];
+};
+
+
+export type QueryItemsArgs = {
   companyId: Scalars['ID'];
 };
 
@@ -496,6 +553,21 @@ export type UpdateAccount = {
   __typename?: 'UpdateAccount';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type UpdateItemInput = {
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  exchangablePoint: Scalars['Int'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  quantity: Scalars['Int'];
+  status: ItemStatusEnum;
+  unit: Scalars['String'];
+};
+
+export type UpdateItemPayload = {
+  __typename?: 'UpdateItemPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type UpdatePlanInput = {
@@ -606,6 +678,10 @@ export type CompanyUserForDealingFormFragment = { __typename?: 'CustomUserType',
 
 export type DistributeFormDataFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } };
 
+export type ItemDataForItemCardFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum };
+
+export type ItemDataForItemFormFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum };
+
 export type ProfileDataFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } };
 
 export type CurrentCompanyFragment = { __typename?: 'CompanyType', id: string, name: string, point: number };
@@ -661,6 +737,34 @@ export type CreateDistributesMutationVariables = Exact<{
 
 
 export type CreateDistributesMutation = { __typename?: 'Mutation', createDistributes?: { __typename?: 'CreateDistributesPayload', distributeLog: { __typename?: 'DistributeLogType', id: string, company: { __typename?: 'CompanyType', id: string, point: number } } } | null };
+
+export type ItemsEditPageQueryVariables = Exact<{
+  itemId: Scalars['ID'];
+}>;
+
+
+export type ItemsEditPageQuery = { __typename?: 'Query', item: { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum } };
+
+export type UpdateItemMutationVariables = Exact<{
+  input: UpdateItemInput;
+}>;
+
+
+export type UpdateItemMutation = { __typename?: 'Mutation', updateItem?: { __typename?: 'UpdateItemPayload', clientMutationId?: string | null } | null };
+
+export type ItemsPageQueryVariables = Exact<{
+  companyId: Scalars['ID'];
+}>;
+
+
+export type ItemsPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum }> };
+
+export type CreateItemMutationVariables = Exact<{
+  input: CreateItemInput;
+}>;
+
+
+export type CreateItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'CreateItemPayload', clientMutationId?: string | null } | null };
 
 export type MypagePageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -763,6 +867,26 @@ export const DistributeFormDataFragmentDoc = gql`
     name
     email
   }
+}
+    `;
+export const ItemDataForItemCardFragmentDoc = gql`
+    fragment ItemDataForItemCard on ItemType {
+  id
+  name
+  unit
+  exchangablePoint
+  quantity
+  status
+}
+    `;
+export const ItemDataForItemFormFragmentDoc = gql`
+    fragment ItemDataForItemForm on ItemType {
+  id
+  name
+  unit
+  exchangablePoint
+  quantity
+  status
 }
     `;
 export const ProfileDataFragmentDoc = gql`
@@ -1073,6 +1197,142 @@ export function useCreateDistributesMutation(baseOptions?: ApolloReactHooks.Muta
 export type CreateDistributesMutationHookResult = ReturnType<typeof useCreateDistributesMutation>;
 export type CreateDistributesMutationResult = ApolloReactCommon.MutationResult<CreateDistributesMutation>;
 export type CreateDistributesMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDistributesMutation, CreateDistributesMutationVariables>;
+export const ItemsEditPageDocument = gql`
+    query ItemsEditPage($itemId: ID!) {
+  item(itemId: $itemId) {
+    ...ItemDataForItemForm
+  }
+}
+    ${ItemDataForItemFormFragmentDoc}`;
+
+/**
+ * __useItemsEditPageQuery__
+ *
+ * To run a query within a React component, call `useItemsEditPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useItemsEditPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useItemsEditPageQuery({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *   },
+ * });
+ */
+export function useItemsEditPageQuery(baseOptions: ApolloReactHooks.QueryHookOptions<ItemsEditPageQuery, ItemsEditPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<ItemsEditPageQuery, ItemsEditPageQueryVariables>(ItemsEditPageDocument, options);
+      }
+export function useItemsEditPageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ItemsEditPageQuery, ItemsEditPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<ItemsEditPageQuery, ItemsEditPageQueryVariables>(ItemsEditPageDocument, options);
+        }
+export type ItemsEditPageQueryHookResult = ReturnType<typeof useItemsEditPageQuery>;
+export type ItemsEditPageLazyQueryHookResult = ReturnType<typeof useItemsEditPageLazyQuery>;
+export type ItemsEditPageQueryResult = ApolloReactCommon.QueryResult<ItemsEditPageQuery, ItemsEditPageQueryVariables>;
+export const UpdateItemDocument = gql`
+    mutation UpdateItem($input: UpdateItemInput!) {
+  updateItem(input: $input) {
+    clientMutationId
+  }
+}
+    `;
+export type UpdateItemMutationFn = ApolloReactCommon.MutationFunction<UpdateItemMutation, UpdateItemMutationVariables>;
+
+/**
+ * __useUpdateItemMutation__
+ *
+ * To run a mutation, you first call `useUpdateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateItemMutation, { data, loading, error }] = useUpdateItemMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateItemMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateItemMutation, UpdateItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdateItemMutation, UpdateItemMutationVariables>(UpdateItemDocument, options);
+      }
+export type UpdateItemMutationHookResult = ReturnType<typeof useUpdateItemMutation>;
+export type UpdateItemMutationResult = ApolloReactCommon.MutationResult<UpdateItemMutation>;
+export type UpdateItemMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateItemMutation, UpdateItemMutationVariables>;
+export const ItemsPageDocument = gql`
+    query ItemsPage($companyId: ID!) {
+  items(companyId: $companyId) {
+    ...ItemDataForItemCard
+  }
+}
+    ${ItemDataForItemCardFragmentDoc}`;
+
+/**
+ * __useItemsPageQuery__
+ *
+ * To run a query within a React component, call `useItemsPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useItemsPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useItemsPageQuery({
+ *   variables: {
+ *      companyId: // value for 'companyId'
+ *   },
+ * });
+ */
+export function useItemsPageQuery(baseOptions: ApolloReactHooks.QueryHookOptions<ItemsPageQuery, ItemsPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<ItemsPageQuery, ItemsPageQueryVariables>(ItemsPageDocument, options);
+      }
+export function useItemsPageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ItemsPageQuery, ItemsPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<ItemsPageQuery, ItemsPageQueryVariables>(ItemsPageDocument, options);
+        }
+export type ItemsPageQueryHookResult = ReturnType<typeof useItemsPageQuery>;
+export type ItemsPageLazyQueryHookResult = ReturnType<typeof useItemsPageLazyQuery>;
+export type ItemsPageQueryResult = ApolloReactCommon.QueryResult<ItemsPageQuery, ItemsPageQueryVariables>;
+export const CreateItemDocument = gql`
+    mutation CreateItem($input: CreateItemInput!) {
+  createItem(input: $input) {
+    clientMutationId
+  }
+}
+    `;
+export type CreateItemMutationFn = ApolloReactCommon.MutationFunction<CreateItemMutation, CreateItemMutationVariables>;
+
+/**
+ * __useCreateItemMutation__
+ *
+ * To run a mutation, you first call `useCreateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createItemMutation, { data, loading, error }] = useCreateItemMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateItemMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateItemMutation, CreateItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument, options);
+      }
+export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
+export type CreateItemMutationResult = ApolloReactCommon.MutationResult<CreateItemMutation>;
+export type CreateItemMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
 export const MypagePageDocument = gql`
     query MypagePage {
   receivedDealings: userReceivedDealings {

@@ -3,8 +3,7 @@ import graphene
 from app.models.plan import Plan
 from app.schema.types.plan_type import PlanType
 
-# TODO: __name__でOK?
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PlanQuery(graphene.ObjectType):
@@ -18,5 +17,5 @@ class PlanQuery(graphene.ObjectType):
         try:
             return Plan.objects.get(id=id)
         except Plan.DoesNotExist:
-            # logger.exception('エラーが発生しました。プランがありません。')
+            logger.exception("エラーが発生しました。プランがありません。")
             return None
