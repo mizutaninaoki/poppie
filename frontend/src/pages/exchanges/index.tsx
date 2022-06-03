@@ -14,14 +14,14 @@ import userLoginRequired from '@/hoc/userLoginRequired';
 import { useRouter } from 'next/router';
 
 gql`
-  query ItemsPage($companyId: ID!) {
+  query ExchangesIndexPage($companyId: ID!) {
     items(companyId: $companyId) {
       ...ItemDataForItemCard
     }
   }
 `;
 
-const ItemsIndexPage: FC = () => {
+const ExchangesIndexPage: FC = () => {
   const router = useRouter();
   const { setFlash } = useFlash();
   const { setPageError } = usePageError();
@@ -40,11 +40,6 @@ const ItemsIndexPage: FC = () => {
     <PageContainerWithError>
       <div className="grid place-items-center">
         <h1>景品一覧</h1>
-        <div>
-          <Link href="/items/new/input/">
-            <button className="btn btn-primary">景品登録</button>
-          </Link>
-        </div>
         {loading && <PageLoading />}
         {!loading && data && (
           <>
@@ -66,4 +61,4 @@ const ItemsIndexPage: FC = () => {
   );
 };
 
-export default userLoginRequired(ItemsIndexPage);
+export default userLoginRequired(ExchangesIndexPage);

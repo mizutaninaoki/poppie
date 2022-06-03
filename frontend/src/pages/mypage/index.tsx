@@ -25,8 +25,6 @@ gql`
 const MypagePage: NextPageWithLayout = () => {
   const router = useRouter();
   const { setPageFatalError } = usePageFatalError();
-
-  // TODO: dealingレコードが１つもないから、手動で作って、receive_dealingsとgave_dealings動くか確認して、グラフ表示を完成させる！！！
   const {
     data: userDealingsData,
     loading,

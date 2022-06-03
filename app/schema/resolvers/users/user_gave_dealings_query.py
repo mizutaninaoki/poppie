@@ -35,7 +35,6 @@ class UserGaveDealingsQuery(graphene.ObjectType):
 
         # 日付差の日数を算出（リストに最終日も含めたいので、＋１しています）
         days_num = (enddt - strdt).days + 1  # （参考）括弧の部分はtimedelta型のオブジェクトになります
-
         date_list = []
         for i in range(days_num):
             date_list.append(
@@ -46,6 +45,6 @@ class UserGaveDealingsQuery(graphene.ObjectType):
             )
 
         for gave_dealing in gave_dealings:
-            date_list[gave_dealing.created_at.day]["dealings"].append(gave_dealing)
-
+            # 配列のインデックスに合わせるため、ポイントをもらった日から1引く
+            date_list[gave_dealing.created_at.day - 1]["dealings"].append(gave_dealing)
         return date_list

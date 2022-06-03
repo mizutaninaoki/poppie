@@ -46,7 +46,7 @@ class UserReceivedDealingsQuery(graphene.ObjectType):
             )
 
         for received_dealing in received_dealings:
-            date_list[received_dealing.created_at.day]["dealings"].append(
+            date_list[received_dealing.created_at.day - 1]["dealings"].append(
                 received_dealing
             )
 

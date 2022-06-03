@@ -185,9 +185,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
                     });
                   }}
                 >
-                  <option value={ItemStatusEnum.Public} selected>
-                    公開
-                  </option>
+                  <option value={ItemStatusEnum.Public}>公開</option>
                   <option value={ItemStatusEnum.Private}>非公開</option>
                 </select>
               </div>
