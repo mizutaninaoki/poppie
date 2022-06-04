@@ -78,6 +78,15 @@ type CreateItemPayload {
   clientMutationId: String
 }
 
+input CreateOrUpdateOwnItemsInput {
+  exchangeItems: [ExchangeItemType!]!
+  clientMutationId: String
+}
+
+type CreateOrUpdateOwnItemsPayload {
+  clientMutationId: String
+}
+
 input CreatePurchasePointInput {
   companyId: ID!
   point: Int!
@@ -148,6 +157,12 @@ type DistributeLogType {
   account: AccountType!
 }
 
+input ExchangeItemType {
+  itemId: String!
+  userId: String!
+  quantity: Int!
+}
+
 scalar ExpectedErrorType
 
 scalar GenericScalar
@@ -170,6 +185,7 @@ type ItemType {
 }
 
 type Mutation {
+  createOrUpdateOwnItems(input: CreateOrUpdateOwnItemsInput!): CreateOrUpdateOwnItemsPayload
   updateItem(input: UpdateItemInput!): UpdateItemPayload
   createItem(input: CreateItemInput!): CreateItemPayload
   createDistributes(input: CreateDistributesInput!): CreateDistributesPayload
@@ -267,11 +283,11 @@ type PurchasedPointLogType {
 type Query {
   items(companyId: ID!): [ItemType!]!
   item(itemId: ID!): ItemType!
-  accounts: [AccountType]!
-  profile(userId: ID): ProfileType
-  plans: [PlanType]
-  plan(id: ID!): PlanType
-  companyUsers(companyId: ID!): [CustomUserType]
+  accounts: [AccountType!]!
+  profile(userId: ID): ProfileType!
+  plans: [PlanType!]
+  plan(id: ID!): PlanType!
+  companyUsers(companyId: ID!): [CustomUserType!]!
   userReceivedDealings: [UserReceivedDealingsType!]!
   userGaveDealings: [UserGaveDealingsType!]!
   user(id: ID!): UserNode

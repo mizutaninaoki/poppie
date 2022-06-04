@@ -1,13 +1,13 @@
 import graphene
 from graphene_django import DjangoObjectType
-from app.models.exchanged_item import ExchangedItem
+from app.models.own_item import OwnItem
 from app.schema.types.item_type import ItemType
 from app.schema.types.custom_user_type import CustomUserType
 
 
-class ExchangedItemType(DjangoObjectType):
+class OwnItemType(DjangoObjectType):
     class Meta:
-        model = ExchangedItem
+        model = OwnItem
         fields = (
             "id",
             "quantity",

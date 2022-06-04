@@ -6,7 +6,7 @@ import { useCreateItemMutation, useItemsPageQuery } from '@/generated/graphql';
 import { useFlash } from '@/hooks/useFlash';
 import { usePageFatalError } from '@/hooks/usePageFatalError';
 import { usePageError } from '@/hooks/usePageError';
-import { ItemCard } from '@/components/items/ItemCard';
+import { ItemCardWithEditButton } from '@/components/items/ItemCardWithEditButton';
 import { AuthContext } from '@/providers/AuthProvider';
 import { PageLoading } from '@/components/PageLoading';
 
@@ -52,7 +52,7 @@ const ItemsIndexPage: FC = () => {
               {data.items.length > 0 ? (
                 <>
                   {data.items.map((item) => (
-                    <ItemCard item={item} key={item.id} />
+                    <ItemCardWithEditButton item={item} key={item.id} />
                   ))}
                 </>
               ) : (

@@ -29,6 +29,9 @@ type Props = {
   onSubmit: (data: ItemFormDataType) => void;
 };
 
+/**
+ * 景品登録・編集フォーム
+ */
 export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
   const [formData, setFormData] = useState<ItemFormDataType>({
     name: item?.name ?? '',

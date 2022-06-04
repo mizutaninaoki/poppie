@@ -30,6 +30,9 @@ from app.schema.mutations.purchases.create_purchase_point import PurchaseMutatio
 from app.schema.mutations.distributes.create_distributes import DistributeMutation
 from app.schema.mutations.items.create_item import CreateItemMutation
 from app.schema.mutations.items.update_item import UpdateItemMutation
+from app.schema.mutations.exchanges.create_or_update_own_items import (
+    CreateOrUpdateOwnItemsMutation,
+)
 
 
 class Query(
@@ -59,6 +62,7 @@ class Mutation(
     DistributeMutation,
     CreateItemMutation,
     UpdateItemMutation,
+    CreateOrUpdateOwnItemsMutation,
     graphene.ObjectType,
 ):
     pass

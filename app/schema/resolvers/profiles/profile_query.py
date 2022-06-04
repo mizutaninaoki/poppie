@@ -1,4 +1,5 @@
 import logging
+from pickle import TRUE
 import graphene
 from graphql_jwt.decorators import login_required
 from account.models import Profile
@@ -10,9 +11,8 @@ from app.schema.types.profile_type import ProfileType
 
 class ProfileQuery(graphene.ObjectType):
     profile = graphene.Field(
-        ProfileType,
+        graphene.NonNull(ProfileType),
         user_id=graphene.ID(required=False),
-        required=False,
         description="プロフィール取得",
     )
 

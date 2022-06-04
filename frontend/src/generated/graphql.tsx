@@ -101,6 +101,16 @@ export type CreateItemPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
+export type CreateOrUpdateOwnItemsInput = {
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  exchangeItems: Array<ExchangeItemType>;
+};
+
+export type CreateOrUpdateOwnItemsPayload = {
+  __typename?: 'CreateOrUpdateOwnItemsPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 export type CreatePurchasePointInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   companyId: Scalars['ID'];
@@ -175,6 +185,12 @@ export type DistributeLogType = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type ExchangeItemType = {
+  itemId: Scalars['String'];
+  quantity: Scalars['Int'];
+  userId: Scalars['String'];
+};
+
 export enum ItemStatusEnum {
   Private = 'PRIVATE',
   Public = 'PUBLIC'
@@ -200,6 +216,7 @@ export type Mutation = {
   createDealing?: Maybe<CreateDealingPayload>;
   createDistributes?: Maybe<CreateDistributesPayload>;
   createItem?: Maybe<CreateItemPayload>;
+  createOrUpdateOwnItems?: Maybe<CreateOrUpdateOwnItemsPayload>;
   createPurchasePoint?: Maybe<CreatePurchasePointPayload>;
   createUser?: Maybe<CreateUserPayload>;
   customRegister?: Maybe<CreateUserPayload>;
@@ -247,6 +264,11 @@ export type MutationCreateDistributesArgs = {
 
 export type MutationCreateItemArgs = {
   input: CreateItemInput;
+};
+
+
+export type MutationCreateOrUpdateOwnItemsArgs = {
+  input: CreateOrUpdateOwnItemsInput;
 };
 
 
@@ -436,14 +458,14 @@ export type PurchasedPointLogType = {
 
 export type Query = {
   __typename?: 'Query';
-  accounts: Array<Maybe<AccountType>>;
-  companyUsers?: Maybe<Array<Maybe<CustomUserType>>>;
+  accounts: Array<AccountType>;
+  companyUsers: Array<CustomUserType>;
   item: ItemType;
   items: Array<ItemType>;
   me?: Maybe<UserNode>;
-  plan?: Maybe<PlanType>;
-  plans?: Maybe<Array<Maybe<PlanType>>>;
-  profile?: Maybe<ProfileType>;
+  plan: PlanType;
+  plans?: Maybe<Array<PlanType>>;
+  profile: ProfileType;
   user?: Maybe<UserNode>;
   userGaveDealings: Array<UserGaveDealingsType>;
   userReceivedDealings: Array<UserReceivedDealingsType>;
@@ -703,7 +725,7 @@ export type VerifyAccountMutation = { __typename?: 'Mutation', verifyAccount?: {
 export type CompaniesNewInputInputPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompaniesNewInputInputPageQuery = { __typename?: 'Query', plans?: Array<{ __typename?: 'PlanType', id: string, name: string, fee: number } | null> | null };
+export type CompaniesNewInputInputPageQuery = { __typename?: 'Query', plans?: Array<{ __typename?: 'PlanType', id: string, name: string, fee: number }> | null };
 
 export type CreateCompanyAndAdminUserMutationVariables = Exact<{
   input: CreateCompanyAndAdminUserInput;
@@ -724,12 +746,12 @@ export type DealingsNewInputPageQueryVariables = Exact<{
 }>;
 
 
-export type DealingsNewInputPageQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'CustomUserType', id: string, name: string, profile: { __typename?: 'ProfileType', department?: string | null } } | null> | null };
+export type DealingsNewInputPageQuery = { __typename?: 'Query', users: Array<{ __typename?: 'CustomUserType', id: string, name: string, profile: { __typename?: 'ProfileType', department?: string | null } }> };
 
 export type DistributesNewInputPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DistributesNewInputPageQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } } | null> };
+export type DistributesNewInputPageQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } }> };
 
 export type CreateDistributesMutationVariables = Exact<{
   input: CreateDistributesInput;
@@ -737,6 +759,20 @@ export type CreateDistributesMutationVariables = Exact<{
 
 
 export type CreateDistributesMutation = { __typename?: 'Mutation', createDistributes?: { __typename?: 'CreateDistributesPayload', distributeLog: { __typename?: 'DistributeLogType', id: string, company: { __typename?: 'CompanyType', id: string, point: number } } } | null };
+
+export type ExchangesIndexPageQueryVariables = Exact<{
+  companyId: Scalars['ID'];
+}>;
+
+
+export type ExchangesIndexPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum }> };
+
+export type CreateOrUpdateOwnItemsMutationVariables = Exact<{
+  input: CreateOrUpdateOwnItemsInput;
+}>;
+
+
+export type CreateOrUpdateOwnItemsMutation = { __typename?: 'Mutation', createOrUpdateOwnItems?: { __typename?: 'CreateOrUpdateOwnItemsPayload', clientMutationId?: string | null } | null };
 
 export type ItemsEditPageQueryVariables = Exact<{
   itemId: Scalars['ID'];
@@ -776,7 +812,7 @@ export type ProfileInputPageQueryVariables = Exact<{
 }>;
 
 
-export type ProfileInputPageQuery = { __typename?: 'Query', profile?: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } } | null };
+export type ProfileInputPageQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } } };
 
 export type UpdateProfileMutationVariables = Exact<{
   input: UpdateProfileInput;
@@ -797,7 +833,7 @@ export type SettingsUsersPageQueryVariables = Exact<{
 }>;
 
 
-export type SettingsUsersPageQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'CustomUserType', id: string, name: string, email: string, account: { __typename?: 'AccountType', givablePoint: number, receivedPoint: number } } | null> | null };
+export type SettingsUsersPageQuery = { __typename?: 'Query', users: Array<{ __typename?: 'CustomUserType', id: string, name: string, email: string, account: { __typename?: 'AccountType', givablePoint: number, receivedPoint: number } }> };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
@@ -1197,6 +1233,74 @@ export function useCreateDistributesMutation(baseOptions?: ApolloReactHooks.Muta
 export type CreateDistributesMutationHookResult = ReturnType<typeof useCreateDistributesMutation>;
 export type CreateDistributesMutationResult = ApolloReactCommon.MutationResult<CreateDistributesMutation>;
 export type CreateDistributesMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDistributesMutation, CreateDistributesMutationVariables>;
+export const ExchangesIndexPageDocument = gql`
+    query ExchangesIndexPage($companyId: ID!) {
+  items(companyId: $companyId) {
+    ...ItemDataForItemCard
+  }
+}
+    ${ItemDataForItemCardFragmentDoc}`;
+
+/**
+ * __useExchangesIndexPageQuery__
+ *
+ * To run a query within a React component, call `useExchangesIndexPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExchangesIndexPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExchangesIndexPageQuery({
+ *   variables: {
+ *      companyId: // value for 'companyId'
+ *   },
+ * });
+ */
+export function useExchangesIndexPageQuery(baseOptions: ApolloReactHooks.QueryHookOptions<ExchangesIndexPageQuery, ExchangesIndexPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<ExchangesIndexPageQuery, ExchangesIndexPageQueryVariables>(ExchangesIndexPageDocument, options);
+      }
+export function useExchangesIndexPageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ExchangesIndexPageQuery, ExchangesIndexPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<ExchangesIndexPageQuery, ExchangesIndexPageQueryVariables>(ExchangesIndexPageDocument, options);
+        }
+export type ExchangesIndexPageQueryHookResult = ReturnType<typeof useExchangesIndexPageQuery>;
+export type ExchangesIndexPageLazyQueryHookResult = ReturnType<typeof useExchangesIndexPageLazyQuery>;
+export type ExchangesIndexPageQueryResult = ApolloReactCommon.QueryResult<ExchangesIndexPageQuery, ExchangesIndexPageQueryVariables>;
+export const CreateOrUpdateOwnItemsDocument = gql`
+    mutation CreateOrUpdateOwnItems($input: CreateOrUpdateOwnItemsInput!) {
+  createOrUpdateOwnItems(input: $input) {
+    clientMutationId
+  }
+}
+    `;
+export type CreateOrUpdateOwnItemsMutationFn = ApolloReactCommon.MutationFunction<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>;
+
+/**
+ * __useCreateOrUpdateOwnItemsMutation__
+ *
+ * To run a mutation, you first call `useCreateOrUpdateOwnItemsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrUpdateOwnItemsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrUpdateOwnItemsMutation, { data, loading, error }] = useCreateOrUpdateOwnItemsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateOrUpdateOwnItemsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>(CreateOrUpdateOwnItemsDocument, options);
+      }
+export type CreateOrUpdateOwnItemsMutationHookResult = ReturnType<typeof useCreateOrUpdateOwnItemsMutation>;
+export type CreateOrUpdateOwnItemsMutationResult = ApolloReactCommon.MutationResult<CreateOrUpdateOwnItemsMutation>;
+export type CreateOrUpdateOwnItemsMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>;
 export const ItemsEditPageDocument = gql`
     query ItemsEditPage($itemId: ID!) {
   item(itemId: $itemId) {

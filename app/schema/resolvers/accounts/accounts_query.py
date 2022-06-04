@@ -10,7 +10,7 @@ from app.schema.types.account_type import AccountType
 
 class AccountQuery(graphene.ObjectType):
     accounts = graphene.List(
-        AccountType,
+        graphene.NonNull(AccountType),
         required=True,
         description="アカウント一覧取得",
     )

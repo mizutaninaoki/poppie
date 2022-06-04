@@ -19,7 +19,10 @@ type Props = {
   item: ItemDataForItemFormFragment;
 };
 
-export const ItemCard: FC<Props> = ({ item }) => {
+/**
+ * 編集ボタン付き景品カード
+ */
+export const ItemCardWithEditButton: FC<Props> = ({ item }) => {
   return (
     <>
       <div className="card w-96 bg-base-100 shadow-xl">

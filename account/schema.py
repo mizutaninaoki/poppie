@@ -19,6 +19,7 @@ class CreateUser(graphene.relay.ClientIDMutation):
         password1 = graphene.String(required=True)
         password2 = graphene.String(required=True)
 
+    # user = graphene.Field(graphene.NonNull(CustomUserType))
     user = graphene.Field(CustomUserType)
 
     @classmethod
@@ -44,7 +45,11 @@ class UserMutation(graphene.AbstractType):
 # Resolver
 # --------------------------
 class CompanyUsersQuery(graphene.ObjectType):
-    company_users = graphene.List(CustomUserType, company_id=graphene.ID(required=True))
+    company_users = graphene.List(
+        graphene.NonNull(CustomUserType),
+        required=True,
+        company_id=graphene.ID(required=True),
+    )
 
     def resolve_company_users(root, info, company_id):
         return User.objects.select_related("account", "company").filter(
