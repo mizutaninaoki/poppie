@@ -1,11 +1,14 @@
 from django.db import transaction
 from graphql_jwt.decorators import login_required
 import graphene
+import logging
 
-# from app.models.item import Item
+from app.models.item import Item
 from app.models.own_item import OwnItem
 from app.models.exchanged_item_log import ExchangedItemLog
 from app.schema.types.inputs.exchange_item_type import ExchangeItemType
+
+logger = logging.getLogger(__name__)
 
 
 class CreateOrUpdateOwnItems(graphene.relay.ClientIDMutation):
@@ -21,24 +24,29 @@ class CreateOrUpdateOwnItems(graphene.relay.ClientIDMutation):
         try:
             with transaction.atomic():
                 for exchange_item in input.get("exchange_items"):
-                    # item_idとuser_idの組み合わせがユニークなown_itemがなければcreate、なければupdate
-                    own_item = OwnItem.objects.update_or_create(
-                        item_id=exchange_item.id,
-                        user_id=info.context.user.id,
-                        defalults={"quantity": exchange_item.exchanged_quantity},
-                    )
+                    own_item = OwnItem.objects.filter(
+                        item_id=exchange_item.item_id, user_id=info.context.user.id
+                    ).first()
 
-                    item = info.context.user.items.get(pk=exchange_item.id)
-                    item.update(
-                        quantity=item.quantity - exchange_item.exchanged_quantity
-                    )
+                    if own_item:
+                        own_item.quantity -= exchange_item.exchange_quantity
+                    else:
+                        own_item = OwnItem.objects.create(
+                            item_id=exchange_item.item_id,
+                            user_id=info.context.user.id,
+                            quantity=exchange_item.exchange_quantity,
+                        )
+                    item = Item.objects.get(pk=exchange_item.item_id)
+                    item.quantity -= exchange_item.exchange_quantity
+                    item.save()
 
                     ExchangedItemLog.objects.create(
                         own_item_id=own_item.id,
-                        quantity=exchange_item.exchanged_quantity,
+                        quantity=exchange_item.exchange_quantity,
                     )
         except Exception as e:
             print("エラーが発生しました:", e)
+            logger.info(f"景品交換でエラーが発生しました。 {e}")
             return None
 
         return CreateOrUpdateOwnItems()

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ItemListFormDataType } from '@/components/items/ItemListExchangeForm';
 
 export type TmpDealing = {
   id?: string | null | undefined;
@@ -7,6 +8,8 @@ export type TmpDealing = {
   userId: string; // ポイントをあげるユーザーのID
   message: string;
 };
+
+export type TmpExchangeItem = ItemListFormDataType;
 
 type SessionStorage<T> = {
   data: T | null;
@@ -34,4 +37,9 @@ export function clearSession(): void {
 // ポイント贈与
 export function useTmpDealingCreateData(): SessionStorage<TmpDealing> {
   return useSessionStorage<TmpDealing>('tmpDealingCreateData');
+}
+
+// 景品交換
+export function useTmpExchangeItemsData(): SessionStorage<TmpExchangeItem[]> {
+  return useSessionStorage<TmpExchangeItem[]>('tmpExchangeItemsData');
 }

@@ -4,17 +4,6 @@ import Link from 'next/link';
 import { ItemDataForItemFormFragment } from '@/generated/graphql';
 import { ItemStatusName } from '@/utils/enum';
 
-gql`
-  fragment ItemDataForItemCard on ItemType {
-    id
-    name
-    unit
-    exchangablePoint
-    quantity
-    status
-  }
-`;
-
 type Props = {
   item: ItemDataForItemFormFragment;
 };

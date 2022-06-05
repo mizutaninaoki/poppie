@@ -5,4 +5,4 @@ import graphene
 class ExchangeItemType(graphene.InputObjectType):
     item_id = graphene.String(required=True)
     user_id = graphene.String(required=True)
-    quantity = graphene.Int(required=True)
+    exchange_quantity = graphene.Int(required=True)

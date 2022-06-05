@@ -1569,14 +1569,14 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "itemId",
+            "name": "exchangeQuantity",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "String",
+                "name": "Int",
                 "ofType": null
               }
             },
@@ -1585,14 +1585,14 @@
             "deprecationReason": null
           },
           {
-            "name": "quantity",
+            "name": "itemId",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               }
             },

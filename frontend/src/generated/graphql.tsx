@@ -186,8 +186,8 @@ export type DistributeLogType = {
 };
 
 export type ExchangeItemType = {
+  exchangeQuantity: Scalars['Int'];
   itemId: Scalars['String'];
-  quantity: Scalars['Int'];
   userId: Scalars['String'];
 };
 
@@ -760,19 +760,19 @@ export type CreateDistributesMutationVariables = Exact<{
 
 export type CreateDistributesMutation = { __typename?: 'Mutation', createDistributes?: { __typename?: 'CreateDistributesPayload', distributeLog: { __typename?: 'DistributeLogType', id: string, company: { __typename?: 'CompanyType', id: string, point: number } } } | null };
 
-export type ExchangesIndexPageQueryVariables = Exact<{
-  companyId: Scalars['ID'];
-}>;
-
-
-export type ExchangesIndexPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum }> };
-
 export type CreateOrUpdateOwnItemsMutationVariables = Exact<{
   input: CreateOrUpdateOwnItemsInput;
 }>;
 
 
 export type CreateOrUpdateOwnItemsMutation = { __typename?: 'Mutation', createOrUpdateOwnItems?: { __typename?: 'CreateOrUpdateOwnItemsPayload', clientMutationId?: string | null } | null };
+
+export type ExchangesIndexPageQueryVariables = Exact<{
+  companyId: Scalars['ID'];
+}>;
+
+
+export type ExchangesIndexPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum }> };
 
 export type ItemsEditPageQueryVariables = Exact<{
   itemId: Scalars['ID'];
@@ -1233,6 +1233,39 @@ export function useCreateDistributesMutation(baseOptions?: ApolloReactHooks.Muta
 export type CreateDistributesMutationHookResult = ReturnType<typeof useCreateDistributesMutation>;
 export type CreateDistributesMutationResult = ApolloReactCommon.MutationResult<CreateDistributesMutation>;
 export type CreateDistributesMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDistributesMutation, CreateDistributesMutationVariables>;
+export const CreateOrUpdateOwnItemsDocument = gql`
+    mutation CreateOrUpdateOwnItems($input: CreateOrUpdateOwnItemsInput!) {
+  createOrUpdateOwnItems(input: $input) {
+    clientMutationId
+  }
+}
+    `;
+export type CreateOrUpdateOwnItemsMutationFn = ApolloReactCommon.MutationFunction<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>;
+
+/**
+ * __useCreateOrUpdateOwnItemsMutation__
+ *
+ * To run a mutation, you first call `useCreateOrUpdateOwnItemsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrUpdateOwnItemsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrUpdateOwnItemsMutation, { data, loading, error }] = useCreateOrUpdateOwnItemsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateOrUpdateOwnItemsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>(CreateOrUpdateOwnItemsDocument, options);
+      }
+export type CreateOrUpdateOwnItemsMutationHookResult = ReturnType<typeof useCreateOrUpdateOwnItemsMutation>;
+export type CreateOrUpdateOwnItemsMutationResult = ApolloReactCommon.MutationResult<CreateOrUpdateOwnItemsMutation>;
+export type CreateOrUpdateOwnItemsMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>;
 export const ExchangesIndexPageDocument = gql`
     query ExchangesIndexPage($companyId: ID!) {
   items(companyId: $companyId) {
@@ -1268,39 +1301,6 @@ export function useExchangesIndexPageLazyQuery(baseOptions?: ApolloReactHooks.La
 export type ExchangesIndexPageQueryHookResult = ReturnType<typeof useExchangesIndexPageQuery>;
 export type ExchangesIndexPageLazyQueryHookResult = ReturnType<typeof useExchangesIndexPageLazyQuery>;
 export type ExchangesIndexPageQueryResult = ApolloReactCommon.QueryResult<ExchangesIndexPageQuery, ExchangesIndexPageQueryVariables>;
-export const CreateOrUpdateOwnItemsDocument = gql`
-    mutation CreateOrUpdateOwnItems($input: CreateOrUpdateOwnItemsInput!) {
-  createOrUpdateOwnItems(input: $input) {
-    clientMutationId
-  }
-}
-    `;
-export type CreateOrUpdateOwnItemsMutationFn = ApolloReactCommon.MutationFunction<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>;
-
-/**
- * __useCreateOrUpdateOwnItemsMutation__
- *
- * To run a mutation, you first call `useCreateOrUpdateOwnItemsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateOrUpdateOwnItemsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createOrUpdateOwnItemsMutation, { data, loading, error }] = useCreateOrUpdateOwnItemsMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateOrUpdateOwnItemsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useMutation<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>(CreateOrUpdateOwnItemsDocument, options);
-      }
-export type CreateOrUpdateOwnItemsMutationHookResult = ReturnType<typeof useCreateOrUpdateOwnItemsMutation>;
-export type CreateOrUpdateOwnItemsMutationResult = ApolloReactCommon.MutationResult<CreateOrUpdateOwnItemsMutation>;
-export type CreateOrUpdateOwnItemsMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateOrUpdateOwnItemsMutation, CreateOrUpdateOwnItemsMutationVariables>;
 export const ItemsEditPageDocument = gql`
     query ItemsEditPage($itemId: ID!) {
   item(itemId: $itemId) {

@@ -2,7 +2,9 @@ from django.db import models
 from account.models import User
 from .item import Item
 
-
+#
+# 交換予約待ちの景品（会社側が実際に景品を渡したらレコードを削除する） -> TODO: テーブル名をExchangeBookedItem変更する
+#
 class OwnItem(models.Model):
     user = models.ForeignKey(User, verbose_name="ユーザー", on_delete=models.CASCADE)
     item = models.ForeignKey(Item, verbose_name="景品", on_delete=models.CASCADE)

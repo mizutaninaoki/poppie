@@ -4,9 +4,6 @@ from graphql_jwt.decorators import login_required
 from account.models import Account
 from app.schema.types.account_type import AccountType
 
-# TODO: __name__でOK?
-# logger = logging.getLogger(__name__)
-
 
 class AccountQuery(graphene.ObjectType):
     accounts = graphene.List(

@@ -160,7 +160,7 @@ type DistributeLogType {
 input ExchangeItemType {
   itemId: String!
   userId: String!
-  quantity: Int!
+  exchangeQuantity: Int!
 }
 
 scalar ExpectedErrorType

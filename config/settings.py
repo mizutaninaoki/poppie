@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "graphql_auth",
     "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
     "django_filters",
+    "storages",
 ]
 
 # CorsMiddlewareはCommonMiddleWareより上に挿入
@@ -306,3 +307,22 @@ LOGGING = {
         },
     },
 }
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
+
+
+# AWS 共通の設定
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_S3_BUCKET_NAME = env("AWS_S3_BUCKET_NAME")
+
+
+# 静的ファイルの設定
+AWS_LOCATION = "static"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+
+# メディアファイルの設定。今回は「app」というプロジェクト名の例
+DEFAULT_FILE_STORAGE = "app.backends.MediaStorage"

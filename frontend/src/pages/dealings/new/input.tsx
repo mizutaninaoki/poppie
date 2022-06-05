@@ -8,7 +8,7 @@ import { useDealingsNewInputPageQuery } from '@/generated/graphql';
 import { usePageFatalError } from '@/hooks/usePageFatalError';
 import { DealingForm, DealingFormDataType } from '@/components/dealings/DealingForm';
 import { AuthContext } from '@/providers/AuthProvider';
-import { useTmpDealingCreateData } from '@/utils/storage';
+import { useTmpDealingCreateData, clearSession } from '@/utils/storage';
 import userLoginRequired from '@/hoc/userLoginRequired';
 
 gql`
@@ -34,6 +34,8 @@ const DealingsNewInputPage: FC = () => {
   });
 
   const onConfirm = (formData: DealingFormDataType) => {
+    // TODO: 画面表示した時にclearSessionした方がよい？
+    clearSession();
     saveTmpDealingCreateData(formData);
     void router.push('/dealings/new/confirm/');
   };

@@ -1,20 +1,8 @@
 import { FC } from 'react';
-import { gql } from '@apollo/client';
-import { ItemDataForItemFormFragment } from '@/generated/graphql';
-
-gql`
-  fragment ItemDataForItemCard on ItemType {
-    id
-    name
-    unit
-    exchangablePoint
-    quantity
-    status
-  }
-`;
+import { ItemListFormDataType } from '@/components/items/ItemListExchangeForm';
 
 type Props = {
-  item: ItemDataForItemFormFragment;
+  item: ItemListFormDataType;
   onChange: (exchangeQuantity: number) => void;
 };
 
@@ -40,7 +28,7 @@ export const ItemCardWithSelectQuantity: FC<Props> = ({ item, onChange }) => {
             type="text"
             placeholder="0"
             className="input input-bordered w-full max-w-xs"
-            value={''}
+            value={item.exchangeQuantity}
             onChange={(e) => {
               const newExchangeQuantity = Number(e.target.value);
               // 数値として不正な入力が来たら何もしない
