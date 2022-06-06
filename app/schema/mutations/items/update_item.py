@@ -1,6 +1,7 @@
 from django.db import transaction
 from graphql_jwt.decorators import login_required
 import graphene
+from graphql import GraphQLError
 from app.models.item import Item
 from app.schema.enums.item_status_enum import ItemStatusEnum
 
