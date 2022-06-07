@@ -191,6 +191,17 @@ export type ExchangeItemType = {
   userId: Scalars['String'];
 };
 
+export type GenerateS3PresignedUrlInput = {
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  fileName: Scalars['String'];
+};
+
+export type GenerateS3PresignedUrlPayload = {
+  __typename?: 'GenerateS3PresignedUrlPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+  presignedUrl: Scalars['String'];
+};
+
 export enum ItemStatusEnum {
   Private = 'PRIVATE',
   Public = 'PUBLIC'
@@ -221,6 +232,7 @@ export type Mutation = {
   createUser?: Maybe<CreateUserPayload>;
   customRegister?: Maybe<CreateUserPayload>;
   deleteAccount?: Maybe<DeleteAccount>;
+  generateS3PresignedUrl?: Maybe<GenerateS3PresignedUrlPayload>;
   passwordChange?: Maybe<PasswordChange>;
   passwordReset?: Maybe<PasswordReset>;
   passwordSet?: Maybe<PasswordSet>;
@@ -289,6 +301,11 @@ export type MutationCustomRegisterArgs = {
 
 export type MutationDeleteAccountArgs = {
   password: Scalars['String'];
+};
+
+
+export type MutationGenerateS3PresignedUrlArgs = {
+  input: GenerateS3PresignedUrlInput;
 };
 
 
@@ -442,6 +459,8 @@ export type ProfileType = {
   createdAt: Scalars['DateTime'];
   department?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  imageKey?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: CustomUserType;
 };
@@ -607,6 +626,7 @@ export type UpdateProfileInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   comment?: InputMaybe<Scalars['String']>;
   department?: InputMaybe<Scalars['String']>;
+  imageKey?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   userId: Scalars['ID'];
 };
@@ -704,7 +724,7 @@ export type ItemDataForItemCardFragment = { __typename?: 'ItemType', id: string,
 
 export type ItemDataForItemFormFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum };
 
-export type ProfileDataFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } };
+export type ProfileDataFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageKey?: string | null, imageUrl?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } };
 
 export type CurrentCompanyFragment = { __typename?: 'CompanyType', id: string, name: string, point: number };
 
@@ -812,7 +832,7 @@ export type ProfileInputPageQueryVariables = Exact<{
 }>;
 
 
-export type ProfileInputPageQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } } };
+export type ProfileInputPageQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageKey?: string | null, imageUrl?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } } };
 
 export type UpdateProfileMutationVariables = Exact<{
   input: UpdateProfileInput;
@@ -820,6 +840,13 @@ export type UpdateProfileMutationVariables = Exact<{
 
 
 export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile?: { __typename?: 'UpdateProfilePayload', clientMutationId?: string | null } | null };
+
+export type GenerateS3PresignedUrlMutationVariables = Exact<{
+  input: GenerateS3PresignedUrlInput;
+}>;
+
+
+export type GenerateS3PresignedUrlMutation = { __typename?: 'Mutation', generateS3PresignedUrl?: { __typename?: 'GenerateS3PresignedUrlPayload', presignedUrl: string } | null };
 
 export type CreatePurchasePointMutationVariables = Exact<{
   input: CreatePurchasePointInput;
@@ -930,6 +957,8 @@ export const ProfileDataFragmentDoc = gql`
   id
   department
   comment
+  imageKey
+  imageUrl
   user {
     id
     name
@@ -1543,6 +1572,39 @@ export function useUpdateProfileMutation(baseOptions?: ApolloReactHooks.Mutation
 export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
 export type UpdateProfileMutationResult = ApolloReactCommon.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const GenerateS3PresignedUrlDocument = gql`
+    mutation GenerateS3PresignedUrl($input: GenerateS3PresignedUrlInput!) {
+  generateS3PresignedUrl(input: $input) {
+    presignedUrl
+  }
+}
+    `;
+export type GenerateS3PresignedUrlMutationFn = ApolloReactCommon.MutationFunction<GenerateS3PresignedUrlMutation, GenerateS3PresignedUrlMutationVariables>;
+
+/**
+ * __useGenerateS3PresignedUrlMutation__
+ *
+ * To run a mutation, you first call `useGenerateS3PresignedUrlMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateS3PresignedUrlMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateS3PresignedUrlMutation, { data, loading, error }] = useGenerateS3PresignedUrlMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGenerateS3PresignedUrlMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<GenerateS3PresignedUrlMutation, GenerateS3PresignedUrlMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<GenerateS3PresignedUrlMutation, GenerateS3PresignedUrlMutationVariables>(GenerateS3PresignedUrlDocument, options);
+      }
+export type GenerateS3PresignedUrlMutationHookResult = ReturnType<typeof useGenerateS3PresignedUrlMutation>;
+export type GenerateS3PresignedUrlMutationResult = ApolloReactCommon.MutationResult<GenerateS3PresignedUrlMutation>;
+export type GenerateS3PresignedUrlMutationOptions = ApolloReactCommon.BaseMutationOptions<GenerateS3PresignedUrlMutation, GenerateS3PresignedUrlMutationVariables>;
 export const CreatePurchasePointDocument = gql`
     mutation CreatePurchasePoint($input: CreatePurchasePointInput!) {
   createPurchasePoint(input: $input) {

@@ -1,12 +1,17 @@
 import { FC, useContext } from 'react';
 import { gql } from '@apollo/client';
 import { PageContainerWithError } from '@/components/PageContainerWithError';
-import { useProfileInputPageQuery, useUpdateProfileMutation } from '@/generated/graphql';
+import {
+  useProfileInputPageQuery,
+  useGenerateS3PresignedUrlMutation,
+  useUpdateProfileMutation,
+} from '@/generated/graphql';
 import { useFlash } from '@/hooks/useFlash';
 import { usePageFatalError } from '@/hooks/usePageFatalError';
 import { usePageError } from '@/hooks/usePageError';
 import { ProfileForm, ProfileFormDataType } from '@/components/profiles/ProfileForm';
 import { AuthContext } from '@/providers/AuthProvider';
+import { scrollTop } from '@/utils/scroll';
 
 import userLoginRequired from '@/hoc/userLoginRequired';
 
@@ -22,6 +27,12 @@ gql`
       clientMutationId
     }
   }
+
+  mutation GenerateS3PresignedUrl($input: GenerateS3PresignedUrlInput!) {
+    generateS3PresignedUrl(input: $input) {
+      presignedUrl
+    }
+  }
 `;
 
 const ProfileInputPage: FC = () => {
@@ -30,7 +41,7 @@ const ProfileInputPage: FC = () => {
   const { setPageFatalError } = usePageFatalError();
   const { currentUser } = useContext(AuthContext);
 
-  const { data, loading, error } = useProfileInputPageQuery({
+  const { data, loading } = useProfileInputPageQuery({
     fetchPolicy: 'network-only',
     variables: {
       userId: currentUser?.id,
@@ -38,30 +49,77 @@ const ProfileInputPage: FC = () => {
     onError: setPageFatalError,
   });
 
+  const [generateS3PresignedUrl, { loading: generateUrlLoading }] =
+    useGenerateS3PresignedUrlMutation({
+      onError: setPageFatalError,
+    });
+
   const [updateProfile, { loading: updateLoading }] = useUpdateProfileMutation({
     onCompleted: () => {
       setFlash('プロフィールを保存しました。');
+      scrollTop();
     },
     onError: setPageFatalError,
   });
 
-  const onSubmit = (formData: ProfileFormDataType) => {
-    void updateProfile({
-      variables: {
-        input: {
-          userId: currentUser?.id,
-          name: formData.name,
-          department: formData.department,
-          comment: formData.comment,
-        },
-      },
+  const saveOneImage = async (presignedUrl: string, image: File) => {
+    await fetch(presignedUrl, {
+      method: 'PUT',
+      headers: { 'Content-Type': image.type },
+      body: image,
     });
   };
+
+  const onSubmit = async (formData: ProfileFormDataType) => {
+    let presignedUrl: string | undefined;
+
+    try {
+      // 画像ファイルが選択されている場合、presignedUrlを発行して、画像をS3に保存する
+      if (formData.image) {
+        const res = await generateS3PresignedUrl({
+          variables: {
+            input: {
+              fileName: formData.image.name,
+            },
+          },
+        });
+
+        presignedUrl = res.data?.generateS3PresignedUrl?.presignedUrl;
+        if (!presignedUrl) throw new Error('PresignedUrl発行エラー');
+        await saveOneImage(presignedUrl, formData.image);
+      }
+
+      await updateProfile({
+        variables: {
+          input: {
+            userId: currentUser?.id,
+            name: formData.name,
+            department: formData.department,
+            comment: formData.comment,
+            imageKey: formData.image?.name
+              ? `${data?.profile?.id}-${formData.image?.name}`
+              : formData.imageKey || undefined,
+          },
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      alert('画像アップロード失敗！');
+    }
+  };
+
+  const mutationLoading = generateUrlLoading || updateLoading;
 
   return (
     <PageContainerWithError>
       <div className="grid place-items-center min-h-screen-except-header">
-        {!loading && data && <ProfileForm onSubmit={onSubmit} profile={data.profile} />}
+        {!loading && data && (
+          <ProfileForm
+            onSubmit={onSubmit}
+            profile={data.profile}
+            loading={mutationLoading}
+          />
+        )}
       </div>
     </PageContainerWithError>
   );

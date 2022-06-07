@@ -3,12 +3,16 @@ import { gql } from '@apollo/client';
 import { ProfileFormDataZodSchema } from '@/validations/validateProfile';
 import { useValidationErrors } from '@/hooks/useValidationErrors';
 import { ProfileDataFragment } from '@/generated/graphql';
+import { ProfileImageForm } from '@/components/profiles/ProfileImageForm';
+import { PageLoading } from '@/components/PageLoading';
 
 gql`
   fragment ProfileData on ProfileType {
     id
     department
     comment
+    imageKey
+    imageUrl
     user {
       id
       name
@@ -20,18 +24,23 @@ export type ProfileFormDataType = {
   name: string;
   department: string;
   comment: string;
+  imageKey?: string;
+  image?: File;
 };
 
 type Props = {
-  profile: ProfileDataFragment | null;
+  profile: ProfileDataFragment;
+  loading: boolean;
   onSubmit: (data: ProfileFormDataType) => void;
 };
 
-export const ProfileForm: FC<Props> = ({ onSubmit: onSubmitFn, profile }) => {
+export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn }) => {
   const [formData, setFormData] = useState<ProfileFormDataType>({
     name: profile?.user?.name ?? '',
     department: profile?.department ?? '',
     comment: profile?.comment ?? '',
+    imageKey: profile?.imageKey ?? '',
+    image: undefined,
   });
 
   const { errors, setErrors, resetErrors } = useValidationErrors();
@@ -47,11 +56,15 @@ export const ProfileForm: FC<Props> = ({ onSubmit: onSubmitFn, profile }) => {
     onSubmitFn(formData);
   };
 
+  const onSelected = (image: File) => {
+    setFormData({ ...formData, image });
+  };
+
   return (
     <>
       <div className="shadow-md p-12 rounded-xl">
-        {/* 入力部分だけ、daisyUIのtextInputを使用する！ */}
         <div className="w-full max-w-sm">
+          <ProfileImageForm selectedImageUrl={profile.imageUrl} onSelected={onSelected} />
           <div className="md:flex md:items-center mb-6">
             <div className="md:w-1/3">
               <label
@@ -117,13 +130,17 @@ export const ProfileForm: FC<Props> = ({ onSubmit: onSubmitFn, profile }) => {
           <div className="md:flex md:items-center">
             <div className="md:w-1/3" />
             <div className="md:w-2/3">
-              <button
-                className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={onSubmit}
-              >
-                保存する
-              </button>
+              {loading ? (
+                <PageLoading />
+              ) : (
+                <button
+                  className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  type="button"
+                  onClick={onSubmit}
+                >
+                  保存する
+                </button>
+              )}
             </div>
           </div>
         </div>

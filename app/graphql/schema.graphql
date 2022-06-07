@@ -165,6 +165,16 @@ input ExchangeItemType {
 
 scalar ExpectedErrorType
 
+input GenerateS3PresignedUrlInput {
+  fileName: String!
+  clientMutationId: String
+}
+
+type GenerateS3PresignedUrlPayload {
+  presignedUrl: String!
+  clientMutationId: String
+}
+
 scalar GenericScalar
 
 enum ItemStatusEnum {
@@ -185,6 +195,7 @@ type ItemType {
 }
 
 type Mutation {
+  generateS3PresignedUrl(input: GenerateS3PresignedUrlInput!): GenerateS3PresignedUrlPayload
   createOrUpdateOwnItems(input: CreateOrUpdateOwnItemsInput!): CreateOrUpdateOwnItemsPayload
   updateItem(input: UpdateItemInput!): UpdateItemPayload
   createItem(input: CreateItemInput!): CreateItemPayload
@@ -267,8 +278,10 @@ type ProfileType {
   user: CustomUserType!
   department: String
   comment: String
+  imageKey: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  imageUrl: String
 }
 
 type PurchasedPointLogType {
@@ -372,6 +385,7 @@ input UpdateProfileInput {
   name: String!
   department: String
   comment: String
+  imageKey: String
   clientMutationId: String
 }
 

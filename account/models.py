@@ -8,6 +8,11 @@ sys.path.append("../")  # 上の階層からモジュールを呼び出す時必
 from app.models.company import Company
 from app.models.account import Account
 
+from app.services.amazon_s3_service import AmazonS3Service
+import environ
+
+env = environ.Env()
+
 
 class CustomUserManager(UserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -83,6 +88,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name="ユーザー", on_delete=models.CASCADE)
     department = models.CharField("部署", max_length=30, blank=True, null=True)
     comment = models.TextField("コメント", blank=True, null=True, max_length=1000)
+    image_key = models.CharField("S3内の画像保存キー", blank=True, null=True, max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -91,3 +97,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.name}のプロフィール"
+
+    # S3の署名付きプロフィール画像URL
+    def image_url(self):
+        if self.image_key:
+            return AmazonS3Service().generate_image_presigned_url(self.image_key)
+        else:
+            return None

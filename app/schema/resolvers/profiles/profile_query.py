@@ -1,12 +1,12 @@
 import logging
-from pickle import TRUE
 import graphene
 from graphql_jwt.decorators import login_required
 from account.models import Profile
 from app.schema.types.profile_type import ProfileType
 
-# TODO: __name__でOK?
-# logger = logging.getLogger(__name__)
+from app.services.amazon_s3_service import AmazonS3Service
+
+logger = logging.getLogger(__name__)
 
 
 class ProfileQuery(graphene.ObjectType):
@@ -21,4 +21,5 @@ class ProfileQuery(graphene.ObjectType):
         try:
             return Profile.objects.get(user_id=user_id)
         except Profile.DoesNotExist:
+            logger.info("プロフィール取得でエラーが発生しました。")
             return None

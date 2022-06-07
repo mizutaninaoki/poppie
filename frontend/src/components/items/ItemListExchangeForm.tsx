@@ -37,7 +37,6 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
   const onConfirm = () => {
     resetErrors();
     const result = ItemListExchangeFormDataZodSchema.safeParse(ListFormData);
-    debugger;
     if (!result.success) {
       setErrors(result.error.format());
       return;

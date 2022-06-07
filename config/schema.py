@@ -34,6 +34,10 @@ from app.schema.mutations.exchanges.create_or_update_own_items import (
     CreateOrUpdateOwnItemsMutation,
 )
 
+from app.schema.mutations.utils.generate_s3_presigned_url import (
+    GenerateS3PresignedUrlMutation,
+)
+
 
 class Query(
     MeQuery,
@@ -63,6 +67,7 @@ class Mutation(
     CreateItemMutation,
     UpdateItemMutation,
     CreateOrUpdateOwnItemsMutation,
+    GenerateS3PresignedUrlMutation,
     graphene.ObjectType,
 ):
     pass
