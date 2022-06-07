@@ -1,9 +1,6 @@
 import { FC } from 'react';
 import { gql } from '@apollo/client';
-import Link from 'next/link';
 import { ItemListFormDataType } from '@/components/items/ItemListExchangeForm';
-import { ItemDataForItemFormFragment } from '@/generated/graphql';
-import { ItemStatusName } from '@/utils/enum';
 
 gql`
   fragment ItemDataForItemCard on ItemType {
@@ -13,6 +10,8 @@ gql`
     exchangablePoint
     quantity
     status
+    imageKey
+    imageUrl
   }
 `;
 

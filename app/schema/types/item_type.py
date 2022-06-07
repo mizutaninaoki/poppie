@@ -14,11 +14,15 @@ class ItemType(DjangoObjectType):
             "name",
             "unit",
             "exchangable_point",
-            # "image",
             "quantity",
+            "image_key",
             "created_at",
             "updated_at",
         )
 
     status = ItemStatusEnum(required=True)
+    image_url = graphene.String(required=False)
     company = graphene.Field(graphene.NonNull(CompanyType))
+
+    def resolve_image_url(self, info):
+        return self.image_url()

@@ -90,6 +90,7 @@ export type CreateItemInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   companyId: Scalars['ID'];
   exchangablePoint: Scalars['Int'];
+  imageKey?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   quantity: Scalars['Int'];
   status: ItemStatusEnum;
@@ -193,7 +194,7 @@ export type ExchangeItemType = {
 
 export type GenerateS3PresignedUrlInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
-  fileName: Scalars['String'];
+  imageKey: Scalars['String'];
 };
 
 export type GenerateS3PresignedUrlPayload = {
@@ -213,6 +214,8 @@ export type ItemType = {
   createdAt: Scalars['DateTime'];
   exchangablePoint: Scalars['Int'];
   id: Scalars['ID'];
+  imageKey?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   quantity: Scalars['Int'];
   status: ItemStatusEnum;
@@ -600,6 +603,7 @@ export type UpdateItemInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   exchangablePoint: Scalars['Int'];
   id: Scalars['ID'];
+  imageKey?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   quantity: Scalars['Int'];
   status: ItemStatusEnum;
@@ -720,9 +724,9 @@ export type CompanyUserForDealingFormFragment = { __typename?: 'CustomUserType',
 
 export type DistributeFormDataFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } };
 
-export type ItemDataForItemCardFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum };
+export type ItemDataForItemCardFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null };
 
-export type ItemDataForItemFormFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum };
+export type ItemDataForItemFormFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null };
 
 export type ProfileDataFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageKey?: string | null, imageUrl?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } };
 
@@ -792,14 +796,14 @@ export type ExchangesIndexPageQueryVariables = Exact<{
 }>;
 
 
-export type ExchangesIndexPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum }> };
+export type ExchangesIndexPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null }> };
 
 export type ItemsEditPageQueryVariables = Exact<{
   itemId: Scalars['ID'];
 }>;
 
 
-export type ItemsEditPageQuery = { __typename?: 'Query', item: { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum } };
+export type ItemsEditPageQuery = { __typename?: 'Query', item: { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null } };
 
 export type UpdateItemMutationVariables = Exact<{
   input: UpdateItemInput;
@@ -813,7 +817,7 @@ export type ItemsPageQueryVariables = Exact<{
 }>;
 
 
-export type ItemsPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum }> };
+export type ItemsPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null }> };
 
 export type CreateItemMutationVariables = Exact<{
   input: CreateItemInput;
@@ -940,6 +944,8 @@ export const ItemDataForItemCardFragmentDoc = gql`
   exchangablePoint
   quantity
   status
+  imageKey
+  imageUrl
 }
     `;
 export const ItemDataForItemFormFragmentDoc = gql`
@@ -950,6 +956,8 @@ export const ItemDataForItemFormFragmentDoc = gql`
   exchangablePoint
   quantity
   status
+  imageKey
+  imageUrl
 }
     `;
 export const ProfileDataFragmentDoc = gql`

@@ -40,9 +40,9 @@ const ItemsIndexPage: FC = () => {
     <PageContainerWithError>
       <div className="grid place-items-center">
         <h1>景品一覧</h1>
-        <div>
+        <div className="w-full text-right mb-7">
           <Link href="/items/new/input/">
-            <button className="btn btn-primary">景品登録</button>
+            <button className="btn btn-primary">新しく景品を登録する</button>
           </Link>
         </div>
         {loading && <PageLoading />}

@@ -72,14 +72,19 @@ const ProfileInputPage: FC = () => {
 
   const onSubmit = async (formData: ProfileFormDataType) => {
     let presignedUrl: string | undefined;
+    let key: string | undefined;
 
     try {
       // 画像ファイルが選択されている場合、presignedUrlを発行して、画像をS3に保存する
       if (formData.image) {
+        key = formData.image?.name
+          ? `profile/${data?.profile?.id}-${formData.image?.name}`
+          : formData.imageKey;
+
         const res = await generateS3PresignedUrl({
           variables: {
             input: {
-              fileName: formData.image.name,
+              imageKey: key as string,
             },
           },
         });
@@ -96,9 +101,7 @@ const ProfileInputPage: FC = () => {
             name: formData.name,
             department: formData.department,
             comment: formData.comment,
-            imageKey: formData.image?.name
-              ? `${data?.profile?.id}-${formData.image?.name}`
-              : formData.imageKey || undefined,
+            imageKey: key,
           },
         },
       });

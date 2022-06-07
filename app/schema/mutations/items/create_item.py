@@ -10,10 +10,10 @@ class CreateItem(graphene.relay.ClientIDMutation):
         company_id = graphene.ID(required=True)
         name = graphene.String(required=True)
         unit = graphene.String(required=True)
-        # image = graphene.String(required=True)
         exchangable_point = graphene.Int(required=True)
         status = ItemStatusEnum(required=True)
         quantity = graphene.Int(required=True)
+        image_key = graphene.String(required=False)
 
     @classmethod
     @login_required
@@ -21,7 +21,6 @@ class CreateItem(graphene.relay.ClientIDMutation):
 
         try:
             with transaction.atomic():
-                # see: https://stackoverflow.com/questions/41744096/efficient-way-to-update-multiple-fields-of-django-model-object
                 Item.objects.create(**input)
         except Exception as e:
             print("エラーが発生しました:", e)

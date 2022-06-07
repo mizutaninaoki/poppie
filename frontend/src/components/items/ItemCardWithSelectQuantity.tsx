@@ -14,7 +14,7 @@ export const ItemCardWithSelectQuantity: FC<Props> = ({ item, onChange }) => {
     <>
       <div className="card w-96 bg-base-100 shadow-xl">
         <figure>
-          <img src="https://api.lorem.space/image/shoes?w=400&h=225" alt="Shoes" />
+          <img src={item.imageUrl || '/images/no-image.png'} alt="item-image" />
         </figure>
         <div className="card-body p-6">
           <p>{item.name}</p>

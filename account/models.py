@@ -1,17 +1,12 @@
+import sys
 from django.db import models, transaction
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager, PermissionsMixin
-
-import sys
+from app.services.amazon_s3_service import AmazonS3Service
 
 sys.path.append("../")  # 上の階層からモジュールを呼び出す時必要
 from app.models.company import Company
 from app.models.account import Account
-
-from app.services.amazon_s3_service import AmazonS3Service
-import environ
-
-env = environ.Env()
 
 
 class CustomUserManager(UserManager):
@@ -96,7 +91,7 @@ class Profile(models.Model):
         db_table = "profiles"
 
     def __str__(self):
-        return f"{self.user.name}のプロフィール"
+        return f"id: {self.id}, user_id: {self.user_id}, comment: {self.comment}, image_key: {self.image_key}, created_at: {self.created_at}, updated_at: {self.updated_at}"
 
     # S3の署名付きプロフィール画像URL
     def image_url(self):

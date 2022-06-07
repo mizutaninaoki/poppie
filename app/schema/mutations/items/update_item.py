@@ -11,10 +11,10 @@ class UpdateItem(graphene.relay.ClientIDMutation):
         id = graphene.ID(required=True)
         name = graphene.String(required=True)
         unit = graphene.String(required=True)
-        # image = graphene.String(required=True)
         exchangable_point = graphene.Int(required=True)
         status = ItemStatusEnum(required=True)
         quantity = graphene.Int(required=True)
+        image_key = graphene.String(required=False)
 
     @classmethod
     @login_required
@@ -25,7 +25,7 @@ class UpdateItem(graphene.relay.ClientIDMutation):
                 Item.objects.filter(pk=input.get("id")).update(**input)
         except Exception as e:
             print("景品更新でエラーが発生しました:", e)
-            # raise GraphQLError("Value is too long")
+            raise GraphQLError("景品更新でエラーが発生しました")
             return None
 
         return UpdateItem()

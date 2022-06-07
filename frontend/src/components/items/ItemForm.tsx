@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { gql } from '@apollo/client';
 import { ItemFormDataZodSchema } from '@/validations/validateItem';
 import { useValidationErrors } from '@/hooks/useValidationErrors';
+import { ItemImageForm } from '@/components/items/ItemImageForm';
 import { ItemDataForItemFormFragment, ItemStatusEnum } from '@/generated/graphql';
 
 gql`
@@ -12,6 +13,8 @@ gql`
     exchangablePoint
     quantity
     status
+    imageKey
+    imageUrl
   }
 `;
 
@@ -20,8 +23,9 @@ export type ItemFormDataType = {
   unit: string;
   exchangablePoint: number;
   quantity: number;
-  // image: string;
   status: ItemStatusEnum;
+  imageKey?: string;
+  image?: File;
 };
 
 type Props = {
@@ -38,8 +42,9 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
     unit: item?.unit ?? '',
     exchangablePoint: item?.exchangablePoint ?? 0,
     quantity: item?.quantity ?? 0,
-    // image: item?.image ?? '',
     status: item?.status ?? ItemStatusEnum.Public,
+    imageKey: item?.imageKey ?? '',
+    image: undefined,
   });
 
   const { errors, setErrors, resetErrors } = useValidationErrors();
@@ -55,10 +60,15 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
     onSubmitFn(formData);
   };
 
+  const onSelected = (image: File) => {
+    setFormData({ ...formData, image });
+  };
+
   return (
     <>
       <div className="col-span-12">
         <div className="shadow-md p-12 rounded-xl">
+          <ItemImageForm selectedImageUrl={item?.imageUrl} onSelected={onSelected} />
           <div className="w-full max-w-sm">
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
