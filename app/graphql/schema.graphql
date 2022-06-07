@@ -79,12 +79,12 @@ type CreateItemPayload {
   clientMutationId: String
 }
 
-input CreateOrUpdateOwnItemsInput {
+input CreateOrUpdateExchangeAppliedItemsInput {
   exchangeItems: [ExchangeItemType!]!
   clientMutationId: String
 }
 
-type CreateOrUpdateOwnItemsPayload {
+type CreateOrUpdateExchangeAppliedItemsPayload {
   clientMutationId: String
 }
 
@@ -199,7 +199,7 @@ type ItemType {
 
 type Mutation {
   generateS3PresignedUrl(input: GenerateS3PresignedUrlInput!): GenerateS3PresignedUrlPayload
-  createOrUpdateOwnItems(input: CreateOrUpdateOwnItemsInput!): CreateOrUpdateOwnItemsPayload
+  createOrUpdateExchangeAppliedItems(input: CreateOrUpdateExchangeAppliedItemsInput!): CreateOrUpdateExchangeAppliedItemsPayload
   updateItem(input: UpdateItemInput!): UpdateItemPayload
   createItem(input: CreateItemInput!): CreateItemPayload
   createDistributes(input: CreateDistributesInput!): CreateDistributesPayload

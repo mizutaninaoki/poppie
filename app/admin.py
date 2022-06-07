@@ -7,7 +7,7 @@ from .models.distribute_log import DistributeLog
 from .models.item import Item
 from .models.purchased_point_log import PurchasedPointLog
 from .models.company import Company
-from .models.own_item import OwnItem
+from .models.exchange_applied_item import ExchangeAppliedItem
 from .models.exchanged_item_log import ExchangedItemLog
 
 admin.site.register(Plan)
@@ -17,5 +17,5 @@ admin.site.register(Dealing)
 admin.site.register(DistributeLog)
 admin.site.register(Item)
 admin.site.register(PurchasedPointLog)
-admin.site.register(OwnItem)
+admin.site.register(ExchangeAppliedItem)
 admin.site.register(ExchangedItemLog)
