@@ -773,7 +773,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CreateOrUpdateOwnItemsInput",
+        "name": "CreateOrUpdateExchangeAppliedItemsInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -820,7 +820,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "CreateOrUpdateOwnItemsPayload",
+        "name": "CreateOrUpdateExchangeAppliedItemsPayload",
         "description": null,
         "fields": [
           {
@@ -2114,7 +2114,7 @@
             "deprecationReason": null
           },
           {
-            "name": "createOrUpdateOwnItems",
+            "name": "createOrUpdateExchangeAppliedItems",
             "description": null,
             "args": [
               {
@@ -2125,7 +2125,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CreateOrUpdateOwnItemsInput",
+                    "name": "CreateOrUpdateExchangeAppliedItemsInput",
                     "ofType": null
                   }
                 },
@@ -2136,7 +2136,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "CreateOrUpdateOwnItemsPayload",
+              "name": "CreateOrUpdateExchangeAppliedItemsPayload",
               "ofType": null
             },
             "isDeprecated": false,

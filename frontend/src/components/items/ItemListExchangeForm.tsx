@@ -5,11 +5,6 @@ import { AuthContext } from '@/providers/AuthProvider';
 import { ItemDataForItemFormFragment, ItemStatusEnum } from '@/generated/graphql';
 import { ItemCardWithSelectQuantity } from '@/components/items/ItemCardWithSelectQuantity';
 
-// export type ItemFormDataType = {
-//   userId: string;
-//   exchangeQuantity: number;
-// };
-
 export type ItemListFormDataType = ItemDataForItemFormFragment & {
   userId: string;
   exchangeQuantity: number;

@@ -2,19 +2,19 @@ import { FC } from 'react';
 import { gql } from '@apollo/client';
 import Link from 'next/link';
 import { PageContainerWithError } from '@/components/PageContainerWithError';
-import { useCreateOrUpdateOwnItemsMutation } from '@/generated/graphql';
+import { useCreateOrUpdateExchangeAppliedItemsMutation } from '@/generated/graphql';
 import { useFlash } from '@/hooks/useFlash';
 import { usePageFatalError } from '@/hooks/usePageFatalError';
-import { usePageError } from '@/hooks/usePageError';
-
 import userLoginRequired from '@/hoc/userLoginRequired';
 import { useRouter } from 'next/router';
 import { ItemCard } from '@/components/items/ItemCard';
 import { useTmpExchangeItemsData, clearSession } from '@/utils/storage';
 
 gql`
-  mutation CreateOrUpdateOwnItems($input: CreateOrUpdateOwnItemsInput!) {
-    createOrUpdateOwnItems(input: $input) {
+  mutation CreateOrUpdateExchangeAppliedItems(
+    $input: CreateOrUpdateExchangeAppliedItemsInput!
+  ) {
+    createOrUpdateExchangeAppliedItems(input: $input) {
       clientMutationId
     }
   }
@@ -29,8 +29,8 @@ const ExchangesConfirmPage: FC = () => {
   const { setPageFatalError } = usePageFatalError();
   const { data: tmpExchangeItemsData } = useTmpExchangeItemsData();
 
-  const [createOrUpdateOwnItems, { loading: createLoading }] =
-    useCreateOrUpdateOwnItemsMutation({
+  const [createOrUpdateExchangeAppliedItems, { loading: createLoading }] =
+    useCreateOrUpdateExchangeAppliedItemsMutation({
       onCompleted: async () => {
         clearSession();
         await router.push('/exchanges/complete/');
@@ -43,7 +43,7 @@ const ExchangesConfirmPage: FC = () => {
     // sessionStorageはnullの可能性があるため早期returnを挟んでいる
     if (!tmpExchangeItemsData) return;
 
-    void createOrUpdateOwnItems({
+    void createOrUpdateExchangeAppliedItems({
       variables: {
         input: {
           // quantityに交換する数量が入力されている景品のみサーバー側に送る
