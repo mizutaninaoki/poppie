@@ -1,8 +1,8 @@
-import { FC, useState, useContext } from 'react';
+import { FC, useState, useContext, useMemo } from 'react';
 import { ItemListExchangeFormDataZodSchema } from '@/validations/validateItemListExchange';
 import { useValidationErrors } from '@/hooks/useValidationErrors';
 import { AuthContext } from '@/providers/AuthProvider';
-import { ItemDataForItemFormFragment, ItemStatusEnum } from '@/generated/graphql';
+import { ItemDataForItemFormFragment } from '@/generated/graphql';
 import { ItemCardWithSelectQuantity } from '@/components/items/ItemCardWithSelectQuantity';
 
 export type ItemListFormDataType = ItemDataForItemFormFragment & {
@@ -46,8 +46,27 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
     setListFormData(newListFormData);
   };
 
+  // 現在の交換必要ポイント
+  const selectedItemTotalPoint = useMemo(() => {
+    return ListFormData.reduce(
+      (prev, current) => prev + current.exchangablePoint * current.exchangeQuantity,
+      0,
+    );
+  }, [ListFormData]);
+
   return (
     <>
+      <div className="w-full text-right">
+        <div className="card bg-base-100 shadow-xl mb-5 inline-block">
+          <div className="card-body p-6 text-left">
+            <p>交換可能ポイント: {currentUser.account?.givablePoint} P</p>
+            <p>
+              現在の交換必要ポイント:
+              {selectedItemTotalPoint}P
+            </p>
+          </div>
+        </div>
+      </div>
       <div className="grid grid-cols-3 gap-4 mb-8">
         {ListFormData.length > 0 ? (
           <>

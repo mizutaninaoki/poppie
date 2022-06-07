@@ -876,7 +876,9 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typ
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number } } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number }, account?: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } | null } | null };
+
+export type CurrentAccountFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number };
 
 export const GaveDealingsForGavePointsChartFragmentDoc = gql`
     fragment GaveDealingsForGavePointsChart on UserGaveDealingsType {
@@ -978,6 +980,13 @@ export const CurrentCompanyFragmentDoc = gql`
   id
   name
   point
+}
+    `;
+export const CurrentAccountFragmentDoc = gql`
+    fragment CurrentAccount on AccountType {
+  id
+  givablePoint
+  receivedPoint
 }
     `;
 export const TokenAuthDocument = gql`
@@ -1736,9 +1745,13 @@ export const GetCurrentUserDocument = gql`
     company {
       ...CurrentCompany
     }
+    account {
+      ...CurrentAccount
+    }
   }
 }
-    ${CurrentCompanyFragmentDoc}`;
+    ${CurrentCompanyFragmentDoc}
+${CurrentAccountFragmentDoc}`;
 
 /**
  * __useGetCurrentUserQuery__

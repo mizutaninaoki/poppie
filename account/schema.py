@@ -5,9 +5,6 @@ from django.contrib.auth import get_user_model
 from graphql_auth import mutations, relay
 from .models import User
 
-from app.schema.types.company_type import CompanyType
-from app.schema.types.profile_type import ProfileType
-from app.schema.types.account_type import AccountType
 from app.schema.types.custom_user_type import CustomUserType
 
 # graphql_auth.relayではなく、graphene.relayを使う

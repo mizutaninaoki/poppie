@@ -17,7 +17,16 @@ gql`
       company {
         ...CurrentCompany
       }
+      account {
+        ...CurrentAccount
+      }
     }
+  }
+
+  fragment CurrentAccount on AccountType {
+    id
+    givablePoint
+    receivedPoint
   }
 `;
 
@@ -45,6 +54,11 @@ export const initialCurrentUser: CurrentUserType = {
     id: '',
     name: '',
     point: 0,
+  },
+  account: {
+    id: '',
+    givablePoint: 0,
+    receivedPoint: 0,
   },
 };
 
