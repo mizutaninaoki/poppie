@@ -12,7 +12,6 @@ class CustomUserType(DjangoObjectType):
         model = get_user_model()
         fields = ("id", "name", "password", "email", "is_active", "is_admin")
 
-    # 関連テーブルを必須とする場合はgraphene.NonNullを使う
     company = graphene.Field(graphene.NonNull(CompanyType))
     profile = graphene.Field(graphene.NonNull(ProfileType))
     account = graphene.Field(graphene.NonNull(AccountType))
