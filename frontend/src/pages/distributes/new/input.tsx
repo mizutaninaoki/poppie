@@ -1,4 +1,3 @@
-import { useEffect, useContext } from 'react';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { NextPageWithLayout } from '@/pages/_app';
@@ -16,7 +15,6 @@ import {
   DistributeFormDataType,
 } from '@/components/distributes/DistributeForm';
 import { PageLoading } from '@/components/PageLoading';
-import { AuthContext } from '@/providers/AuthProvider';
 import { useCompany } from '@/hooks/useCompany';
 
 gql`
@@ -44,7 +42,6 @@ const DistributesNewInputPage: NextPageWithLayout = () => {
   const { setFlash } = useFlash();
   const { setPageError } = usePageError();
   const { setPageFatalError } = usePageFatalError();
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { updateCompanyPoint } = useCompany();
 
   const { data, loading } = useDistributesNewInputPageQuery({
