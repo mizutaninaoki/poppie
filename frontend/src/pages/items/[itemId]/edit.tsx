@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { gql } from '@apollo/client';
 import { PageContainerWithError } from '@/components/PageContainerWithError';
 import {
@@ -9,7 +9,6 @@ import {
 import { PageLoading } from '@/components/PageLoading';
 import { useFlash } from '@/hooks/useFlash';
 import { usePageFatalError } from '@/hooks/usePageFatalError';
-import { usePageError } from '@/hooks/usePageError';
 import { ItemForm, ItemFormDataType } from '@/components/items/ItemForm';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -34,10 +33,9 @@ const ItemEditPage: FC = () => {
   const router = useRouter();
   const { itemId } = router.query as { itemId: string };
   const { setFlash } = useFlash();
-  const { setPageError } = usePageError();
   const { setPageFatalError } = usePageFatalError();
 
-  const { data, loading, error } = useItemsEditPageQuery({
+  const { data, loading } = useItemsEditPageQuery({
     fetchPolicy: 'network-only',
     variables: {
       itemId,
