@@ -7,7 +7,6 @@ import {
 } from '@/generated/graphql';
 import { useFlash } from '@/hooks/useFlash';
 import { usePageFatalError } from '@/hooks/usePageFatalError';
-import { usePageError } from '@/hooks/usePageError';
 import { ItemForm, ItemFormDataType } from '@/components/items/ItemForm';
 import { AuthContext } from '@/providers/AuthProvider';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,7 +26,6 @@ gql`
 const ItemsNewInputPage: FC = () => {
   const router = useRouter();
   const { setFlash } = useFlash();
-  const { setPageError } = usePageError();
   const { setPageFatalError } = usePageFatalError();
   const { currentUser } = useContext(AuthContext);
 
