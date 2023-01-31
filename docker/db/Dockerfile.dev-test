@@ -1,0 +1,27 @@
+# 2021/10時点で安定版でRDSに対応している最新版
+FROM postgres:13.3
+
+# 依存のインストール
+RUN find /etc/apt -name '*.list' | xargs sed -i 's/httpredir.debian.org/ftp.jp.debian.org/' && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends locales \
+    locales-all \
+    maven && \
+    rm -rf /var/lib/apt/lists/*
+
+# システム設定：ローカレ＋タイムゾーン
+RUN echo "ja_JP.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen ja_JP.UTF-8 && \
+    update-locale LANG=ja_JP.UTF-8 && \
+    echo "Asia/Tokyo" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata
+ENV LANG ja_JP.UTF-8
+
+# スキーマスクリプト
+# /docker-entrypoint-initdb.d/というディレクトリ内に初期化用のSQLやスクリプトを置くことで、最初に image を起動したときにデータの初期化を自動的に行う仕組みがある
+# パスは/simulyディレクトリを起点とする
+# INFO: /docker-entrypoint-initdb.d/配下のsqlはvolumeが空の時のみ実行される。
+#       /docker-entrypoint-initdb.d/配下のコードをimage起動時に実行するようにしたければ、db_dataのvolumeを削除しておくこと。
+COPY docker/db/createdb-dev-test.sql* /docker-entrypoint-initdb.d/

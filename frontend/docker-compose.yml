@@ -1,0 +1,54 @@
+version: "3"
+
+# services:
+#   db:
+#     image: postgres:10-alpine
+#     environment:
+#       - POSTGRES_DB=app
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=supersecretpassword
+#       - POSTGRES_HOST_AUTH_METHOD=trust
+
+
+services:
+  db:
+    build:
+      context: . # /simuly ディレクトリにてdockerfile内のステップを実行する
+      dockerfile: ./docker/db/Dockerfile.dev-test
+    image: poppie:postgres
+    # image: postgres:13.4
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file: .docker_env
+
+  mail:
+    image: helder/mailcatcher
+    ports:
+      - "1026:25"
+      - "1081:80"
+
+  # INFO: 今のところメモリーストアはmemory_storeを指定しているため、redisは不要。
+  # redis:
+  #   # AWS ElastiCacheの最新サポートバージョンが5.0.4なため
+  #   image: redis:5.0.4
+  #   ports:
+  #     # 6379にするとローカルでredisを起動していて、起動できない場合があるため6381にしている
+  #     - "6381:6379"
+
+volumes:
+  db_data:
+
+
+
+  # postgres:
+  #   image: postgres:13.3
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     - POSTGRES_HOST_AUTH_METHOD=trust
+  #     # 当初Asia/Tokyoにする予定だったけど、本番・ステージングDB作成する際に設定し忘れ？でUTCにしてしまったので、
+  #     # 開発DBもそれに合わせてUTCにする
+  #     # https://chiron-inc.atlassian.net/wiki/spaces/CHIRON/pages/22347777/chiron
+  #     - TZ=UTC

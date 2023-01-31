@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  db:
+    build:
+      context: . # /poppie ディレクトリにてdockerfile内のステップを実行する
+      dockerfile: ./docker/db/Dockerfile.dev-test
+    image: poppie:postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    # env_file: .docker_env
+
+  # TODO: djangoでmailcatcherを使えるようにする
+  # mail:
+  #   image: helder/mailcatcher
+  #   ports:
+  #     - "1026:25"
+  #     - "1081:80"
+
+
+volumes:
+  db_data:
