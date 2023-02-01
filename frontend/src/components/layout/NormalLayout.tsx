@@ -11,7 +11,7 @@ export const NormalLayout: FC<LayoutContainerProps> = ({ children }) => {
     <>
       {/* <Flash /> */}
       <Header />
-      <main id="main">{children}</main>;
+      <main id="main">{children}</main>
     </>
   );
 };

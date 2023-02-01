@@ -7,9 +7,10 @@ import { PageContentError } from '@/components/PageContentError';
 
 export type PageContainerProps = {
   children: ReactNode;
+  topPage?: boolean;
 };
 
-export const PageContainerWithError: FC<PageContainerProps> = ({ children }) => {
+export const PageContainerWithError: FC<PageContainerProps> = ({ children, topPage }) => {
   const { pageFatalError } = usePageFatalError();
   // pageFatalErrorがある場合はコンテンツエラーを表示して終わる
   if (pageFatalError) {
@@ -18,7 +19,7 @@ export const PageContainerWithError: FC<PageContainerProps> = ({ children }) => 
 
   return (
     <>
-      <PageContainer>
+      <PageContainer topPage={topPage}>
         <Flash />
         <PageError />
         {children}

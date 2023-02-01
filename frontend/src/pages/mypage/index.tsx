@@ -49,7 +49,7 @@ const MypagePage: NextPageWithLayout = () => {
             </button>
           </div>
           {!loading && userDealingsData && (
-            <div className="pb-6">
+            <div className="pb-6 px-5">
               <h2>今月の贈与したポイント</h2>
               <GavePointsChart chartData={userDealingsData.gaveDealings} />
               <h2>今月の受領したポイント</h2>

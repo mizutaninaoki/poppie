@@ -5,6 +5,8 @@ import Cookies from 'js-cookie';
 import { useFlash } from '@/hooks/useFlash';
 import { AuthContext, initialCurrentUser } from '@/providers/AuthProvider';
 
+import styles from './Header.module.scss';
+
 export const Header: FC = () => {
   const router = useRouter();
   const { setFlash } = useFlash();
@@ -23,12 +25,15 @@ export const Header: FC = () => {
       <div className="flex flex-wrap justify-between items-center mx-auto">
         <Link href="/">
           <div className="flex items-center cursor-pointer">
-            <img
-              src="/images/logo.svg"
-              className="mr-3 h-6 sm:h-10"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+            <div className="mr-2">
+              <img
+                src="/images/point_icon.png"
+                width="32px"
+                alt="point_icon"
+                className=""
+              />
+            </div>
+            <span className="text-green-600 self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Poppie
             </span>
           </div>
@@ -38,7 +43,7 @@ export const Header: FC = () => {
             className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
             id="mobile-menu-4"
           >
-            <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium mr-4">
+            {/* <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium mr-4">
               <li>
                 <a
                   href="#"
@@ -48,7 +53,7 @@ export const Header: FC = () => {
                   poppieとは
                 </a>
               </li>
-            </ul>
+            </ul> */}
           </div>
 
           {currentUser.isLoggedIn ? (
@@ -61,20 +66,14 @@ export const Header: FC = () => {
             </button>
           ) : (
             <>
-              <Link href="/login/">
-                <button
-                  type="button"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  ログイン
+              <Link href="/companies/new/input/">
+                <button type="button" className={styles.headerBtnRegistration}>
+                  poppieをはじめる
                 </button>
               </Link>
-              <Link href="/companies/new/input/">
-                <button
-                  type="button"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  poppieをはじめる
+              <Link href="/login/">
+                <button type="button" className={styles.headerBtnLogin}>
+                  ログイン
                 </button>
               </Link>
             </>
