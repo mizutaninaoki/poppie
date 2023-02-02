@@ -61,16 +61,16 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
 
   return (
     <>
-      <div className="shadow-md p-12 rounded-xl">
+      <div className="shadow-md p-12 bg-green-50 rounded-xl form-box">
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-1"
             htmlFor="user-select-box"
           >
-            ポイントを送るひと
+            ポイントを贈るユーザー
           </label>
           <select
-            className="select select-bordered w-full max-w-xs"
+            className="select w-full max-w-xs"
             id="user-select-box"
             value={formData.userId}
             onChange={(e) => {
@@ -90,6 +90,9 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
               );
             })}
           </select>
+          {errors?.userId && (
+            <p className="text-red-600 text-xs">{errors?.userId.message}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -102,7 +105,7 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
           <input
             type="text"
             placeholder="100"
-            className="input input-bordered w-full max-w-xs"
+            className="input w-full max-w-xs"
             value={formData.amount}
             onChange={(e) => {
               const amount = Number(e.target.value);
@@ -111,18 +114,18 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
               setFormData({ ...formData, amount });
             }}
           />
+          {errors?.amount && (
+            <p className="text-red-600 text-xs">{errors?.amount.message}</p>
+          )}
         </div>
 
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-1"
-            htmlFor="user-select-box"
-          >
+          <label className="block text-sm font-bold mb-1" htmlFor="user-select-box">
             コメント
           </label>
           <textarea
-            className="textarea w-full bg-gray-200"
-            placeholder="よろしくおねがいします"
+            className="textarea w-full"
+            placeholder="〇〇を手伝ってくれてありがとう"
             value={formData.message}
             onChange={(e) => {
               setFormData({ ...formData, message: e.target.value });
@@ -134,7 +137,7 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
           <div className="md:w-1/3" />
           <div className="md:w-2/3">
             <button
-              className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
               type="button"
               onClick={onSubmit}
             >

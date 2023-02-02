@@ -38,17 +38,23 @@ const ItemsIndexPage: FC = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center">
-        <h1>景品一覧</h1>
-        <div className="w-full text-right mb-7">
-          <Link href="/items/new/input/">
-            <button className="btn btn-primary">新しく景品を登録する</button>
-          </Link>
+      <div className="grid min-h-screen-except-header">
+        <div className="p-8">
+          <div className="place-items-start mb-5 border-l-4 border-green-200">
+            <h3 className="text-lg font-bold">&nbsp;景品一覧</h3>
+          </div>
+          <div className="text-center my-6">
+            <Link href="/items/new/input/">
+              <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold my-3 py-2 px-4 rounded-lg">
+                新しく景品を登録する
+              </button>
+            </Link>
+          </div>
         </div>
         {loading && <PageLoading />}
         {!loading && data && (
           <>
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-3 gap-24 mb-8">
               {data.items.length > 0 ? (
                 <>
                   {data.items.map((item) => (
@@ -67,3 +73,4 @@ const ItemsIndexPage: FC = () => {
 };
 
 export default userLoginRequired(ItemsIndexPage);
+

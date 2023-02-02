@@ -29,9 +29,11 @@ const LoginPage: NextPageWithLayout = () => {
   return (
     <PageContainerWithError>
       <div className="grid place-items-center min-h-screen-except-header">
-        <div className="w-full max-w-md mx-auto bg-white shadow-xl rounded my-8">
-          <div className="bg-gray-200 pt-8 pb-16">
-            <div className="text-2xl text-center text-gray-600 mb-6">ログイン</div>
+        <div className="w-full max-w-md mx-auto bg-white shadow-md rounded-lg">
+          <div className="bg-green-50 pt-8 pb-12 rounded-lg">
+            <div className="text-2xl font-bold text-center text-green-600 mb-6">
+              ログイン
+            </div>
             <LoginForm onSubmit={loginButtonClicked} />
           </div>
         </div>

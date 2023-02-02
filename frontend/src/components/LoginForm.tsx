@@ -34,10 +34,13 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
   return (
     <>
       <div className="w-4/5 mx-auto">
-        <div className="flex items-center bg-white rounded shadow-md mb-4">
+        {errors?.email && (
+          <p className="text-red-600 text-xs mb-1">{errors?.email.message}</p>
+        )}
+        <div className="flex items-center bg-white rounded-lg shadow-sm mb-6">
           <span className="px-3">
             <svg
-              className="fill-current text-gray-500 w-4 h-4"
+              className="fill-current text-green-600 w-4 h-4"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -45,7 +48,7 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
             </svg>
           </span>
           <input
-            className="w-full h-12 focus:outline-none"
+            className="w-full h-12 pl-3 rounded-r-lg border-l-2 border-green-50 focus:outline-none"
             type="email"
             name="email"
             placeholder="Email"
@@ -58,11 +61,14 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
             }
           />
         </div>
-        {errors?.email && <p>{errors?.email.message}</p>}
-        <div className="flex items-center bg-white rounded shadow-md mb-4">
+
+        {errors?.password && (
+          <p className="text-red-600 text-xs mb-1">{errors?.password.message}</p>
+        )}
+        <div className="flex items-center bg-white rounded-lg shadow-sm mb-4">
           <span className="px-3">
             <svg
-              className="fill-current text-gray-500 w-4 h-4"
+              className="fill-current text-green-600 w-4 h-4"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -70,7 +76,7 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
             </svg>
           </span>
           <input
-            className="w-full h-12 focus:outline-none"
+            className="w-full h-12 pl-3 rounded-r-lg border-l-2 border-green-50 bg-white focus:outline-none"
             type="password"
             name="password"
             placeholder="Password"
@@ -83,12 +89,11 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
             }
           />
         </div>
-        {errors?.password && <p>{errors?.password.message}</p>}
 
         {/* tokenAuthのローディング中はここに、ボタンを消してloadingのアイコンを表示させるようにする */}
         <button
           type="button"
-          className="bg-indigo-600 block mx-auto text-white text-sm uppercase rounded shadow-md px-6 py-2"
+          className="bg-green-600 block mx-auto text-white rounded-lg font-bold text-sm uppercase shadow-md px-6 py-2 mt-10"
           onClick={onSubmit}
         >
           ログイン

@@ -77,12 +77,16 @@ const DistributesNewInputPage: NextPageWithLayout = () => {
 
   return (
     <PageContainerWithError>
-      <div className="selection:place-items-center min-h-screen-except-header">
-        <h2>ポイント配布</h2>
-        {loading && <PageLoading />}
-        {!loading && data && (
-          <DistributeForm accounts={data.accounts} onSubmit={onSubmit} />
-        )}
+      <div className="grid min-h-screen-except-header">
+        <div className="p-8">
+          <div className="place-items-start mb-5 border-l-4 border-green-200">
+            <h3 className="text-lg font-bold">&nbsp;ポイント配布</h3>
+          </div>
+          {loading && <PageLoading />}
+          {!loading && data && (
+            <DistributeForm accounts={data.accounts} onSubmit={onSubmit} />
+          )}
+        </div>
       </div>
     </PageContainerWithError>
   );

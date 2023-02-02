@@ -12,5 +12,15 @@ export const DistributeFormDataZodSchema = schemaForType<DistributeFormDataType>
       accountId: z.string().nonempty(),
       distributePoint: z.number(),
     }),
-  ),
+  )
+  .refine(
+    (distributes) => {
+      const distributePoints = distributes.filter((distribute) => distribute.distributePoint > 0); // 未入力は除外
+      return distributePoints.length > 0;
+    },
+    {
+      message: '配布するポイントが入力されていません',
+      path: ['distributePoint'],
+    },
+  )
 );

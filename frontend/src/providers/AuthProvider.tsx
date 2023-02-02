@@ -20,6 +20,9 @@ gql`
       account {
         ...CurrentAccount
       }
+      profile {
+        ...CurrentProfile
+      }
     }
   }
 
@@ -27,6 +30,13 @@ gql`
     id
     givablePoint
     receivedPoint
+  }
+
+  fragment CurrentProfile on ProfileType {
+    id
+    department
+    comment
+    imageUrl
   }
 `;
 
@@ -59,6 +69,12 @@ export const initialCurrentUser: CurrentUserType = {
     id: '',
     givablePoint: 0,
     receivedPoint: 0,
+  },
+  profile: {
+    id: '',
+    department: '',
+    comment: '',
+    imageUrl: '',
   },
 };
 

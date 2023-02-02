@@ -56,13 +56,16 @@ const SettingUserRegisterPage: NextPageWithLayout = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center min-h-screen-except-header">
-        <div className="w-full max-w-md mx-auto bg-white shadow-xl rounded my-8">
-          <div className="bg-gray-200 pt-8 pb-16">
-            <div className="text-2xl text-center text-gray-600 mb-6">
-              新規ユーザー登録
+      <div className="grid min-h-screen-except-header">
+        <div className="p-8">
+          <div className="place-items-start mb-5 border-l-4 border-green-200">
+            <h3 className="text-lg font-bold">&nbsp;ユーザー追加</h3>
+          </div>
+          <div className="grid h-full place-items-center">
+            <div className="bg-green-50 pt-8 pb-12 rounded-lg form-box-large shadow-md">
+              <div className="text-2xl text-center text-gray-600 mb-6">ユーザー追加</div>
+              <SignUpForm onSubmit={signUp} createUserloading={createUserloading} />
             </div>
-            <SignUpForm onSubmit={signUp} createUserloading={createUserloading} />
           </div>
         </div>
       </div>

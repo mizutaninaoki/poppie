@@ -57,7 +57,7 @@ export const DistributeForm: FC<Props> = ({ onSubmit: onSubmitFn, accounts }) =>
       content: `配布後、配布したポイントを元に戻すことはできません`,
     },
     leftButton: {
-      label: '閉じる',
+      label: '戻る',
       onClick: () => setDialogOpen(false),
     },
     rightButton: {
@@ -69,23 +69,30 @@ export const DistributeForm: FC<Props> = ({ onSubmit: onSubmitFn, accounts }) =>
   return (
     <>
       <PoppieDialog {...dialogData} />
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-3 gap-12 mb-8">
         {accounts.map((account, i) => {
           return (
             <div className="m-2" key={account.id}>
-              <div className="card w-full bg-base-100 shadow-xl p-6">
-                <div className="card-body pb-6">
-                  <p>
-                    {account.user.name} : {account.user.email}
+              <div className="card w-full h-full bg-gray-100 shadow-md pb-8 pt-2">
+                <div className="card-body py-6 px-12">
+                  <p className="font-bold">
+                    {account.user.name} :&nbsp;
+                    <span className="font-medium">{account.user.email}</span>
                   </p>
-                  <p className="mb-0">授与可能ポイント: {account.givablePoint}</p>
-                  <p className="mb-0">交換可能ポイント: {account.receivedPoint}</p>
+                  <p className="mb-0 font-bold">
+                    授与可能ポイント:&nbsp;
+                    <span className="font-medium">{account.givablePoint}</span>
+                  </p>
+                  <p className="mb-0 font-bold">
+                    交換可能ポイント:&nbsp;
+                    <span className="font-medium">{account.receivedPoint}</span>
+                  </p>
                 </div>
                 <div className="card-actions justify-center">
                   <input
                     type="text"
                     placeholder="0"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input w-full max-w-xs"
                     value={formDatas[i].distributePoint}
                     onChange={(e) => {
                       const distributePoint = Number(e.target.value);
@@ -106,8 +113,11 @@ export const DistributeForm: FC<Props> = ({ onSubmit: onSubmitFn, accounts }) =>
         })}
       </div>
       <div className="text-center">
+        {errors?.distributePoint && (
+          <p className="text-red-600 text-xs mb-1">{errors?.distributePoint.message}</p>
+        )}
         <button
-          className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
           type="button"
           onClick={() => setDialogOpen(true)}
         >

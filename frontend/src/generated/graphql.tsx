@@ -876,9 +876,11 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typ
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number }, account?: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } | null } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number }, account?: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } | null, profile?: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null } | null } | null };
 
 export type CurrentAccountFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number };
+
+export type CurrentProfileFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null };
 
 export const GaveDealingsForGavePointsChartFragmentDoc = gql`
     fragment GaveDealingsForGavePointsChart on UserGaveDealingsType {
@@ -987,6 +989,14 @@ export const CurrentAccountFragmentDoc = gql`
   id
   givablePoint
   receivedPoint
+}
+    `;
+export const CurrentProfileFragmentDoc = gql`
+    fragment CurrentProfile on ProfileType {
+  id
+  department
+  comment
+  imageUrl
 }
     `;
 export const TokenAuthDocument = gql`
@@ -1748,10 +1758,14 @@ export const GetCurrentUserDocument = gql`
     account {
       ...CurrentAccount
     }
+    profile {
+      ...CurrentProfile
+    }
   }
 }
     ${CurrentCompanyFragmentDoc}
-${CurrentAccountFragmentDoc}`;
+${CurrentAccountFragmentDoc}
+${CurrentProfileFragmentDoc}`;
 
 /**
  * __useGetCurrentUserQuery__

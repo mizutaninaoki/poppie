@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+  font-size: 0.875rem;
   font-family: "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic",'ヒラギノ角ゴ ProN', "メイリオ", sans-serif;
 }
 
@@ -17,3 +18,12 @@ body {
 .pt-except-header {
   padding-top: 60px;
 }
+
+.form-box {
+  min-width: 380px
+}
+
+.form-box-large {
+  min-width: 440px
+}
+

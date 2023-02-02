@@ -33,12 +33,21 @@ const SettingsUsersPage: NextPageWithLayout = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center min-h-screen-except-header">
-        <Link href="/settings/users/register/">
-          <button className="btn btn-primary">ユーザーを追加する</button>
-        </Link>
-        {loading && <PageLoading />}
-        {!loading && data && <CompanyUsersCardList users={data.users} />}
+      <div className="grid min-h-screen-except-header">
+        <div className="p-8">
+          <div className="place-items-start mb-5 border-l-4 border-green-200">
+            <h3 className="text-lg font-bold">&nbsp;ユーザー管理</h3>
+          </div>
+          <div className="text-center my-6">
+            <Link href="/settings/users/register/">
+              <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold my-3 py-2 px-4 rounded-lg">
+                ユーザーを追加する
+              </button>
+            </Link>
+          </div>
+          {loading && <PageLoading />}
+          {!loading && data && <CompanyUsersCardList users={data.users} />}
+        </div>
       </div>
     </PageContainerWithError>
   );

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ItemDataForItemFormFragment } from '@/generated/graphql';
 import { ItemStatusName } from '@/utils/enum';
 
+import styles from './ItemCardWithEditButton.module.scss';
+
 type Props = {
   item: ItemDataForItemFormFragment;
 };
@@ -14,10 +16,14 @@ type Props = {
 export const ItemCardWithEditButton: FC<Props> = ({ item }) => {
   return (
     <>
-      <div className="card w-96 bg-base-100 shadow-xl">
-        <figure>
-          <img src={item.imageUrl || '/images/no-image.png'} alt="item-image" />
-        </figure>
+      <div className="card w-96 shadow-md">
+        <div className={styles.imageBox}>
+          <img
+            src={item.imageUrl || '/images/no-image.png'}
+            alt="item-image"
+            className="rounded-2xl"
+          />
+        </div>
         <div className="card-body p-6">
           <p>{item.name}</p>
           <p>
@@ -25,9 +31,13 @@ export const ItemCardWithEditButton: FC<Props> = ({ item }) => {
           </p>
           <p>交換ポイント: {item.exchangablePoint}ポイント</p>
           <p>ステータス: {ItemStatusName[item.status]}</p>
-          <Link href={`/items/${item.id}/edit/`}>
-            <button className="btn btn-primary">編集する</button>
-          </Link>
+          <div className="text-center">
+            <Link href={`/items/${item.id}/edit/`}>
+              <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded-lg">
+                編集する
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </>

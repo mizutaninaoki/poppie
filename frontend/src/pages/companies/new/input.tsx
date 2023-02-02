@@ -78,7 +78,7 @@ const CompaniesNewInputPage: NextPageWithLayout = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid grid-cols-12 selection:place-items-center min-h-screen-except-header">
+      <div className="grid grid-cols-12 mt-14 selection:place-items-center min-h-screen-except-header">
         {!loading && data?.plans && (
           <CompanyForm plans={data.plans} onSubmit={onSubmit} />
         )}

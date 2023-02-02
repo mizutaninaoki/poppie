@@ -62,23 +62,26 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
 
   return (
     <>
-      <div className="shadow-md p-12 rounded-xl">
+      <div className="shadow-md p-12 rounded-lg bg-green-50">
         <div className="w-full max-w-sm">
           <ProfileImageForm selectedImageUrl={profile.imageUrl} onSelected={onSelected} />
           <div className="md:flex md:items-center mb-6">
             <div className="md:w-1/3">
               <label
-                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                 htmlFor="inline-full-name"
               >
                 名前
               </label>
             </div>
             <div className="md:w-2/3">
+              {errors?.name && (
+                <p className="text-red-600 text-xs mb-1">{errors?.name.message}</p>
+              )}
               <input
                 type="text"
                 placeholder="山田 太郎"
-                className="input w-full max-w-xs bg-gray-200"
+                className="input w-full max-w-xs"
                 value={formData.name}
                 onChange={(e) => {
                   setFormData({ ...formData, name: e.target.value });
@@ -89,7 +92,7 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
           <div className="md:flex md:items-center mb-6">
             <div className="md:w-1/3">
               <label
-                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                 htmlFor="inline-full-name"
               >
                 部署
@@ -99,7 +102,7 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
               <input
                 type="text"
                 placeholder="人事部"
-                className="input w-full max-w-xs bg-gray-200"
+                className="input w-full max-w-xs"
                 value={formData.department}
                 onChange={(e) => {
                   setFormData({ ...formData, department: e.target.value });
@@ -110,7 +113,7 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
           <div className="md:flex md:items-center mb-6">
             <div className="md:w-1/3">
               <label
-                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                 htmlFor="inline-full-name"
               >
                 コメント
@@ -118,7 +121,7 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
             </div>
             <div className="md:w-2/3">
               <textarea
-                className="textarea w-full bg-gray-200"
+                className="textarea w-full"
                 placeholder="よろしくおねがいします"
                 value={formData.comment}
                 onChange={(e) => {
@@ -127,14 +130,13 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
               ></textarea>
             </div>
           </div>
-          <div className="md:flex md:items-center">
-            <div className="md:w-1/3" />
-            <div className="md:w-2/3">
+          <div className="text-center">
+            <div className="">
               {loading ? (
                 <PageLoading />
               ) : (
                 <button
-                  className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
                   type="button"
                   onClick={onSubmit}
                 >

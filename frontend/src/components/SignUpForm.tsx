@@ -38,11 +38,14 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
   return (
     <>
       <div className="w-4/5 mx-auto">
-        <div className="flex items-center bg-white rounded shadow-md mb-4">
+        {errors?.name && (
+          <p className="text-red-600 text-xs mb-1">{errors?.name.message}</p>
+        )}
+        <div className="flex items-center bg-white rounded-lg shadow-sm mb-4">
           <span className="px-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="fill-current text-gray-500 w-4 h-4"
+              className="fill-current text-green-600 w-4 h-4"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -54,7 +57,7 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
             </svg>
           </span>
           <input
-            className="w-full h-12 focus:outline-none"
+            className="w-full h-12 focus:outline-none rounded-r-lg border-l-2 border-green-50 pl-2"
             type="text"
             name="name"
             placeholder="name"
@@ -67,11 +70,13 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
             }
           />
         </div>
-        {errors?.name && <p>{errors?.name.message}</p>}
-        <div className="flex items-center bg-white rounded shadow-md mb-4">
+        {errors?.email && (
+          <p className="text-red-600 text-xs mb-1">{errors?.email.message}</p>
+        )}
+        <div className="flex items-center bg-white rounded shadow-sm mb-4">
           <span className="px-3">
             <svg
-              className="fill-current text-gray-500 w-4 h-4"
+              className="fill-current text-green-600 w-4 h-4"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -79,7 +84,7 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
             </svg>
           </span>
           <input
-            className="w-full h-12 focus:outline-none"
+            className="w-full h-12 focus:outline-none rounded-r-lg border-l-2 border-green-50 pl-2"
             type="email"
             name="email"
             placeholder="Email"
@@ -92,11 +97,14 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
             }
           />
         </div>
-        {errors?.email && <p>{errors?.email.message}</p>}
-        <div className="flex items-center bg-white rounded shadow-md mb-4">
+        <p className="text-xs">※パスワードは8文字以上の英数字</p>
+        {errors?.password1 && (
+          <p className="text-red-600 text-xs mb-1">{errors?.password1.message}</p>
+        )}
+        <div className="flex items-center bg-white rounded-lg shadow-sm mb-4">
           <span className="px-3">
             <svg
-              className="fill-current text-gray-500 w-4 h-4"
+              className="fill-current text-green-600 w-4 h-4"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -104,7 +112,7 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
             </svg>
           </span>
           <input
-            className="w-full h-12 focus:outline-none"
+            className="w-full h-12 focus:outline-none bg-white rounded-r-lg border-l-2 border-green-50 pl-2"
             type="password"
             name="password1"
             placeholder="Password"
@@ -117,19 +125,18 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
             }
           />
         </div>
-        {errors?.password1 && <p>{errors?.password1.message}</p>}
         {createUserloading ? (
           <PageLoading />
         ) : (
           <button
-            className="bg-indigo-600 block mx-auto text-white text-sm uppercase rounded shadow-md px-6 py-2"
+            className="bg-green-600 hover:opacity-50 block mx-auto text-white font-bold text-sm uppercase rounded-lg px-8 py-2 mt-8"
             onClick={onSubmit}
           >
             登録
           </button>
         )}
-        <p className="text-red mt-5 text-sm">
-          登録後、入力したメールアドレスにメールが飛びます
+        <p className="text-center mt-2 text-xs">
+          ※登録後、入力したメールアドレスにメールが飛びます
         </p>
       </div>
     </>

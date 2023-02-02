@@ -42,11 +42,18 @@ const DealingsNewInputPage: FC = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center min-h-screen-except-header">
-        <p>ポイントを贈る</p>
-        {!loading && data?.users && (
-          <DealingForm users={data.users} onSubmit={onConfirm} />
-        )}
+      <div className="grid min-h-screen-except-header">
+        <div className="p-8">
+          <div className="place-items-start mb-5 border-l-4 border-green-200">
+            <h3 className="text-lg font-bold">&nbsp;ポイントを贈る</h3>
+          </div>
+
+          <div className="grid h-full place-items-center">
+            {!loading && data?.users && (
+              <DealingForm users={data.users} onSubmit={onConfirm} />
+            )}
+          </div>
+        </div>
       </div>
     </PageContainerWithError>
   );

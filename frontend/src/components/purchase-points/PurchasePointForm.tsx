@@ -56,7 +56,7 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
       content: `購入合計ポイント${totalPoint}ポイント\n購入合計金額${totalPrice}円\n購入すると返金できません。`,
     },
     leftButton: {
-      label: '閉じる',
+      label: '戻る',
       onClick: () => setDialogOpen(false),
     },
     rightButton: {
@@ -68,24 +68,17 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
   return (
     <>
       <PoppieDialog {...dialogData} />
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-x-20">
         <div>
           <div className="mx-auto">
-            <div className="shadow-md">
-              <figure className="px-10 pt-10">
-                <img
-                  src="https://api.lorem.space/image/shoes?w=400&h=225"
-                  alt="Shoes"
-                  className="rounded-xl"
-                />
-              </figure>
+            <div className="shadow-md rounded-lg bg-gray-50">
               <div className="card-body items-center text-center">
                 <h2 className="card-title">ポイント購入</h2>
-                <p>1,000円</p>
+                <p className="font-bold text-xl">1,000円</p>
               </div>
             </div>
             <div className="mb-4">
-              <div className="">
+              <div className="my-8">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 mx-auto"
@@ -99,7 +92,7 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
                   />
                 </svg>
               </div>
-              <div className="w-full">
+              <div className="w-full text-center">
                 <input
                   type="number"
                   min="0"
@@ -111,28 +104,21 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
                     setFormData({ ...formData, thouPoint: 1000 * point });
                   }}
                 />
-                個
+                <span className="font-bold">個</span>
               </div>
             </div>
           </div>
         </div>
         <div>
           <div className="mx-auto">
-            <div className="shadow-md">
-              <figure className="px-10 pt-10">
-                <img
-                  src="https://api.lorem.space/image/shoes?w=400&h=225"
-                  alt="Shoes"
-                  className="rounded-xl"
-                />
-              </figure>
+            <div className="shadow-md rounded-lg bg-gray-50">
               <div className="card-body items-center text-center">
                 <h2 className="card-title">ポイント購入</h2>
-                <p>10,000円</p>
+                <p className="font-bold text-xl">10,000円</p>
               </div>
             </div>
             <div className="mb-4">
-              <div className="">
+              <div className="my-8">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 mx-auto"
@@ -146,7 +132,7 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
                   />
                 </svg>
               </div>
-              <div className="w-full">
+              <div className="w-full text-center">
                 <input
                   type="number"
                   min="0"
@@ -158,28 +144,21 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
                     setFormData({ ...formData, tenThouPoint: 10000 * point });
                   }}
                 />
-                個
+                <span className="font-bold">個</span>
               </div>
             </div>
           </div>
         </div>
         <div>
           <div className="mx-auto">
-            <div className="shadow-md">
-              <figure className="px-10 pt-10">
-                <img
-                  src="https://api.lorem.space/image/shoes?w=400&h=225"
-                  alt="Shoes"
-                  className="rounded-xl"
-                />
-              </figure>
+            <div className="shadow-md rounded-lg bg-gray-50">
               <div className="card-body items-center text-center">
                 <h2 className="card-title">ポイント購入</h2>
-                <p>10,0000円</p>
+                <p className="font-bold text-xl">100,000円</p>
               </div>
             </div>
             <div className="mb-4">
-              <div className="">
+              <div className="my-8">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 mx-auto"
@@ -195,7 +174,7 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
               </div>
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full text-center">
             <input
               type="number"
               min="0"
@@ -207,20 +186,54 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
                 setFormData({ ...formData, hundredThouPoint: 100000 * point });
               }}
             />
-            個
+            <span className="font-bold">個</span>
           </div>
         </div>
       </div>
-      <div>{totalPoint}ポイント</div>
-      <div>{totalPrice}円</div>
-      {createLoading && <PageLoading />}
-      <button
-        className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-        type="button"
-        onClick={() => setDialogOpen(true)}
-      >
-        保存する
-      </button>
+      <div className="grid place-items-center mt-10">
+        <div className="shadow-md p-10 rounded-lg form-box bg-green-50">
+          <div className="w-full max-w-sm">
+            <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/3">
+                <label
+                  className="block font-bold mb-1 md:mb-0 pr-4"
+                  htmlFor="inline-full-name"
+                >
+                  購入ポイント
+                </label>
+              </div>
+              <div className="md:w-2/3">{totalPoint}ポイント</div>
+            </div>
+
+            <div className="w-full max-w-sm">
+              <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                  <label
+                    className="block font-bold mb-1 md:mb-0 pr-4"
+                    htmlFor="inline-full-name"
+                  >
+                    購入金額
+                  </label>
+                </div>
+                <div className="md:w-2/3">{totalPrice}円</div>
+              </div>
+            </div>
+
+            <div className="md:flex md:items-center">
+              <div className="mx-auto">
+                {createLoading && <PageLoading />}
+                <button
+                  className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
+                  type="button"
+                  onClick={() => setDialogOpen(true)}
+                >
+                  購入する
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

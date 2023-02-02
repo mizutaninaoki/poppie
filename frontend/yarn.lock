@@ -3447,6 +3447,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+libphonenumber-js@^1.10.19:
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.19.tgz#e18970c8d566fbfb1f88e688345f0512e126712e"
+  integrity sha512-MDZ1zLIkfSDZV5xBta3nuvbEOlsnKCPe4z5r3hyup/AXveevkl9A1eSWmLhd2FX4k7pJDe4MrLeQsux0HI/VWg==
+
 lilconfig@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.4.tgz#f4507d043d7058b380b6a8f5cb7bcd4b34cee082"

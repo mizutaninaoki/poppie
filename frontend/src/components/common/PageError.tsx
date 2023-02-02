@@ -11,7 +11,7 @@ export const PageError: FC = () => {
   return (
     <>
       <div
-        className="relative flex items-center bg-red-400 text-white text-sm font-bold px-4 py-3 rounded-lg"
+        className="relative flex items-center bg-red-400 text-white text-sm font-bold px-4 py-3 rounded-lg mt-4 mx-8"
         role="alert"
       >
         <svg

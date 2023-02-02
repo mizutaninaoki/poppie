@@ -1,5 +1,7 @@
 import { FC, useState, FormEvent } from 'react';
 
+import styles from './ProfileImageForm.module.scss';
+
 type Props = {
   selectedImageUrl?: string | null;
   onSelected: (image: File) => void;
@@ -31,21 +33,20 @@ export const ProfileImageForm: FC<Props> = ({ selectedImageUrl, onSelected, erro
     (e.target as HTMLInputElement).value = '';
   };
 
-  // const onDeleteImage = () => {
-  //   onSelected(null);
-  // };
-
   return (
     <>
-      <img
-        src={fileDataURL || '/images/no-image.png'}
-        width="350px"
-        alt="profile-image"
-      />
+      <div className={styles.imageBox}>
+        <img
+          src={fileDataURL || '/images/blank-profile-picture.png'}
+          className="mx-auto rounded-full aspect-square"
+          width="180px"
+          alt="profile-image"
+        />
+      </div>
       <div className="md:flex md:items-center mb-6">
         <div className="md:w-1/3">
           <label
-            className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+            className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
             htmlFor="inline-full-name"
           >
             プロフィール画像
@@ -53,26 +54,10 @@ export const ProfileImageForm: FC<Props> = ({ selectedImageUrl, onSelected, erro
         </div>
         <div className="md:w-2/3">
           <label htmlFor="imageUpload">
-            {/* <span className="btn btn-primary">画像を選択</span> */}
-            {/* <input
-              id="imageUpload"
-              type="file"
-              multiple
-              accept="image/*"
-              onInput={(e) => onAddImages(e)}
-              onClick={(e) => onInputButtonClick(e)}
-              hidden
-            /> */}
             <div className="flex justify-center">
-              <div className="mb-3 w-96">
-                <label
-                  htmlFor="imageUpload"
-                  className="form-label inline-block mb-2 text-gray-700"
-                >
-                  Default file input example
-                </label>
+              <div>
                 <input
-                  className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  className="form-control block text-sm w-full p-3 font-normal bg-white bg-clip-padding border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   type="file"
                   id="imageUpload"
                   accept="image/*"

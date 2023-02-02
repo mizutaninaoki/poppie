@@ -8,9 +8,15 @@ import { DealingFormDataType } from '@/components/dealings/DealingForm';
 
 export const DealingFormDataZodSchema = schemaForType<DealingFormDataType>()(
   z.object({
-    userId: z.string().nonempty(),
+    userId: z.string().nonempty({ message: "ユーザーを選択してください" }),
     name: z.string().nonempty(),
-    amount: z.number(),
+    amount: z.number().refine(
+      (amount) => amount !== 0,
+      'ポイント数を入力してください',
+    ),
     message: z.string().optional(),
   }),
 );
+
+
+
