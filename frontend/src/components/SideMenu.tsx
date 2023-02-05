@@ -30,14 +30,22 @@ export const SideMenu: FC = () => {
         <ul className="menu p-4 overflow-y-auto w-80   text-base-content bg-green-50 h-screen">
           <li>
             {/* Sidebar content here */}
-            <div className="py-3 text-center active:bg-green-600">
+            <div className="py-3 text-center active:bg-green-50 hover:bg-green-50">
               <Link href="/mypage/">
-                <h1 className="font-bold text-lg">Poppie</h1>
+                <div>
+                  <img
+                    src="/images/point_icon.png"
+                    width="24px"
+                    alt="point_icon"
+                    className="inline mb-2"
+                  />
+                  <h1 className="font-bold text-lg inline ml-1">Poppie</h1>
+                </div>
               </Link>
             </div>
           </li>
           <li>
-            <div className="m-2">
+            <div className="m-2 active:text-gray-600 hover:bg-green-50 hover:cursor-auto">
               <div className="bg-white p-6 rounded-xl w-full text-center">
                 <p className="font-bold">
                   授与可能ポイント : {currentUser.account?.givablePoint} P

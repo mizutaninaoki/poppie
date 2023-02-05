@@ -21,7 +21,7 @@ export const Header: FC = () => {
   };
 
   return (
-    <nav className="w-full border-gray-200 px-2 sm:px-4 py-4 border-b">
+    <nav className="w-full border-gray-200 px-2 sm:px-4 py-4 border-b bg-green-50">
       <div className="flex flex-wrap justify-between items-center mx-auto">
         <Link href="/">
           <div className="flex items-center cursor-pointer">
@@ -42,19 +42,7 @@ export const Header: FC = () => {
           <div
             className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
             id="mobile-menu-4"
-          >
-            {/* <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium mr-4">
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                  aria-current="page"
-                >
-                  poppieとは
-                </a>
-              </li>
-            </ul> */}
-          </div>
+          ></div>
 
           {currentUser.isLoggedIn ? (
             <button

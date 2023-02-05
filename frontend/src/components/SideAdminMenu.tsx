@@ -10,7 +10,9 @@ export const SideAdminMenu: FC = () => {
   return (
     <>
       <hr />
-
+      <li className="font-bold text-center">
+        <h4 className="text-center mx-auto">管理者メニュー</h4>
+      </li>
       <li className="font-bold">
         <Link href="/purchases/new/input/">
           <a>
@@ -45,9 +47,9 @@ export const SideAdminMenu: FC = () => {
       </li>
 
       <li>
-        <div className="m-2">
+        <div className="m-2 active:text-gray-600 hover:bg-green-50 hover:cursor-auto">
           <div className="bg-white p-6 rounded-xl w-full text-center">
-            <p className="font-bold">管理ポイント : {currentUser.company.point} P</p>
+            <p className="font-bold">管理者ポイント : {currentUser.company.point} P</p>
           </div>
         </div>
       </li>
