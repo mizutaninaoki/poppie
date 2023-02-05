@@ -45,7 +45,7 @@ const DealingsNewInputPage: FC = () => {
       <div className="grid min-h-screen-except-header">
         <div className="p-8">
           <div className="place-items-start mb-5 border-l-4 border-green-200">
-            <h3 className="text-lg font-bold">&nbsp;ポイントを贈る</h3>
+            <h3 className="text-lg font-bold">&nbsp;ポイントをあげる</h3>
           </div>
 
           <div className="grid h-full place-items-center">

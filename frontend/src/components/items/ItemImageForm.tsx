@@ -1,5 +1,7 @@
 import { FC, useState, FormEvent } from 'react';
 
+import styles from './ItemCardWithEditButton.module.scss';
+
 type Props = {
   selectedImageUrl?: string | null;
   onSelected: (image: File) => void;
@@ -31,21 +33,20 @@ export const ItemImageForm: FC<Props> = ({ selectedImageUrl, onSelected, error }
     (e.target as HTMLInputElement).value = '';
   };
 
-  // const onDeleteImage = () => {
-  //   onSelected(null);
-  // };
-
   return (
     <>
-      <img
-        src={fileDataURL || '/images/no-image.png'}
-        width="350px"
-        alt="profile-image"
-      />
-      <div className="md:flex md:items-center mb-6">
+      <div className={styles.imageBox}>
+        <img
+          src={fileDataURL || '/images/no-image.png'}
+          width="280px"
+          className="rounded-2xl w-full h-full"
+          alt="profile-image"
+        />
+      </div>
+      <div className="md:flex md:items-center mb-6 mt-10">
         <div className="md:w-1/3">
           <label
-            className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+            className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
             htmlFor="inline-full-name"
           >
             景品画像
@@ -53,16 +54,10 @@ export const ItemImageForm: FC<Props> = ({ selectedImageUrl, onSelected, error }
         </div>
         <div className="md:w-2/3">
           <label htmlFor="itemImageUpload">
-            <div className="flex justify-center">
-              <div className="mb-3 w-96">
-                <label
-                  htmlFor="itemImageUpload"
-                  className="form-label inline-block mb-2 text-gray-700"
-                >
-                  Default file input example
-                </label>
+            <div className="flex justify-center items-center">
+              <div className="">
                 <input
-                  className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  className="form-control block w-full p-2.5 text-sm font-normal bg-white bg-clip-padding border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   type="file"
                   id="itemImageUpload"
                   accept="image/*"

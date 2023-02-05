@@ -525,6 +525,16 @@ export type QueryUserArgs = {
 };
 
 
+export type QueryUserGaveDealingsArgs = {
+  chartDisplayDate: Scalars['String'];
+};
+
+
+export type QueryUserReceivedDealingsArgs = {
+  chartDisplayDate: Scalars['String'];
+};
+
+
 export type QueryUsersArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -712,9 +722,9 @@ export type VerifySecondaryEmail = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-export type GaveDealingsForGavePointsChartFragment = { __typename?: 'UserGaveDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> };
+export type GaveDealingsForGavePointsChartFragment = { __typename?: 'UserGaveDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, message?: string | null, createdAt: any, giver: { __typename?: 'AccountType', user: { __typename?: 'CustomUserType', name: string } } }> };
 
-export type ReceivedDealingsForReceivedPointsChartFragment = { __typename?: 'UserReceivedDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> };
+export type ReceivedDealingsForReceivedPointsChartFragment = { __typename?: 'UserReceivedDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, message?: string | null, createdAt: any, receiver: { __typename?: 'AccountType', user: { __typename?: 'CustomUserType', name: string } } }> };
 
 export type PlanForCompanyFormFragment = { __typename?: 'PlanType', id: string, name: string, fee: number };
 
@@ -758,6 +768,13 @@ export type CreateCompanyAndAdminUserMutationVariables = Exact<{
 
 export type CreateCompanyAndAdminUserMutation = { __typename?: 'Mutation', createCompanyAndAdminUser?: { __typename?: 'CreateCompanyAndAdminUserPayload', adminUser?: { __typename?: 'CustomUserType', email: string, password: string } | null } | null };
 
+export type GetGaveDealingsQueryVariables = Exact<{
+  chartDisplayDate: Scalars['String'];
+}>;
+
+
+export type GetGaveDealingsQuery = { __typename?: 'Query', gaveDealings: Array<{ __typename?: 'UserGaveDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, message?: string | null, createdAt: any, giver: { __typename?: 'AccountType', user: { __typename?: 'CustomUserType', name: string } } }> }> };
+
 export type CreateDealingMutationVariables = Exact<{
   input: CreateDealingInput;
 }>;
@@ -771,6 +788,13 @@ export type DealingsNewInputPageQueryVariables = Exact<{
 
 
 export type DealingsNewInputPageQuery = { __typename?: 'Query', users: Array<{ __typename?: 'CustomUserType', id: string, name: string, profile: { __typename?: 'ProfileType', department?: string | null } }> };
+
+export type GetReceivedDealingsQueryVariables = Exact<{
+  chartDisplayDate: Scalars['String'];
+}>;
+
+
+export type GetReceivedDealingsQuery = { __typename?: 'Query', receivedDealings: Array<{ __typename?: 'UserReceivedDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, message?: string | null, createdAt: any, receiver: { __typename?: 'AccountType', user: { __typename?: 'CustomUserType', name: string } } }> }> };
 
 export type DistributesNewInputPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -826,10 +850,12 @@ export type CreateItemMutationVariables = Exact<{
 
 export type CreateItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'CreateItemPayload', clientMutationId?: string | null } | null };
 
-export type MypagePageQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetDealingsQueryVariables = Exact<{
+  chartDisplayDate: Scalars['String'];
+}>;
 
 
-export type MypagePageQuery = { __typename?: 'Query', receivedDealings: Array<{ __typename?: 'UserReceivedDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> }>, gaveDealings: Array<{ __typename?: 'UserGaveDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, createdAt: any }> }> };
+export type GetDealingsQuery = { __typename?: 'Query', gaveDealings: Array<{ __typename?: 'UserGaveDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, message?: string | null, createdAt: any, giver: { __typename?: 'AccountType', user: { __typename?: 'CustomUserType', name: string } } }> }>, receivedDealings: Array<{ __typename?: 'UserReceivedDealingsType', createdAt: string, dealings: Array<{ __typename?: 'DealingType', id: string, amount: number, message?: string | null, createdAt: any, receiver: { __typename?: 'AccountType', user: { __typename?: 'CustomUserType', name: string } } }> }> };
 
 export type ProfileInputPageQueryVariables = Exact<{
   userId: Scalars['ID'];
@@ -887,7 +913,13 @@ export const GaveDealingsForGavePointsChartFragmentDoc = gql`
   dealings {
     id
     amount
+    message
     createdAt
+    giver {
+      user {
+        name
+      }
+    }
   }
   createdAt
 }
@@ -897,7 +929,13 @@ export const ReceivedDealingsForReceivedPointsChartFragmentDoc = gql`
   dealings {
     id
     amount
+    message
     createdAt
+    receiver {
+      user {
+        name
+      }
+    }
   }
   createdAt
 }
@@ -1148,6 +1186,41 @@ export function useCreateCompanyAndAdminUserMutation(baseOptions?: ApolloReactHo
 export type CreateCompanyAndAdminUserMutationHookResult = ReturnType<typeof useCreateCompanyAndAdminUserMutation>;
 export type CreateCompanyAndAdminUserMutationResult = ApolloReactCommon.MutationResult<CreateCompanyAndAdminUserMutation>;
 export type CreateCompanyAndAdminUserMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateCompanyAndAdminUserMutation, CreateCompanyAndAdminUserMutationVariables>;
+export const GetGaveDealingsDocument = gql`
+    query GetGaveDealings($chartDisplayDate: String!) {
+  gaveDealings: userGaveDealings(chartDisplayDate: $chartDisplayDate) {
+    ...GaveDealingsForGavePointsChart
+  }
+}
+    ${GaveDealingsForGavePointsChartFragmentDoc}`;
+
+/**
+ * __useGetGaveDealingsQuery__
+ *
+ * To run a query within a React component, call `useGetGaveDealingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGaveDealingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGaveDealingsQuery({
+ *   variables: {
+ *      chartDisplayDate: // value for 'chartDisplayDate'
+ *   },
+ * });
+ */
+export function useGetGaveDealingsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetGaveDealingsQuery, GetGaveDealingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetGaveDealingsQuery, GetGaveDealingsQueryVariables>(GetGaveDealingsDocument, options);
+      }
+export function useGetGaveDealingsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetGaveDealingsQuery, GetGaveDealingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetGaveDealingsQuery, GetGaveDealingsQueryVariables>(GetGaveDealingsDocument, options);
+        }
+export type GetGaveDealingsQueryHookResult = ReturnType<typeof useGetGaveDealingsQuery>;
+export type GetGaveDealingsLazyQueryHookResult = ReturnType<typeof useGetGaveDealingsLazyQuery>;
+export type GetGaveDealingsQueryResult = ApolloReactCommon.QueryResult<GetGaveDealingsQuery, GetGaveDealingsQueryVariables>;
 export const CreateDealingDocument = gql`
     mutation CreateDealing($input: CreateDealingInput!) {
   createDealing(input: $input) {
@@ -1216,6 +1289,41 @@ export function useDealingsNewInputPageLazyQuery(baseOptions?: ApolloReactHooks.
 export type DealingsNewInputPageQueryHookResult = ReturnType<typeof useDealingsNewInputPageQuery>;
 export type DealingsNewInputPageLazyQueryHookResult = ReturnType<typeof useDealingsNewInputPageLazyQuery>;
 export type DealingsNewInputPageQueryResult = ApolloReactCommon.QueryResult<DealingsNewInputPageQuery, DealingsNewInputPageQueryVariables>;
+export const GetReceivedDealingsDocument = gql`
+    query GetReceivedDealings($chartDisplayDate: String!) {
+  receivedDealings: userReceivedDealings(chartDisplayDate: $chartDisplayDate) {
+    ...ReceivedDealingsForReceivedPointsChart
+  }
+}
+    ${ReceivedDealingsForReceivedPointsChartFragmentDoc}`;
+
+/**
+ * __useGetReceivedDealingsQuery__
+ *
+ * To run a query within a React component, call `useGetReceivedDealingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetReceivedDealingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetReceivedDealingsQuery({
+ *   variables: {
+ *      chartDisplayDate: // value for 'chartDisplayDate'
+ *   },
+ * });
+ */
+export function useGetReceivedDealingsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetReceivedDealingsQuery, GetReceivedDealingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetReceivedDealingsQuery, GetReceivedDealingsQueryVariables>(GetReceivedDealingsDocument, options);
+      }
+export function useGetReceivedDealingsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetReceivedDealingsQuery, GetReceivedDealingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetReceivedDealingsQuery, GetReceivedDealingsQueryVariables>(GetReceivedDealingsDocument, options);
+        }
+export type GetReceivedDealingsQueryHookResult = ReturnType<typeof useGetReceivedDealingsQuery>;
+export type GetReceivedDealingsLazyQueryHookResult = ReturnType<typeof useGetReceivedDealingsLazyQuery>;
+export type GetReceivedDealingsQueryResult = ApolloReactCommon.QueryResult<GetReceivedDealingsQuery, GetReceivedDealingsQueryVariables>;
 export const DistributesNewInputPageDocument = gql`
     query DistributesNewInputPage {
   accounts {
@@ -1493,44 +1601,45 @@ export function useCreateItemMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
 export type CreateItemMutationResult = ApolloReactCommon.MutationResult<CreateItemMutation>;
 export type CreateItemMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
-export const MypagePageDocument = gql`
-    query MypagePage {
-  receivedDealings: userReceivedDealings {
-    ...ReceivedDealingsForReceivedPointsChart
-  }
-  gaveDealings: userGaveDealings {
+export const GetDealingsDocument = gql`
+    query GetDealings($chartDisplayDate: String!) {
+  gaveDealings: userGaveDealings(chartDisplayDate: $chartDisplayDate) {
     ...GaveDealingsForGavePointsChart
   }
+  receivedDealings: userReceivedDealings(chartDisplayDate: $chartDisplayDate) {
+    ...ReceivedDealingsForReceivedPointsChart
+  }
 }
-    ${ReceivedDealingsForReceivedPointsChartFragmentDoc}
-${GaveDealingsForGavePointsChartFragmentDoc}`;
+    ${GaveDealingsForGavePointsChartFragmentDoc}
+${ReceivedDealingsForReceivedPointsChartFragmentDoc}`;
 
 /**
- * __useMypagePageQuery__
+ * __useGetDealingsQuery__
  *
- * To run a query within a React component, call `useMypagePageQuery` and pass it any options that fit your needs.
- * When your component renders, `useMypagePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetDealingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDealingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMypagePageQuery({
+ * const { data, loading, error } = useGetDealingsQuery({
  *   variables: {
+ *      chartDisplayDate: // value for 'chartDisplayDate'
  *   },
  * });
  */
-export function useMypagePageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MypagePageQuery, MypagePageQueryVariables>) {
+export function useGetDealingsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetDealingsQuery, GetDealingsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<MypagePageQuery, MypagePageQueryVariables>(MypagePageDocument, options);
+        return ApolloReactHooks.useQuery<GetDealingsQuery, GetDealingsQueryVariables>(GetDealingsDocument, options);
       }
-export function useMypagePageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MypagePageQuery, MypagePageQueryVariables>) {
+export function useGetDealingsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDealingsQuery, GetDealingsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<MypagePageQuery, MypagePageQueryVariables>(MypagePageDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetDealingsQuery, GetDealingsQueryVariables>(GetDealingsDocument, options);
         }
-export type MypagePageQueryHookResult = ReturnType<typeof useMypagePageQuery>;
-export type MypagePageLazyQueryHookResult = ReturnType<typeof useMypagePageLazyQuery>;
-export type MypagePageQueryResult = ApolloReactCommon.QueryResult<MypagePageQuery, MypagePageQueryVariables>;
+export type GetDealingsQueryHookResult = ReturnType<typeof useGetDealingsQuery>;
+export type GetDealingsLazyQueryHookResult = ReturnType<typeof useGetDealingsLazyQuery>;
+export type GetDealingsQueryResult = ApolloReactCommon.QueryResult<GetDealingsQuery, GetDealingsQueryVariables>;
 export const ProfileInputPageDocument = gql`
     query ProfileInputPage($userId: ID!) {
   profile(userId: $userId) {

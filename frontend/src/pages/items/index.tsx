@@ -43,7 +43,7 @@ const ItemsIndexPage: FC = () => {
           <div className="place-items-start mb-5 border-l-4 border-green-200">
             <h3 className="text-lg font-bold">&nbsp;景品一覧</h3>
           </div>
-          <div className="text-center my-6">
+          <div className="text-center">
             <Link href="/items/new/input/">
               <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold my-3 py-2 px-4 rounded-lg">
                 新しく景品を登録する
@@ -54,17 +54,17 @@ const ItemsIndexPage: FC = () => {
         {loading && <PageLoading />}
         {!loading && data && (
           <>
-            <div className="grid grid-cols-3 gap-24 mb-8">
-              {data.items.length > 0 ? (
-                <>
-                  {data.items.map((item) => (
-                    <ItemCardWithEditButton item={item} key={item.id} />
-                  ))}
-                </>
-              ) : (
-                <p>景品が登録されていません</p>
-              )}
-            </div>
+            {data.items.length > 0 ? (
+              <div className="grid grid-cols-3 gap-12 mb-8">
+                {data.items.map((item) => (
+                  <ItemCardWithEditButton item={item} key={item.id} />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 mb-8">
+                <p className="font-bold text-center">景品が登録されていません</p>
+              </div>
+            )}
           </>
         )}
       </div>

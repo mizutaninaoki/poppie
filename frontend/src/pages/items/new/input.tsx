@@ -95,9 +95,15 @@ const ItemsNewInputPage: FC = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center">
-        <h1>景品登録</h1>
-        <ItemForm onSubmit={onSubmit} />
+      <div className="grid min-h-screen-except-header">
+        <div className="p-8">
+          <div className="place-items-start mb-5 border-l-4 border-green-200">
+            <h3 className="text-lg font-bold">&nbsp;景品登録</h3>
+          </div>
+          <div className="grid h-full place-items-center">
+            <ItemForm onSubmit={onSubmit} />
+          </div>
+        </div>
       </div>
     </PageContainerWithError>
   );

@@ -5,6 +5,9 @@ import { AuthContext } from '@/providers/AuthProvider';
 import { clearSession } from '@/utils/storage';
 import { SideAdminMenu } from '@/components/SideAdminMenu';
 
+import { FaHome, FaHandHoldingHeart, FaExchangeAlt } from 'react-icons/fa';
+import { RiFolderSharedFill, RiFolderReceivedFill } from 'react-icons/ri';
+
 export const SideMenu: FC = () => {
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
@@ -15,7 +18,7 @@ export const SideMenu: FC = () => {
   };
 
   return (
-    <div className="drawer drawer-mobile bg-gray-600">
+    <div className="drawer drawer-mobile bg-green-50 h-screen">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col items-center justify-center">
         {/* Page content here */}
@@ -25,80 +28,59 @@ export const SideMenu: FC = () => {
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay" />
-        <ul className="menu p-4 overflow-y-auto w-80   text-base-content bg-gray-300">
-          {/* Sidebar content here */}
-          <div className="py-3 border-b border-gray-400">
-            <Link href="/mypage/">
-              <h1 className="font-bold">Poppie</h1>
-            </Link>
-          </div>
+        <ul className="menu p-4 overflow-y-auto w-80   text-base-content bg-green-50 h-screen">
           <li>
-            <div className="m-2">
-              <div className="card w-full bg-base-100 shadow-md p-3">
-                <div className="card-body p-3">
-                  <p className="mb-0">配布可能ポイント: {currentUser.company.point}</p>
-                </div>
-              </div>
+            {/* Sidebar content here */}
+            <div className="py-3 text-center active:bg-green-600">
+              <Link href="/mypage/">
+                <h1 className="font-bold text-lg">Poppie</h1>
+              </Link>
             </div>
           </li>
           <li>
+            <div className="m-2">
+              <div className="bg-white p-6 rounded-xl w-full text-center">
+                <p className="font-bold">
+                  配布可能ポイント : {currentUser.company.point}
+                </p>
+              </div>
+            </div>
+          </li>
+          <li className="font-bold">
             <Link href="/mypage/">
               <a>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                  />
-                </svg>
+                <FaHome className="text-lg"></FaHome>
                 トップページ
               </a>
             </Link>
           </li>
-          <li onClick={onNewDealingClick}>
+          <li className="font-bold" onClick={onNewDealingClick}>
             <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
+              <FaHandHoldingHeart className="text-lg"></FaHandHoldingHeart>
               ポイントをあげる
             </a>
           </li>
-          <li>
+          <li className="font-bold">
+            <Link href="/dealings/gave">
+              <a>
+                <RiFolderSharedFill className="text-lg"></RiFolderSharedFill>
+                あげたポイント一覧
+              </a>
+            </Link>
+          </li>
+          <li className="font-bold">
+            <Link href="/dealings/received">
+              <a>
+                <RiFolderReceivedFill className="text-lg"></RiFolderReceivedFill>
+                もらったポイント一覧
+              </a>
+            </Link>
+          </li>
+          <li className="font-bold">
             <Link href="/exchanges/">
               <a>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                  />
-                </svg>
-                ポイント交換
+                <FaExchangeAlt className="text-lg"></FaExchangeAlt>
+                景品交換
               </a>
             </Link>
           </li>

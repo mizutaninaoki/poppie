@@ -15,18 +15,23 @@ const ExchangesCompletePage: FC = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center">
-        <h1>景品交換完了</h1>
-        <div className="w-full text-center">
-          <div>
-            <h4>景品の交換取引が完了しました。</h4>
-            <p>会社担当ものより後日景品が渡されるまで少々お待ちください。</p>
+      <div className="h-screen flex justify-center items-center">
+        <div className="bg-gray-100 py-10 px-8 rounded-xl text-center">
+          <h1 className="text-2xl mb-5 font-bold">景品交換依頼完了</h1>
+          <div className="w-full text-center">
+            <div>
+              <h4 className="mb-0">景品の交換依頼が完了しました。</h4>
+              <p className="mb-8">後日担当者より依頼した景品が渡されます。</p>
+            </div>
+            <Link href="/mypage/">
+              <button
+                className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded-lg"
+                type="button"
+              >
+                マイページへ戻る
+              </button>
+            </Link>
           </div>
-          <Link href="/mypage/">
-            <button className="btn btn-primary" type="button">
-              マイページへ戻る
-            </button>
-          </Link>
         </div>
       </div>
     </PageContainerWithError>

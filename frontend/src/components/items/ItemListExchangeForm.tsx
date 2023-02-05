@@ -59,17 +59,22 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
       <div className="w-full text-right">
         <div className="card bg-base-100 shadow-xl mb-5 inline-block">
           <div className="card-body p-6 text-left">
-            <p>交換可能ポイント: {currentUser.account?.givablePoint} P</p>
-            <p>
-              現在の交換必要ポイント:
-              {selectedItemTotalPoint}P
+            <p className="font-bold">
+              交換可能ポイント : {currentUser.account?.givablePoint} P
+            </p>
+            <p className="font-bold">
+              現在の交換必要ポイント : {selectedItemTotalPoint}P
             </p>
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        {ListFormData.length > 0 ? (
-          <>
+
+      {ListFormData.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 text-left mb-0">
+            <h3 className="font-bold text-lg">交換する景品数を入力してください</h3>
+          </div>
+          <div className="grid grid-cols-3 gap-4 mb-8">
             {ListFormData.map((itemFormData, idx) => (
               <ItemCardWithSelectQuantity
                 key={itemFormData.id}
@@ -77,15 +82,22 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
                 onChange={(newExchangeQuantity) => onUpdate(idx, newExchangeQuantity)}
               />
             ))}
-          </>
-        ) : (
-          <p>景品が登録されていません</p>
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        <p className="font-bold">景品が登録されていません</p>
+      )}
+
       <div className="w-full text-center">
-        <button className="btn btn-primary" type="button" onClick={onConfirm}>
-          確認する
-        </button>
+        {ListFormData.length > 0 && (
+          <button
+            className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded-lg"
+            type="button"
+            onClick={onConfirm}
+          >
+            確認する
+          </button>
+        )}
       </div>
     </>
   );

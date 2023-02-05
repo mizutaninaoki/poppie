@@ -51,12 +51,18 @@ const ExchangesIndexPage: FC = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid place-items-center">
-        <h1>景品一覧</h1>
-        {loading && <PageLoading />}
-        {!loading && data && (
-          <ItemListExchangeForm items={data.items} onConfirm={onConfirm} />
-        )}
+      <div className="grid min-h-screen-except-header mb-10">
+        <div className="p-8">
+          <div className="place-items-start mb-5 border-l-4 border-green-200">
+            <h3 className="text-lg font-bold">&nbsp;景品交換</h3>
+          </div>
+          <div className="grid place-items-center">
+            {loading && <PageLoading />}
+            {!loading && data && (
+              <ItemListExchangeForm items={data.items} onConfirm={onConfirm} />
+            )}
+          </div>
+        </div>
       </div>
     </PageContainerWithError>
   );

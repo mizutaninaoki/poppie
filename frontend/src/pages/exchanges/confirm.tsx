@@ -64,20 +64,30 @@ const ExchangesConfirmPage: FC = () => {
   return (
     <PageContainerWithError>
       <>
-        <h1>景品確認</h1>
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          {tmpExchangeItemsData && (
-            <>
-              {tmpExchangeItemsData
-                .filter((item) => item.exchangeQuantity > 0)
-                .map((item) => (
-                  <ItemCard item={item} />
-                ))}
-            </>
-          )}
+        <div className="grid mb-10">
+          <div className="p-8">
+            <div className="place-items-start mb-5 border-l-4 border-green-200">
+              <h3 className="text-lg font-bold">&nbsp;景品確認</h3>
+            </div>
+            <div className="grid grid-cols-3 gap-12 mb-8 mt-10">
+              {tmpExchangeItemsData && (
+                <>
+                  {tmpExchangeItemsData
+                    .filter((item) => item.exchangeQuantity > 0)
+                    .map((item) => (
+                      <ItemCard item={item} />
+                    ))}
+                </>
+              )}
+            </div>
+          </div>
         </div>
         <div className="w-full text-center">
-          <button className="btn btn-primary" type="button" onClick={onSubmit}>
+          <button
+            className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded-lg"
+            type="button"
+            onClick={onSubmit}
+          >
             交換する
           </button>
         </div>

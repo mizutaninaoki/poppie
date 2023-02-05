@@ -304,8 +304,8 @@ type Query {
   plans: [PlanType!]
   plan(id: ID!): PlanType!
   companyUsers(companyId: ID!): [CustomUserType!]!
-  userReceivedDealings: [UserReceivedDealingsType!]!
-  userGaveDealings: [UserGaveDealingsType!]!
+  userReceivedDealings(chartDisplayDate: String!): [UserReceivedDealingsType!]!
+  userGaveDealings(chartDisplayDate: String!): [UserGaveDealingsType!]!
   user(id: ID!): UserNode
   users(offset: Int, before: String, after: String, first: Int, last: Int, id: Float, email: String, name: String, name_Icontains: String, name_Istartswith: String, isActive: Boolean, isAdmin: Boolean, status_Archived: Boolean, status_Verified: Boolean, status_SecondaryEmail: String): UserNodeConnection
   me: UserNode

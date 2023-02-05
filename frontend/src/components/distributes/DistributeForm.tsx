@@ -80,7 +80,7 @@ export const DistributeForm: FC<Props> = ({ onSubmit: onSubmitFn, accounts }) =>
                     <span className="font-medium">{account.user.email}</span>
                   </p>
                   <p className="mb-0 font-bold">
-                    授与可能ポイント:&nbsp;
+                    <span className="font-bold">授与可能ポイント : </span>
                     <span className="font-medium">{account.givablePoint}</span>
                   </p>
                   <p className="mb-0 font-bold">

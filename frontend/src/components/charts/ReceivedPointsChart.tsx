@@ -20,7 +20,13 @@ gql`
     dealings {
       id
       amount
+      message
       createdAt
+      receiver {
+        user {
+          name
+        }
+      }
     }
     createdAt
   }
@@ -108,14 +114,14 @@ export const ReceivedPointsChart: FC<Props> = ({ chartData: initialChartData }) 
           type="monotone"
           dataKey="receivedTotalPoint"
           name="受領ポイント"
-          fill="#ff638d"
+          fill="#16A34A"
         />
         <Line
           yAxisId={2}
           type="monotone"
           dataKey="receivedCount"
           name="受領回数"
-          stroke="#8884d8"
+          stroke="#919191"
         />
       </ComposedChart>
     </ResponsiveContainer>

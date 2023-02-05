@@ -31,12 +31,13 @@ export type ItemFormDataType = {
 type Props = {
   item?: ItemDataForItemFormFragment;
   onSubmit: (data: ItemFormDataType) => void;
+  editPage?: boolean;
 };
 
 /**
  * 景品登録・編集フォーム
  */
-export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
+export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item, editPage }) => {
   const [formData, setFormData] = useState<ItemFormDataType>({
     name: item?.name ?? '',
     unit: item?.unit ?? '',
@@ -67,13 +68,13 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
   return (
     <>
       <div className="col-span-12">
-        <div className="shadow-md p-12 rounded-xl">
+        <div className="shadow-md p-12 rounded-xl bg-gray-100">
           <ItemImageForm selectedImageUrl={item?.imageUrl} onSelected={onSelected} />
           <div className="w-full max-w-sm">
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
                 <label
-                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                   htmlFor="inline-full-name"
                 >
                   景品名
@@ -83,7 +84,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
                 <input
                   type="text"
                   placeholder="ギフトカード"
-                  className="input w-full max-w-xs bg-gray-200"
+                  className="input w-full max-w-xs"
                   value={formData.name}
                   onChange={(e) => {
                     setFormData({ ...formData, name: e.target.value });
@@ -94,7 +95,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
                 <label
-                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                   htmlFor="inline-full-name"
                 >
                   単位
@@ -104,7 +105,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
                 <input
                   type="text"
                   placeholder="選択してください"
-                  className="input w-full max-w-xs bg-gray-200"
+                  className="input w-full max-w-xs"
                   value={formData.unit}
                   onChange={(e) => {
                     setFormData({ ...formData, unit: e.target.value });
@@ -115,7 +116,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
                 <label
-                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                   htmlFor="inline-full-name"
                 >
                   交換ポイント
@@ -125,7 +126,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
                 <input
                   type="text"
                   placeholder="100"
-                  className="input w-full max-w-xs bg-gray-200"
+                  className="input w-full max-w-xs"
                   value={formData.exchangablePoint}
                   onChange={(e) => {
                     setFormData({
@@ -139,7 +140,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
                 <label
-                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                   htmlFor="inline-full-name"
                 >
                   在庫数
@@ -149,7 +150,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
                 <input
                   type="text"
                   placeholder="100"
-                  className="input w-full max-w-xs bg-gray-200"
+                  className="input w-full max-w-xs"
                   value={formData.quantity}
                   onChange={(e) => {
                     setFormData({ ...formData, quantity: Number(e.target.value) });
@@ -157,31 +158,10 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
                 />
               </div>
             </div>
-            {/* <div className="md:flex md:items-center mb-6">
-              <div className="md:w-1/3">
-                <label
-                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                  htmlFor="inline-full-name"
-                >
-                  景品画像
-                </label>
-              </div>
-              <div className="md:w-2/3">
-                <input
-                  type="text"
-                  placeholder="100"
-                  className="input w-full max-w-xs bg-gray-200"
-                  value={formData.image}
-                  onChange={(e) => {
-                    setFormData({ ...formData, image: e.target.value });
-                  }}
-                />
-              </div>
-            </div> */}
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
                 <label
-                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  className="block font-bold md:text-right mb-1 md:mb-0 pr-4"
                   htmlFor="inline-full-name"
                 >
                   公開・非公開
@@ -205,11 +185,11 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item }) => {
             </div>
             <div className="w-full text-center">
               <button
-                className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded-lg"
                 type="button"
                 onClick={onSubmit}
               >
-                登録する
+                {editPage ? '更新' : '登録'}する
               </button>
             </div>
           </div>

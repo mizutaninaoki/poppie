@@ -22,13 +22,12 @@ export const MyPageHeader: FC = () => {
     <div className="navbar bg-base-100 border-b border-gray-200">
       <div className="flex-1"></div>
       <div className="flex-none gap-2">
-        <div>
-          {currentUser.company.name}: {currentUser.name}
+        <div className="font-bold">
+          {currentUser.company.name} : {currentUser.name}
         </div>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              {/* <img src="https://api.lorem.space/image/face?hash=33791" /> */}
               <img
                 src={currentUser.profile?.imageUrl || '/images/blank-profile-picture.png'}
               />
@@ -36,7 +35,7 @@ export const MyPageHeader: FC = () => {
           </label>
           <ul
             tabIndex={0}
-            className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+            className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 font-bold"
           >
             <li>
               <Link href="/mypage/">
