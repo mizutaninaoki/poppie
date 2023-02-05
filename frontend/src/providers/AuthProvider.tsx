@@ -26,12 +26,6 @@ gql`
     }
   }
 
-  fragment CurrentAccount on AccountType {
-    id
-    givablePoint
-    receivedPoint
-  }
-
   fragment CurrentProfile on ProfileType {
     id
     department

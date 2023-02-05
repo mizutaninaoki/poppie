@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { gql } from '@apollo/client';
 import { PageContainerWithError } from '@/components/PageContainerWithError';
@@ -9,11 +9,19 @@ import { useTmpDealingCreateData, clearSession } from '@/utils/storage';
 import userLoginRequired from '@/hoc/userLoginRequired';
 import { PageContentError } from '@/components/PageContentError';
 import { PageLoading } from '@/components/PageLoading';
+import { useAccount } from '@/hooks/useAccount';
 
 gql`
   mutation CreateDealing($input: CreateDealingInput!) {
     createDealing(input: $input) {
-      clientMutationId
+      dealing {
+        id
+        giver {
+          id
+          givablePoint
+          receivedPoint
+        }
+      }
     }
   }
 `;
@@ -23,9 +31,13 @@ const DealingsNewConfirmPage: FC = () => {
   const { setFlash } = useFlash();
   const { setPageError } = usePageError();
   const { data: tmpDealingCreateData } = useTmpDealingCreateData();
+  const { updateAccountGivablePoint } = useAccount();
 
   const [createDealing, { loading: createLoading }] = useCreateDealingMutation({
-    onCompleted: async () => {
+    onCompleted: async (res) => {
+      if (!res.createDealing?.dealing) return;
+      updateAccountGivablePoint(res.createDealing.dealing.giver.givablePoint);
+
       clearSession();
       await router.push('/mypage/');
       setFlash('ポイントを贈りました。');

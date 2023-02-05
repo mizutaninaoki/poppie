@@ -109,6 +109,7 @@ export type CreateOrUpdateExchangeAppliedItemsInput = {
 
 export type CreateOrUpdateExchangeAppliedItemsPayload = {
   __typename?: 'CreateOrUpdateExchangeAppliedItemsPayload';
+  account: AccountType;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -740,6 +741,8 @@ export type ItemDataForItemFormFragment = { __typename?: 'ItemType', id: string,
 
 export type ProfileDataFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageKey?: string | null, imageUrl?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } };
 
+export type CurrentAccountFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number };
+
 export type CurrentCompanyFragment = { __typename?: 'CompanyType', id: string, name: string, point: number };
 
 export type TokenAuthMutationVariables = Exact<{
@@ -747,7 +750,7 @@ export type TokenAuthMutationVariables = Exact<{
 }>;
 
 
-export type TokenAuthMutation = { __typename?: 'Mutation', tokenAuth?: { __typename?: 'ObtainJSONWebTokenPayload', token?: string | null, refreshToken?: string | null, user?: { __typename?: 'CustomUserType', id: string, name: string, email: string, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string } } | null } | null };
+export type TokenAuthMutation = { __typename?: 'Mutation', tokenAuth?: { __typename?: 'ObtainJSONWebTokenPayload', token?: string | null, refreshToken?: string | null, user?: { __typename?: 'CustomUserType', id: string, name: string, email: string, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number }, account: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } } | null } | null };
 
 export type VerifyAccountMutationVariables = Exact<{
   input: VerifyAccountInput;
@@ -780,7 +783,7 @@ export type CreateDealingMutationVariables = Exact<{
 }>;
 
 
-export type CreateDealingMutation = { __typename?: 'Mutation', createDealing?: { __typename?: 'CreateDealingPayload', clientMutationId?: string | null } | null };
+export type CreateDealingMutation = { __typename?: 'Mutation', createDealing?: { __typename?: 'CreateDealingPayload', dealing?: { __typename?: 'DealingType', id: string, giver: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } } | null } | null };
 
 export type DealingsNewInputPageQueryVariables = Exact<{
   companyId: Scalars['ID'];
@@ -813,7 +816,7 @@ export type CreateOrUpdateExchangeAppliedItemsMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrUpdateExchangeAppliedItemsMutation = { __typename?: 'Mutation', createOrUpdateExchangeAppliedItems?: { __typename?: 'CreateOrUpdateExchangeAppliedItemsPayload', clientMutationId?: string | null } | null };
+export type CreateOrUpdateExchangeAppliedItemsMutation = { __typename?: 'Mutation', createOrUpdateExchangeAppliedItems?: { __typename?: 'CreateOrUpdateExchangeAppliedItemsPayload', account: { __typename?: 'AccountType', id: string, receivedPoint: number } } | null };
 
 export type ExchangesIndexPageQueryVariables = Exact<{
   companyId: Scalars['ID'];
@@ -903,8 +906,6 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserNode', id: string, name: string, email: string, verified?: boolean | null, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number }, account?: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } | null, profile?: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null } | null } | null };
-
-export type CurrentAccountFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number };
 
 export type CurrentProfileFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null };
 
@@ -1015,18 +1016,18 @@ export const ProfileDataFragmentDoc = gql`
   }
 }
     `;
-export const CurrentCompanyFragmentDoc = gql`
-    fragment CurrentCompany on CompanyType {
-  id
-  name
-  point
-}
-    `;
 export const CurrentAccountFragmentDoc = gql`
     fragment CurrentAccount on AccountType {
   id
   givablePoint
   receivedPoint
+}
+    `;
+export const CurrentCompanyFragmentDoc = gql`
+    fragment CurrentCompany on CompanyType {
+  id
+  name
+  point
 }
     `;
 export const CurrentProfileFragmentDoc = gql`
@@ -1051,6 +1052,12 @@ export const TokenAuthDocument = gql`
       company {
         id
         name
+        point
+      }
+      account {
+        id
+        givablePoint
+        receivedPoint
       }
     }
   }
@@ -1224,7 +1231,14 @@ export type GetGaveDealingsQueryResult = ApolloReactCommon.QueryResult<GetGaveDe
 export const CreateDealingDocument = gql`
     mutation CreateDealing($input: CreateDealingInput!) {
   createDealing(input: $input) {
-    clientMutationId
+    dealing {
+      id
+      giver {
+        id
+        givablePoint
+        receivedPoint
+      }
+    }
   }
 }
     `;
@@ -1400,7 +1414,10 @@ export type CreateDistributesMutationOptions = ApolloReactCommon.BaseMutationOpt
 export const CreateOrUpdateExchangeAppliedItemsDocument = gql`
     mutation CreateOrUpdateExchangeAppliedItems($input: CreateOrUpdateExchangeAppliedItemsInput!) {
   createOrUpdateExchangeAppliedItems(input: $input) {
-    clientMutationId
+    account {
+      id
+      receivedPoint
+    }
   }
 }
     `;

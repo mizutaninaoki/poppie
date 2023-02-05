@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { AuthContext } from '@/providers/AuthProvider';
 import { clearSession } from '@/utils/storage';
 import { SideAdminMenu } from '@/components/SideAdminMenu';
-
 import { FaHome, FaHandHoldingHeart, FaExchangeAlt } from 'react-icons/fa';
 import { RiFolderSharedFill, RiFolderReceivedFill } from 'react-icons/ri';
 
@@ -41,7 +40,7 @@ export const SideMenu: FC = () => {
             <div className="m-2">
               <div className="bg-white p-6 rounded-xl w-full text-center">
                 <p className="font-bold">
-                  配布可能ポイント : {currentUser.company.point}
+                  授与可能ポイント : {currentUser.account?.givablePoint} P
                 </p>
               </div>
             </div>

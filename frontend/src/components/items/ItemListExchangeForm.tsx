@@ -57,10 +57,10 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
   return (
     <>
       <div className="w-full text-right">
-        <div className="card bg-base-100 shadow-xl mb-5 inline-block">
-          <div className="card-body p-6 text-left">
-            <p className="font-bold">
-              交換可能ポイント : {currentUser.account?.givablePoint} P
+        <div className="bg-green-50 shadow-lg rounded-lg mb-5 inline-block">
+          <div className="p-6 text-left">
+            <p className="font-bold mb-1">
+              交換可能なポイント : {currentUser.account?.receivedPoint} P
             </p>
             <p className="font-bold">
               現在の交換必要ポイント : {selectedItemTotalPoint}P

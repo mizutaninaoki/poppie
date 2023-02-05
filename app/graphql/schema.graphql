@@ -85,6 +85,7 @@ input CreateOrUpdateExchangeAppliedItemsInput {
 }
 
 type CreateOrUpdateExchangeAppliedItemsPayload {
+  account: AccountType!
   clientMutationId: String
 }
 

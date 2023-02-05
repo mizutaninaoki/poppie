@@ -103,10 +103,10 @@ def create_seed_data():
         )
 
     #
-    # 会社によるポイント購入(31日前に購入した想定)
+    # 会社によるポイント購入(90日前に購入した想定)
     #
-    purchase_point = 20000
-    purchase_price = 20000
+    purchase_point = 60000
+    purchase_price = 60000
 
     company.point += purchase_point
     company.save()
@@ -122,7 +122,7 @@ def create_seed_data():
     # 会社からユーザーたちへポイント配布(31日前に配布した想定)
     #
     accounts = Account.objects.all()
-    distribute_point = 3000  # (管理者ユーザー + 一般ユーザー3人 -> 12,000ポイント配布)
+    distribute_point = 10000  # (管理者ユーザー + 一般ユーザー3人 -> 40,000ポイント配布)
 
     for account in accounts:
         account.increase_givable_point(distribute_point)
@@ -137,10 +137,12 @@ def create_seed_data():
         )
 
     #
-    # ユーザー１によるポイント贈与(30日前から１日１回ポイントの取引があったことを想定)
+    # ユーザー１によるポイント贈与(90日前から１日１回ポイントの取引があったことを想定)
     #
 
-    for i in range(30):
+    generate_days = 90
+
+    for i in range(generate_days):
         ##=====================================
         # ユーザー1 -> ユーザー2へポイント贈与
         ##=====================================
@@ -162,10 +164,10 @@ def create_seed_data():
 
         # update_fieldsを使用して、auto_nowをオーバーライドして、強制的に指定した時間で保存するようにしています。
         dealing.created_at = datetime.datetime.now() - datetime.timedelta(
-            days=(30 + 1) - i
+            days=(generate_days + 1) - i
         )
         dealing.updated_at = datetime.datetime.now() - datetime.timedelta(
-            days=(30 + 1) - i
+            days=(generate_days + 1) - i
         )
         dealing.save(update_fields=["created_at", "updated_at"])
 
@@ -189,10 +191,10 @@ def create_seed_data():
         )
 
         dealing.created_at = datetime.datetime.now() - datetime.timedelta(
-            days=(30 + 1) - i
+            days=(generate_days + 1) - i
         )
         dealing.updated_at = datetime.datetime.now() - datetime.timedelta(
-            days=(30 + 1) - i
+            days=(generate_days + 1) - i
         )
         dealing.save(update_fields=["created_at", "updated_at"])
 

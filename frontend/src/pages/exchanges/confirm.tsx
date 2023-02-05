@@ -9,13 +9,17 @@ import userLoginRequired from '@/hoc/userLoginRequired';
 import { useRouter } from 'next/router';
 import { ItemCard } from '@/components/items/ItemCard';
 import { useTmpExchangeItemsData, clearSession } from '@/utils/storage';
+import { useAccount } from '@/hooks/useAccount';
 
 gql`
   mutation CreateOrUpdateExchangeAppliedItems(
     $input: CreateOrUpdateExchangeAppliedItemsInput!
   ) {
     createOrUpdateExchangeAppliedItems(input: $input) {
-      clientMutationId
+      account {
+        id
+        receivedPoint
+      }
     }
   }
 `;
@@ -28,10 +32,16 @@ const ExchangesConfirmPage: FC = () => {
   const { setFlash } = useFlash();
   const { setPageFatalError } = usePageFatalError();
   const { data: tmpExchangeItemsData } = useTmpExchangeItemsData();
+  const { updateAccountReceivedPoint } = useAccount();
 
   const [createOrUpdateExchangeAppliedItems, { loading: createLoading }] =
     useCreateOrUpdateExchangeAppliedItemsMutation({
-      onCompleted: async () => {
+      onCompleted: async (res) => {
+        if (!res.createOrUpdateExchangeAppliedItems) return;
+        updateAccountReceivedPoint(
+          res.createOrUpdateExchangeAppliedItems.account.receivedPoint,
+        );
+
         clearSession();
         await router.push('/exchanges/complete/');
         setFlash('景品の交換予約が完了しました。');

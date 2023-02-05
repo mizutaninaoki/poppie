@@ -1,9 +1,12 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import Link from 'next/link';
+import { AuthContext } from '@/providers/AuthProvider';
 import { RiExchangeCnyLine, RiHeartAddFill } from 'react-icons/ri';
 import { HiUserGroup, HiGift } from 'react-icons/hi';
 
 export const SideAdminMenu: FC = () => {
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <>
       <hr />
@@ -39,6 +42,14 @@ export const SideAdminMenu: FC = () => {
             景品一覧
           </a>
         </Link>
+      </li>
+
+      <li>
+        <div className="m-2">
+          <div className="bg-white p-6 rounded-xl w-full text-center">
+            <p className="font-bold">管理ポイント : {currentUser.company.point} P</p>
+          </div>
+        </div>
       </li>
     </>
   );

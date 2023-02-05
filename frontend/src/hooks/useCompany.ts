@@ -13,7 +13,7 @@ gql`
 `;
 
 type ReturnType = {
-  company?: CurrentCompanyFragment;
+  company: CurrentCompanyFragment;
   updateCompanyPoint: (companyPoint: number) => void;
 };
 

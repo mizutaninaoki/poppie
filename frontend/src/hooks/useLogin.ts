@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react';
-import { useMutation, gql, ApolloError } from '@apollo/client';
+import { gql, ApolloError } from '@apollo/client';
 import { useTokenAuthMutation } from '@/generated/graphql';
 import { LoginFormDataType } from '@/components/LoginForm';
 import { setTokensToCookie } from '@/utils/cookie';
@@ -19,6 +19,12 @@ gql`
         company {
           id
           name
+          point
+        }
+        account {
+          id
+          givablePoint
+          receivedPoint
         }
       }
     }
@@ -53,7 +59,7 @@ export function useLogin(): Returning {
           const { token, refreshToken, success, errors } = res.data.tokenAuth;
           setTokensToCookie(token, refreshToken);
 
-          const { id, email, name, isAdmin, isActive, company } = res.data.tokenAuth.user;
+          const { id, email, name, isAdmin, isActive, company, account } = res.data.tokenAuth.user;
           authContext.setCurrentUser({
             id,
             email,
@@ -61,6 +67,7 @@ export function useLogin(): Returning {
             isAdmin,
             isActive,
             company,
+            account,
             verified: true,
             isLoaded: true,
             isLoggedIn: true,
