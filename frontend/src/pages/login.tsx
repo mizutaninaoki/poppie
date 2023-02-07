@@ -29,8 +29,8 @@ const LoginPage: NextPageWithLayout = () => {
   return (
     <PageContainerWithError>
       <div className="grid place-items-center min-h-screen-except-header">
-        <div className="w-full max-w-md mx-auto bg-white shadow-md rounded-lg">
-          <div className="bg-green-50 pt-8 pb-12 rounded-lg">
+        <div className="w-full max-w-sm rounded-lg">
+          <div className="bg-green-50 pt-8 pb-12 shadow-md rounded-lg mx-2 sm:mx-0">
             <div className="text-2xl font-bold text-center text-green-600 mb-6">
               ログイン
             </div>
