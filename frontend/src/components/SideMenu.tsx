@@ -6,8 +6,13 @@ import { clearSession } from '@/utils/storage';
 import { SideAdminMenu } from '@/components/SideAdminMenu';
 import { FaHome, FaHandHoldingHeart, FaExchangeAlt } from 'react-icons/fa';
 import { RiFolderSharedFill, RiFolderReceivedFill } from 'react-icons/ri';
+import { IoClose } from 'react-icons/io5';
 
-export const SideMenu: FC = () => {
+type Props = {
+  setResClass: (data: string) => void;
+};
+
+export const SideMenu: FC<Props> = ({ setResClass }) => {
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
 
@@ -17,18 +22,22 @@ export const SideMenu: FC = () => {
   };
 
   return (
-    <div className="drawer drawer-mobile bg-green-50 h-screen">
+    <div className="drawer drawer-mobile bg-green-50">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col items-center justify-center">
-        {/* Page content here */}
-        <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">
-          Open drawer
-        </label>
-      </div>
+      {/* <div className="drawer-content"></div> */}
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay" />
-        <ul className="menu p-4 overflow-y-auto w-80   text-base-content bg-green-50 h-screen">
-          <li>
+        <ul className="menu p-4 overflow-y-auto lg:w-80 text-base-content h-screen bg-green-50 relative">
+          <label
+            className="absolute top-3 right-3 cursor-pointer lg:hidden"
+            htmlFor="my-drawer-2"
+            onClick={() => {
+              setResClass('hidden lg:block lg:w-1/5');
+            }}
+          >
+            <IoClose></IoClose>
+          </label>
+          <li className="w-1/2">
             {/* Sidebar content here */}
             <div className="py-3 text-center active:bg-green-50 hover:bg-green-50">
               <Link href="/mypage/">
@@ -46,7 +55,7 @@ export const SideMenu: FC = () => {
           </li>
           <li>
             <div className="m-2 active:text-gray-600 hover:bg-green-50 hover:cursor-auto">
-              <div className="bg-white p-6 rounded-xl w-full text-center">
+              <div className="bg-white p-4 rounded-xl text-center">
                 <p className="font-bold">
                   授与可能ポイント : {currentUser.account?.givablePoint} P
                 </p>

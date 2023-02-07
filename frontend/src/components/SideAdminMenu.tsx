@@ -48,7 +48,7 @@ export const SideAdminMenu: FC = () => {
 
       <li>
         <div className="m-2 active:text-gray-600 hover:bg-green-50 hover:cursor-auto">
-          <div className="bg-white p-6 rounded-xl w-full text-center">
+          <div className="bg-white p-4 rounded-xl text-center">
             <p className="font-bold">管理者ポイント : {currentUser.company.point} P</p>
           </div>
         </div>

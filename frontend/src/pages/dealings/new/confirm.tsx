@@ -68,9 +68,9 @@ const DealingsNewConfirmPage: FC = () => {
   return (
     <PageContainerWithError>
       <div className="grid min-h-screen-except-header">
-        <div className="p-8">
+        <div className="m-4 sm:m-8">
           <div className="place-items-start mb-5 border-l-4 border-green-200">
-            <h3 className="text-lg font-bold">&nbsp;内容確認</h3>
+            <h3 className="md:text-lg font-bold">&nbsp;内容確認</h3>
           </div>
           <div className="grid h-full place-items-center">
             <div className="shadow-md p-12 rounded-lg form-box-large bg-green-50">

@@ -13,6 +13,12 @@ gql`
     user {
       name
       email
+      profile {
+        id
+        department
+        comment
+        imageUrl
+      }
     }
   }
 `;
@@ -69,30 +75,36 @@ export const DistributeForm: FC<Props> = ({ onSubmit: onSubmitFn, accounts }) =>
   return (
     <>
       <PoppieDialog {...dialogData} />
-      <div className="grid grid-cols-3 gap-12 mb-8">
+      <div className="grid mb-8 grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-4 lg:gap-6 xl:grid-cols-4 xl:gap-8">
         {accounts.map((account, i) => {
           return (
             <div className="m-2" key={account.id}>
               <div className="card w-full h-full bg-gray-100 shadow-md pb-8 pt-2">
+                <div className="mx-auto w-7/12 h-full">
+                  <img
+                    src={
+                      account.user.profile.imageUrl || '/images/blank-profile-picture.png'
+                    }
+                    alt="profile-image"
+                    className="rounded-full w-full h-full aspect-square"
+                  />
+                </div>
                 <div className="card-body py-6 px-12">
                   <p className="font-bold">
-                    {account.user.name} :&nbsp;
-                    <span className="font-medium">{account.user.email}</span>
+                    {account.user.name} : {account.user.email}
                   </p>
                   <p className="mb-0 font-bold">
-                    <span className="font-bold">授与可能ポイント : </span>
-                    <span className="font-medium">{account.givablePoint}</span>
+                    授与可能ポイント : {account.givablePoint}
                   </p>
                   <p className="mb-0 font-bold">
-                    交換可能ポイント:&nbsp;
-                    <span className="font-medium">{account.receivedPoint}</span>
+                    交換可能ポイント: {account.receivedPoint}
                   </p>
                 </div>
                 <div className="card-actions justify-center">
                   <input
                     type="text"
                     placeholder="0"
-                    className="input w-full max-w-xs"
+                    className="input w-75"
                     value={formDatas[i].distributePoint}
                     onChange={(e) => {
                       const distributePoint = Number(e.target.value);

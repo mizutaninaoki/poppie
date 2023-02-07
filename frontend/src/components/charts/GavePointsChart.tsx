@@ -75,58 +75,60 @@ export const GavePointsChart: FC<Props> = ({ chartData: initialChartData }) => {
   }, [initialChartData]);
 
   return (
-    <>
-      <div></div>
-      <ResponsiveContainer width="100%" aspect={5.0 / 1.0}>
-        <ComposedChart data={chartData} margin={{ top: 30 }}>
-          <XAxis dataKey="date" tick={{ fontSize: '0.8vw' }} interval={0} />
-          <YAxis
-            yAxisId={1}
-            tick={{ fontSize: '12px' }}
-            tickFormatter={(value: number) => value.toLocaleString()}
-            width={80}
-            interval={0}
-            label={{
-              dy: -10,
-              value: '贈与ポイント',
-              position: 'top',
-              fontSize: '10px',
-            }}
-          />
-          <YAxis
-            yAxisId={2}
-            orientation="right"
-            tick={{ fontSize: '12px' }}
-            tickFormatter={(value: number) => value.toLocaleString()}
-            width={80}
-            // interval={1}
-            tickCount={1}
-            label={{
-              dy: -10,
-              value: '贈与回数（回）',
-              position: 'top',
-              fontSize: '10px',
-            }}
-          />
-          <Legend wrapperStyle={{ fontSize: '1.0vw' }} iconSize={12} />
-          <Tooltip />
-          <CartesianGrid stroke="#f5f5f5" />
-          <Bar
-            yAxisId={1}
-            type="monotone"
-            dataKey="gaveTotalPoint"
-            name="贈与ポイント"
-            fill="#16A34A"
-          />
-          <Line
-            yAxisId={2}
-            type="monotone"
-            dataKey="gaveCount"
-            name="贈与回数"
-            stroke="#919191"
-          />
-        </ComposedChart>
-      </ResponsiveContainer>
-    </>
+    <ResponsiveContainer
+      width="100%"
+      aspect={(window.innerWidth * 2.2) / (window.innerHeight * 0.9)}
+      // aspect={5 / 1}
+    >
+      <ComposedChart data={chartData} margin={{ top: 30 }}>
+        <XAxis dataKey="date" tick={{ fontSize: '0.8vw' }} interval={0} />
+        <YAxis
+          yAxisId={1}
+          tick={{ fontSize: '12px' }}
+          tickFormatter={(value: number) => value.toLocaleString()}
+          width={80}
+          interval={0}
+          label={{
+            dy: -10,
+            value: '贈与ポイント',
+            position: 'top',
+            fontSize: '12px',
+          }}
+        />
+        <YAxis
+          yAxisId={2}
+          orientation="right"
+          tick={{ fontSize: '12px' }}
+          tickFormatter={(value: number) => value.toLocaleString()}
+          width={80}
+          // interval={1}
+          tickCount={1}
+          label={{
+            dy: -10,
+            value: '贈与回数（回）',
+            position: 'top',
+            fontSize: '12px',
+          }}
+        />
+        <Legend wrapperStyle={{ fontSize: '0.8vw' }} iconSize={12} />
+        <Tooltip />
+        <CartesianGrid stroke="#f5f5f5" />
+        <Bar
+          yAxisId={1}
+          type="monotone"
+          dataKey="gaveTotalPoint"
+          name="贈与ポイント"
+          fill="#16A34A"
+          radius={[7, 7, 0, 0]}
+        />
+        <Line
+          yAxisId={2}
+          type="monotone"
+          dataKey="gaveCount"
+          name="贈与回数"
+          stroke="#919191"
+        />
+      </ComposedChart>
+    </ResponsiveContainer>
   );
 };

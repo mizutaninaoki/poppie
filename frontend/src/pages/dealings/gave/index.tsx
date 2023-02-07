@@ -79,16 +79,16 @@ const DealingsGavePage: NextPageWithLayout = () => {
   return (
     <PageContainerWithError>
       <div className="grid min-h-screen-except-header">
-        <div className="p-8">
+        <div className="m-4 sm:m-8">
           <div className="place-items-start mb-10 border-l-4 border-green-200">
-            <h3 className="text-lg font-bold">&nbsp;あげたポイント一覧</h3>
+            <h3 className="md:text-lg font-bold">&nbsp;あげたポイント一覧</h3>
           </div>
 
           <div className="grid place-items-center">
             <div className="w-full h-64">
               {getGaveDealingsLoading && <PageLoading />}
               {!getGaveDealingsLoading && assignedGaveDealingsData && (
-                <div className="pb-6 px-5">
+                <div className="pb-6">
                   <div className="text-center">
                     <IoChevronBack
                       className="text-green-600 inline cursor-pointer hover:opacity-50"
@@ -112,39 +112,33 @@ const DealingsGavePage: NextPageWithLayout = () => {
                   <h2 className="font-bold mb-2">今月あげたポイント</h2>
                   <GavePointsChart chartData={assignedGaveDealingsData.gaveDealings} />
                   <div className="mb-12"></div>
-                  <div className="">
-                    <div className="overflow-x-auto">
-                      <table className="table table-zebra mx-auto w-3/5">
-                        <thead>
-                          <tr className="text-center">
-                            <th>ポイントをあげたユーザー</th>
-                            <th>ポイント数</th>
-                            <th>コメント</th>
-                            <th>日時</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {assignedGaveDealingsData.gaveDealings.map(
-                            (gaveDealingData) => {
-                              return gaveDealingData.dealings.map((dealing) => {
-                                return (
-                                  <tr>
-                                    <th className="font-medium">
-                                      {dealing.giver.user.name}
-                                    </th>
-                                    <td>{dealing.amount} ポイント</td>
-                                    <td className="whitespace-pre-wrap break-all">
-                                      {dealing.message}
-                                    </td>
-                                    <td>{formatDateTimeWithSlash(dealing.createdAt)}</td>
-                                  </tr>
-                                );
-                              });
-                            },
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                  <div className="overflow-x-auto">
+                    <table className="z-0 table table-zebra mx-auto">
+                      <thead>
+                        <tr className="text-center">
+                          <th>ポイントをあげたユーザー</th>
+                          <th>ポイント数</th>
+                          <th>コメント</th>
+                          <th>日時</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {assignedGaveDealingsData.gaveDealings.map((gaveDealingData) => {
+                          return gaveDealingData.dealings.map((dealing) => {
+                            return (
+                              <tr>
+                                <th className="font-medium">{dealing.giver.user.name}</th>
+                                <td>{dealing.amount} ポイント</td>
+                                <td className="whitespace-pre-wrap break-all">
+                                  {dealing.message}
+                                </td>
+                                <td>{formatDateTimeWithSlash(dealing.createdAt)}</td>
+                              </tr>
+                            );
+                          });
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               )}

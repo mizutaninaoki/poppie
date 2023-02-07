@@ -33,14 +33,14 @@ const SettingsUsersPage: NextPageWithLayout = () => {
 
   return (
     <PageContainerWithError>
-      <div className="grid min-h-screen-except-header">
-        <div className="p-8">
+      <div className="grid">
+        <div className="m-4 sm:m-8">
           <div className="place-items-start mb-5 border-l-4 border-green-200">
-            <h3 className="text-lg font-bold">&nbsp;ユーザー管理</h3>
+            <h3 className="md:text-lg font-bold">&nbsp;ユーザー管理</h3>
           </div>
-          <div className="text-center my-6">
+          <div className="text-center">
             <Link href="/settings/users/register/">
-              <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold my-3 py-2 px-4 rounded-lg">
+              <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold mt-3 mb-7 py-2 px-4 rounded-lg">
                 ユーザーを追加する
               </button>
             </Link>

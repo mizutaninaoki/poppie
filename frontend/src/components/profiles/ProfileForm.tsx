@@ -22,8 +22,8 @@ gql`
 
 export type ProfileFormDataType = {
   name: string;
-  department: string;
-  comment: string;
+  department?: string;
+  comment?: string;
   imageKey?: string;
   image?: File;
 };
@@ -62,7 +62,7 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
 
   return (
     <>
-      <div className="shadow-md p-12 rounded-lg bg-green-50">
+      <div className="shadow-md p-12 rounded-lg bg-green-50 m-4">
         <div className="w-full max-w-sm">
           <ProfileImageForm selectedImageUrl={profile.imageUrl} onSelected={onSelected} />
           <div className="md:flex md:items-center mb-6">
@@ -99,6 +99,9 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
               </label>
             </div>
             <div className="md:w-2/3">
+              {errors?.department && (
+                <p className="text-red-600 text-xs mb-1">{errors?.department.message}</p>
+              )}
               <input
                 type="text"
                 placeholder="人事部"
@@ -120,6 +123,9 @@ export const ProfileForm: FC<Props> = ({ profile, loading, onSubmit: onSubmitFn 
               </label>
             </div>
             <div className="md:w-2/3">
+              {errors?.comment && (
+                <p className="text-red-600 text-xs mb-1">{errors?.comment.message}</p>
+              )}
               <textarea
                 className="textarea w-full"
                 placeholder="よろしくおねがいします"

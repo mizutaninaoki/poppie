@@ -9,8 +9,8 @@ import { ProfileFormDataType } from '@/components/profiles/ProfileForm';
 export const ProfileFormDataZodSchema = schemaForType<ProfileFormDataType>()(
   z.object({
     name: z.string().nonempty(), // 必ず空文字は入る
-    department: z.string().nonempty(), // 必ず空文字は入る
-    comment: z.string().nonempty(), // 必ず空文字は入る
+    department: z.string().optional(), // 必ず空文字は入る
+    comment: z.string().optional(), // 必ず空文字は入る
     imageKey: z.string().optional(),
     image: z
       .any()

@@ -75,11 +75,11 @@ const ExchangesConfirmPage: FC = () => {
     <PageContainerWithError>
       <>
         <div className="grid mb-10">
-          <div className="p-8">
+          <div className="m-4 sm:m-8">
             <div className="place-items-start mb-5 border-l-4 border-green-200">
-              <h3 className="text-lg font-bold">&nbsp;景品確認</h3>
+              <h3 className="md:text-lg font-bold">&nbsp;景品確認</h3>
             </div>
-            <div className="grid grid-cols-3 gap-12 mb-8 mt-10">
+            <div className="grid mb-8 grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-8 xl:grid-cols-4 xl:gap-12">
               {tmpExchangeItemsData && (
                 <>
                   {tmpExchangeItemsData

@@ -17,7 +17,7 @@ const ExchangesCompletePage: FC = () => {
     <PageContainerWithError>
       <div className="h-screen flex justify-center items-center">
         <div className="bg-gray-100 py-10 px-8 rounded-xl text-center">
-          <h1 className="text-2xl mb-5 font-bold">景品交換依頼完了</h1>
+          <h1 className="text-lg lg:text-2xl mb-5 font-bold">景品交換依頼完了</h1>
           <div className="w-full text-center">
             <div>
               <h4 className="mb-0">景品の交換依頼が完了しました。</h4>

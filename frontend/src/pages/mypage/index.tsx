@@ -82,7 +82,7 @@ const MypagePage: NextPageWithLayout = () => {
         <div className="w-full h-64">
           <div className="text-right m-8 mr-12">
             <button
-              className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
+              className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg text-xs"
               onClick={onClick}
             >
               ポイントをあげる
@@ -96,7 +96,7 @@ const MypagePage: NextPageWithLayout = () => {
                   className="text-green-600 inline cursor-pointer hover:opacity-50"
                   onClick={prevMonth}
                 ></IoChevronBack>
-                <span className="bg-green-50 p-2 rounded-lg font-bold mx-2">
+                <span className="bg-green-50 p-2 rounded-lg font-bold mx-2 text-xs lg:text-sm">
                   {chartDisplayDate.getFullYear()}年{chartDisplayDate.getMonth() + 1}月
                   {/* getMonthは0始まりのため、プラス１する */}
                 </span>

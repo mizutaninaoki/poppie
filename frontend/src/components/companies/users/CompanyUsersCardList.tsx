@@ -11,6 +11,12 @@ gql`
       givablePoint
       receivedPoint
     }
+    profile {
+      id
+      department
+      comment
+      imageUrl
+    }
   }
 `;
 
@@ -25,23 +31,27 @@ export const CompanyUsersCardList: FC<Props> = ({ users }) => {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-12 mb-8">
+      <div className="grid mb-8 grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-8 xl:grid-cols-4 xl:gap-12">
         {users.map((user) => {
           return (
-            <div className="m-2 mx-auto" key={user.id}>
-              <div className="card w-96 bg-gray-100 shadow-md">
+            <div className="m-2 mx-auto w-full" key={user.id}>
+              <div className="card bg-gray-100 shadow-md pt-6 h-full w-full">
+                <div className="mx-auto w-7/12 h-full">
+                  <img
+                    src={user.profile.imageUrl || '/images/blank-profile-picture.png'}
+                    alt="profile-image"
+                    className="rounded-full w-full h-full aspect-square"
+                  />
+                </div>
                 <div className="card-body p-6">
-                  <p>
-                    <span className="font-bold">{user.name}</span>&nbsp;:&nbsp;
-                    {user.email}
+                  <p className="font-bold">
+                    {user.name} : {user.email}
                   </p>
-                  <p className="mb-0">
-                    <span className="font-bold">授与可能ポイント</span>&nbsp;:&nbsp;
-                    {user.account.givablePoint}
+                  <p className="mb-0 font-bold">
+                    授与可能ポイント : {user.account.givablePoint} P
                   </p>
-                  <p className="mb-0">
-                    <span className="font-bold">交換可能ポイント</span>&nbsp;:&nbsp;
-                    {user.account.receivedPoint}
+                  <p className="mb-0 font-bold">
+                    交換可能ポイント : {user.account.receivedPoint} P
                   </p>
                 </div>
               </div>

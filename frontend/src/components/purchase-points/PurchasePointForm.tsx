@@ -68,110 +68,116 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
   return (
     <>
       <PoppieDialog {...dialogData} />
-      <div className="grid grid-cols-3 gap-x-20">
-        <div>
-          <div className="mx-auto">
-            <div className="shadow-md rounded-lg bg-gray-50">
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ポイント購入</h2>
-                <p className="font-bold text-xl">1,000円</p>
-              </div>
+      <div className="grid mb-8 grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-12">
+        <div className="mx-auto w-full bg-green-50 p-8 rounded-lg">
+          <div className="rounded-lg bg-white">
+            <div className="p-6 text-center">
+              <h2 className="font-bold text-sm md:text-md lg:text-lg xl:text-xl">
+                ポイント購入
+              </h2>
+              <p className="font-bold text-sm md:text-md lg:text-lg xl:text-xl">
+                1,000円
+              </p>
             </div>
-            <div className="mb-4">
-              <div className="my-8">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mx-auto"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="w-full text-center">
-                <input
-                  type="number"
-                  min="0"
-                  max="9"
-                  placeholder="0"
-                  className="input input-bordered w-full max-w-xs mr-2"
-                  onChange={(e) => {
-                    const point = Number(e.target.value);
-                    setFormData({ ...formData, thouPoint: 1000 * point });
-                  }}
+          </div>
+          <div className="mb-4">
+            <div className="my-8">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mx-auto"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
                 />
-                <span className="font-bold">個</span>
-              </div>
+              </svg>
+            </div>
+            <div className="w-full text-center">
+              <input
+                type="number"
+                min="0"
+                max="9"
+                placeholder="0"
+                className="input w-1/2 mr-2 inline"
+                onChange={(e) => {
+                  const point = Number(e.target.value);
+                  setFormData({ ...formData, thouPoint: 1000 * point });
+                }}
+              />
+              <span className="font-bold">個</span>
             </div>
           </div>
         </div>
-        <div>
-          <div className="mx-auto">
-            <div className="shadow-md rounded-lg bg-gray-50">
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ポイント購入</h2>
-                <p className="font-bold text-xl">10,000円</p>
-              </div>
+        <div className="mx-auto w-full bg-green-50 p-8 rounded-lg">
+          <div className="rounded-lg bg-white">
+            <div className="p-6 text-center">
+              <h2 className="font-bold text-sm md:text-md lg:text-lg xl:text-xl">
+                ポイント購入
+              </h2>
+              <p className="font-bold text-sm md:text-md lg:text-lg xl:text-xl">
+                10,000円
+              </p>
             </div>
-            <div className="mb-4">
-              <div className="my-8">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mx-auto"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="w-full text-center">
-                <input
-                  type="number"
-                  min="0"
-                  max="9"
-                  placeholder="0"
-                  className="input input-bordered w-full max-w-xs mr-2"
-                  onChange={(e) => {
-                    const point = Number(e.target.value);
-                    setFormData({ ...formData, tenThouPoint: 10000 * point });
-                  }}
+          </div>
+          <div className="mb-4">
+            <div className="my-8">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mx-auto"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
                 />
-                <span className="font-bold">個</span>
-              </div>
+              </svg>
+            </div>
+            <div className="w-full text-center">
+              <input
+                type="number"
+                min="0"
+                max="9"
+                placeholder="0"
+                className="input w-1/2 mr-2 inline"
+                onChange={(e) => {
+                  const point = Number(e.target.value);
+                  setFormData({ ...formData, tenThouPoint: 10000 * point });
+                }}
+              />
+              <span className="font-bold">個</span>
             </div>
           </div>
         </div>
-        <div>
-          <div className="mx-auto">
-            <div className="shadow-md rounded-lg bg-gray-50">
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ポイント購入</h2>
-                <p className="font-bold text-xl">100,000円</p>
-              </div>
+        <div className="mx-auto w-full bg-green-50 p-8 rounded-lg">
+          <div className="rounded-lg bg-white">
+            <div className="p-6 text-center">
+              <h2 className="font-bold text-sm md:text-md lg:text-lg xl:text-xl">
+                ポイント購入
+              </h2>
+              <p className="font-bold text-sm md:text-md lg:text-lg xl:text-xl">
+                100,000円
+              </p>
             </div>
-            <div className="mb-4">
-              <div className="my-8">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mx-auto"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
+          </div>
+          <div className="mb-4">
+            <div className="my-8">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mx-auto"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </div>
           </div>
           <div className="w-full text-center">
@@ -180,7 +186,7 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
               min="0"
               max="9"
               placeholder="0"
-              className="input input-bordered w-full max-w-xs mr-2"
+              className="input w-1/2 mr-2 inline"
               onChange={(e) => {
                 const point = Number(e.target.value);
                 setFormData({ ...formData, hundredThouPoint: 100000 * point });
@@ -191,45 +197,37 @@ export const PurchasePointForm: FC<Props> = ({ onSubmit: onSubmitFn, createLoadi
         </div>
       </div>
       <div className="grid place-items-center mt-10">
-        <div className="shadow-md p-10 rounded-lg form-box bg-green-50">
-          <div className="w-full max-w-sm">
-            <div className="md:flex md:items-center mb-6">
-              <div className="md:w-1/3">
-                <label
-                  className="block font-bold mb-1 md:mb-0 pr-4"
-                  htmlFor="inline-full-name"
-                >
+        <div className="shadow-md p-8 rounded-lg form-box bg-gray-50">
+          <div className="w-full font-bold">
+            <div className="flex items-center mb-6">
+              <div className="w-1/3">
+                <label className="block mb-0 pr-4" htmlFor="inline-full-name">
                   購入ポイント
                 </label>
               </div>
-              <div className="md:w-2/3">{totalPoint}ポイント</div>
+              <div className="w-2/3">{totalPoint} P</div>
             </div>
 
             <div className="w-full max-w-sm">
-              <div className="md:flex md:items-center mb-6">
-                <div className="md:w-1/3">
-                  <label
-                    className="block font-bold mb-1 md:mb-0 pr-4"
-                    htmlFor="inline-full-name"
-                  >
+              <div className="flex items-center mb-6">
+                <div className="w-1/3">
+                  <label className="block mb-0 pr-4" htmlFor="inline-full-name">
                     購入金額
                   </label>
                 </div>
-                <div className="md:w-2/3">{totalPrice}円</div>
+                <div className="w-2/3">{totalPrice} 円</div>
               </div>
             </div>
 
-            <div className="md:flex md:items-center">
-              <div className="mx-auto">
-                {createLoading && <PageLoading />}
-                <button
-                  className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
-                  type="button"
-                  onClick={() => setDialogOpen(true)}
-                >
-                  購入する
-                </button>
-              </div>
+            <div className="mx-auto text-center">
+              {createLoading && <PageLoading />}
+              <button
+                className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
+                type="button"
+                onClick={() => setDialogOpen(true)}
+              >
+                購入する
+              </button>
             </div>
           </div>
         </div>

@@ -729,11 +729,11 @@ export type ReceivedDealingsForReceivedPointsChartFragment = { __typename?: 'Use
 
 export type PlanForCompanyFormFragment = { __typename?: 'PlanType', id: string, name: string, fee: number };
 
-export type CompanyUsersListDataFragment = { __typename?: 'CustomUserType', id: string, name: string, email: string, account: { __typename?: 'AccountType', givablePoint: number, receivedPoint: number } };
+export type CompanyUsersListDataFragment = { __typename?: 'CustomUserType', id: string, name: string, email: string, account: { __typename?: 'AccountType', givablePoint: number, receivedPoint: number }, profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null } };
 
 export type CompanyUserForDealingFormFragment = { __typename?: 'CustomUserType', id: string, name: string, profile: { __typename?: 'ProfileType', department?: string | null } };
 
-export type DistributeFormDataFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } };
+export type DistributeFormDataFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string, profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null } } };
 
 export type ItemDataForItemCardFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null };
 
@@ -802,7 +802,7 @@ export type GetReceivedDealingsQuery = { __typename?: 'Query', receivedDealings:
 export type DistributesNewInputPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DistributesNewInputPageQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string } }> };
+export type DistributesNewInputPageQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string, profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null } } }> };
 
 export type CreateDistributesMutationVariables = Exact<{
   input: CreateDistributesInput;
@@ -893,7 +893,7 @@ export type SettingsUsersPageQueryVariables = Exact<{
 }>;
 
 
-export type SettingsUsersPageQuery = { __typename?: 'Query', users: Array<{ __typename?: 'CustomUserType', id: string, name: string, email: string, account: { __typename?: 'AccountType', givablePoint: number, receivedPoint: number } }> };
+export type SettingsUsersPageQuery = { __typename?: 'Query', users: Array<{ __typename?: 'CustomUserType', id: string, name: string, email: string, account: { __typename?: 'AccountType', givablePoint: number, receivedPoint: number }, profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null } }> };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
@@ -957,6 +957,12 @@ export const CompanyUsersListDataFragmentDoc = gql`
     givablePoint
     receivedPoint
   }
+  profile {
+    id
+    department
+    comment
+    imageUrl
+  }
 }
     `;
 export const CompanyUserForDealingFormFragmentDoc = gql`
@@ -976,6 +982,12 @@ export const DistributeFormDataFragmentDoc = gql`
   user {
     name
     email
+    profile {
+      id
+      department
+      comment
+      imageUrl
+    }
   }
 }
     `;

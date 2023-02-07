@@ -133,17 +133,14 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
           ></textarea>
         </div>
 
-        <div className="md:flex md:items-center">
-          <div className="md:w-1/3" />
-          <div className="md:w-2/3">
-            <button
-              className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
-              type="button"
-              onClick={onSubmit}
-            >
-              確認する
-            </button>
-          </div>
+        <div className="text-center">
+          <button
+            className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg"
+            type="button"
+            onClick={onSubmit}
+          >
+            確認する
+          </button>
         </div>
       </div>
     </>

@@ -4,8 +4,13 @@ import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useFlash } from '@/hooks/useFlash';
 import { AuthContext, initialCurrentUser } from '@/providers/AuthProvider';
+import { RxHamburgerMenu } from 'react-icons/rx';
 
-export const MyPageHeader: FC = () => {
+type Props = {
+  setResClass: (data: string) => void;
+};
+
+export const MyPageHeader: FC<Props> = ({ setResClass }) => {
   const router = useRouter();
   const { setFlash } = useFlash();
   const { currentUser, setCurrentUser } = useContext(AuthContext);
@@ -20,9 +25,19 @@ export const MyPageHeader: FC = () => {
 
   return (
     <div className="navbar bg-base-100 border-b border-gray-200">
-      <div className="flex-1"></div>
+      <div className="flex-1">
+        <label
+          htmlFor="my-drawer-2"
+          className="cursor-pointer lg:hidden"
+          onClick={() => {
+            setResClass('');
+          }}
+        >
+          <RxHamburgerMenu></RxHamburgerMenu>
+        </label>
+      </div>
       <div className="flex-none gap-2">
-        <div className="font-bold">
+        <div className="font-bold text-xs">
           {currentUser.company.name} : {currentUser.name}
         </div>
         <div className="dropdown dropdown-end">

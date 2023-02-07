@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { ItemListFormDataType } from '@/components/items/ItemListExchangeForm';
-
-import styles from './ItemCardWithSelectQuantity.module.scss';
+// import styles from './ItemCardWithSelectQuantity.module.scss';
 
 type Props = {
   item: ItemListFormDataType;
@@ -14,15 +13,15 @@ type Props = {
 export const ItemCardWithSelectQuantity: FC<Props> = ({ item, onChange }) => {
   return (
     <>
-      <div className="card w-96 bg-gray-100 shadow-md pt-8">
-        <div className={styles.imageBox}>
+      <div className="card bg-gray-100 shadow-md pt-8">
+        <div className="mx-auto w-10/12 h-full">
           <img
             src={item.imageUrl || '/images/no-image.png'}
-            className="rounded-2xl w-full h-full"
+            className="rounded-2xl w-full h-3/4"
             alt="item-image"
           />
         </div>
-        <div className="card-body py-8 px-12 font-bold">
+        <div className="card-body pt-0 font-bold">
           <p>{item.name}</p>
           <p>
             現在の在庫数: {item.quantity} {item.unit}

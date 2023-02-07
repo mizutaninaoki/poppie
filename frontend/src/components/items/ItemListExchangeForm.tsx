@@ -59,11 +59,11 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
       <div className="w-full text-right">
         <div className="bg-green-50 shadow-lg rounded-lg mb-5 inline-block">
           <div className="p-6 text-left">
-            <p className="font-bold mb-1">
+            <p className="font-bold mb-1 text-sm md:text-md">
               交換可能なポイント : {currentUser.account?.receivedPoint} P
             </p>
-            <p className="font-bold">
-              現在の交換必要ポイント : {selectedItemTotalPoint}P
+            <p className="font-bold text-sm md:text-md">
+              現在の交換必要ポイント : {selectedItemTotalPoint} P
             </p>
           </div>
         </div>
@@ -71,10 +71,12 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
 
       {ListFormData.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 text-left mb-0">
-            <h3 className="font-bold text-lg">交換する景品数を入力してください</h3>
+          <div className="grid grid-cols-1 text-left mb-2 md:mb-4">
+            <h3 className="font-bold text-md md:text-lg">
+              交換する景品数を入力してください
+            </h3>
           </div>
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="grid mb-8 grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-8 xl:grid-cols-4 xl:gap-12">
             {ListFormData.map((itemFormData, idx) => (
               <ItemCardWithSelectQuantity
                 key={itemFormData.id}

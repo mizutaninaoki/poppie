@@ -4,8 +4,6 @@ import Link from 'next/link';
 import { ItemDataForItemFormFragment } from '@/generated/graphql';
 import { ItemStatusName } from '@/utils/enum';
 
-import styles from './ItemCardWithEditButton.module.scss';
-
 type Props = {
   item: ItemDataForItemFormFragment;
 };
@@ -16,30 +14,25 @@ type Props = {
 export const ItemCardWithEditButton: FC<Props> = ({ item }) => {
   return (
     <>
-      <div className="card w-96 shadow-md bg-gray-100 pt-6">
-        <div className={styles.imageBox}>
+      <div className="card shadow-md bg-gray-100 pt-6">
+        <div className="mx-auto w-10/12 h-full">
           <img
             src={item.imageUrl || '/images/no-image.png'}
             alt="item-image"
-            className="rounded-2xl w-full h-full"
+            className="rounded-2xl w-full h-3/4"
           />
         </div>
-        <div className="card-body p-6">
-          <p>
-            <span className="font-bold">景品名 : </span>
-            {item.name}
+        <div className="card-body pt-0">
+          <p className="font-bold">景品名 : {item.name}</p>
+          <p className="font-bold">
+            現在の在庫数 : {item.quantity} {item.unit}
           </p>
-          <p>
-            <span className="font-bold">現在の在庫数 :</span> {item.quantity} {item.unit}
-          </p>
-          <p>
-            <span className="font-bold">交換ポイント :</span> {item.exchangablePoint}
+          <p className="font-bold">
+            交換ポイント : {item.exchangablePoint}
             ポイント
           </p>
-          <p>
-            <span className="font-bold">ステータス :</span> {ItemStatusName[item.status]}
-          </p>
-          <div className="text-center">
+          <p className="font-bold">ステータス : {ItemStatusName[item.status]}</p>
+          <div className="text-center mt-4">
             <Link href={`/items/${item.id}/edit/`}>
               <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded-lg">
                 編集する
