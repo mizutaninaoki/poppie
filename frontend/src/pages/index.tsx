@@ -58,7 +58,7 @@ const IndexPage: NextPageWithLayout = () => {
         <div className="hidden lg:block lg:col-span-1 2xl:col-span-2"></div>
       </div>
 
-      <div className="grid grid-cols-6 bg-gray-100 pt-6 pb-16">
+      <div className="grid grid-cols-6 bg-gray-50 pt-6 pb-16">
         <div className="hidden lg:block col-span-1"></div>
         <div className="col-span-6 mx-6 lg:mx-0 lg:col-span-4">
           <h3 className="font-bold text-3xl md:text-4xl my-6 sm:mt-8 sm:mb-14 text-center">

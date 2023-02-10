@@ -296,3 +296,6 @@ override.tf.json
 terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,terraform,react,nextjs
+
+
+graph-model.png

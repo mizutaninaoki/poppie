@@ -21,8 +21,18 @@ black = "*"
 django-storages = "*"
 boto3 = "*"
 psycopg2 = "*"
+moto = "*"
+pytest-mock = "*"
 
 [dev-packages]
+pygraphviz = "*"
+pydotplus = "*"
 
 [requires]
 python_version = "3.9"
+
+[scripts]
+start = "python manage.py runserver"
+test = "pytest"
+teststd = "pytest -rP"
+erd = "python manage.py graph_models -a -g -o graph-model.png"
