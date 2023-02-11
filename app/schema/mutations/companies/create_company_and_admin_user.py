@@ -40,5 +40,5 @@ class CreateCompanyAndAdminUser(graphene.relay.ClientIDMutation):
         return CreateCompanyAndAdminUser(admin_user=user)
 
 
-class CompanyMutation(graphene.AbstractType):
+class CompanyMutation(graphene.ObjectType):
     create_company_and_admin_user = CreateCompanyAndAdminUser.Field()

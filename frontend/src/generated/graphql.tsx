@@ -14,8 +14,45 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /**
+   * The `DateTime` scalar type represents a DateTime
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
   DateTime: any;
+  /**
+   *
+   *     Errors messages and codes mapped to
+   *     fields or non fields errors.
+   *     Example:
+   *     {
+   *         field_name: [
+   *             {
+   *                 "message": "error message",
+   *                 "code": "error_code"
+   *             }
+   *         ],
+   *         other_field: [
+   *             {
+   *                 "message": "error message",
+   *                 "code": "error_code"
+   *             }
+   *         ],
+   *         nonFieldErrors: [
+   *             {
+   *                 "message": "error message",
+   *                 "code": "error_code"
+   *             }
+   *         ]
+   *     }
+   *
+   */
   ExpectedErrorType: any;
+  /**
+   * The `GenericScalar` scalar type represents a generic
+   * GraphQL scalar value that could be:
+   * String, Boolean, Int, Float, List or Object.
+   */
   GenericScalar: any;
 };
 
@@ -30,6 +67,11 @@ export type AccountType = {
   user: CustomUserType;
 };
 
+/**
+ * Archive account and revoke refresh tokens.
+ *
+ * User must be verified and confirm password.
+ */
 export type ArchiveAccount = {
   __typename?: 'ArchiveAccount';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
@@ -166,6 +208,14 @@ export type DealingType = {
   updatedAt: Scalars['DateTime'];
 };
 
+/**
+ * Delete account permanently or make `user.is_active=False`.
+ *
+ * The behavior is defined on settings.
+ * Anyway user refresh tokens are revoked.
+ *
+ * User must be verified and confirm password.
+ */
 export type DeleteAccount = {
   __typename?: 'DeleteAccount';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
@@ -226,6 +276,11 @@ export type ItemType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /**
+   * Archive account and revoke refresh tokens.
+   *
+   * User must be verified and confirm password.
+   */
   archiveAccount?: Maybe<ArchiveAccount>;
   createCompanyAndAdminUser?: Maybe<CreateCompanyAndAdminUserPayload>;
   createDealing?: Maybe<CreateDealingPayload>;
@@ -235,24 +290,108 @@ export type Mutation = {
   createPurchasePoint?: Maybe<CreatePurchasePointPayload>;
   createUser?: Maybe<CreateUserPayload>;
   customRegister?: Maybe<CreateUserPayload>;
+  /**
+   * Delete account permanently or make `user.is_active=False`.
+   *
+   * The behavior is defined on settings.
+   * Anyway user refresh tokens are revoked.
+   *
+   * User must be verified and confirm password.
+   */
   deleteAccount?: Maybe<DeleteAccount>;
   generateS3PresignedUrl?: Maybe<GenerateS3PresignedUrlPayload>;
+  /**
+   * Change account password when user knows the old password.
+   *
+   * A new token and refresh token are sent. User must be verified.
+   */
   passwordChange?: Maybe<PasswordChange>;
+  /**
+   * Change user password without old password.
+   *
+   * Receive the token that was sent by email.
+   *
+   * If token and new passwords are valid, update
+   * user password and in case of using refresh
+   * tokens, revoke all of them.
+   */
   passwordReset?: Maybe<PasswordReset>;
-  passwordSet?: Maybe<PasswordSet>;
   refreshToken?: Maybe<RefreshPayload>;
+  /**
+   * Remove user secondary email.
+   *
+   * Require password confirmation.
+   */
   removeSecondaryEmail?: Maybe<RemoveSecondaryEmail>;
+  /**
+   * Sends activation email.
+   *
+   * It is called resend because theoretically
+   * the first activation email was sent when
+   * the user registered.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
   resendActivationEmail?: Maybe<ResendActivationEmail>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
   revokeToken?: Maybe<RevokeToken>;
+  /**
+   * Send password reset email.
+   *
+   * For non verified users, send an activation
+   * email instead.
+   *
+   * Accepts both primary and secondary email.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
   sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
+  /**
+   * Send activation to secondary email.
+   *
+   * User must be verified and confirm password.
+   */
   sendSecondaryEmailActivation?: Maybe<SendSecondaryEmailActivation>;
+  /**
+   * Swap between primary and secondary emails.
+   *
+   * Require password confirmation.
+   */
   swapEmails?: Maybe<SwapEmails>;
   tokenAuth?: Maybe<ObtainJsonWebTokenPayload>;
+  /**
+   * Update user model fields, defined on settings.
+   *
+   * User must be verified.
+   */
   updateAccount?: Maybe<UpdateAccount>;
   updateItem?: Maybe<UpdateItemPayload>;
   updatePlan?: Maybe<UpdatePlanPayload>;
   updateProfile?: Maybe<UpdateProfilePayload>;
+  /**
+   * Verify user account.
+   *
+   * Receive the token that was sent by email.
+   * If the token is valid, make the user verified
+   * by making the `user.status.verified` field true.
+   */
   verifyAccount?: Maybe<VerifyAccountPayload>;
+  /**
+   * Verify user secondary email.
+   *
+   * Receive the token that was sent by email.
+   * User is already verified when using this mutation.
+   *
+   * If the token is valid, add the secondary email
+   * to `user.status.secondary_email` field.
+   *
+   * Note that until the secondary email is verified,
+   * it has not been saved anywhere beyond the token,
+   * so it can still be used to create a new account.
+   * After being verified, it will no longer be available.
+   */
   verifySecondaryEmail?: Maybe<VerifySecondaryEmail>;
   verifyToken?: Maybe<VerifyPayload>;
 };
@@ -327,13 +466,6 @@ export type MutationPasswordResetArgs = {
 };
 
 
-export type MutationPasswordSetArgs = {
-  newPassword1: Scalars['String'];
-  newPassword2: Scalars['String'];
-  token: Scalars['String'];
-};
-
-
 export type MutationRefreshTokenArgs = {
   input: RefreshInput;
 };
@@ -350,7 +482,7 @@ export type MutationResendActivationEmailArgs = {
 
 
 export type MutationRevokeTokenArgs = {
-  refreshToken: Scalars['String'];
+  refreshToken?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -404,7 +536,9 @@ export type MutationVerifyTokenArgs = {
   input: VerifyInput;
 };
 
+/** An object with an ID */
 export type Node = {
+  /** The ID of the object */
   id: Scalars['ID'];
 };
 
@@ -417,19 +551,31 @@ export type ObtainJsonWebTokenInput = {
 export type ObtainJsonWebTokenPayload = {
   __typename?: 'ObtainJSONWebTokenPayload';
   clientMutationId?: Maybe<Scalars['String']>;
-  refreshToken?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
+  payload: Scalars['GenericScalar'];
+  refreshExpiresIn: Scalars['Int'];
+  refreshToken: Scalars['String'];
+  token: Scalars['String'];
   user?: Maybe<CustomUserType>;
 };
 
+/** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
   endCursor?: Maybe<Scalars['String']>;
+  /** When paginating forwards, are there more items? */
   hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
   hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']>;
 };
 
+/**
+ * Change account password when user knows the old password.
+ *
+ * A new token and refresh token are sent. User must be verified.
+ */
 export type PasswordChange = {
   __typename?: 'PasswordChange';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
@@ -438,14 +584,17 @@ export type PasswordChange = {
   token?: Maybe<Scalars['String']>;
 };
 
+/**
+ * Change user password without old password.
+ *
+ * Receive the token that was sent by email.
+ *
+ * If token and new passwords are valid, update
+ * user password and in case of using refresh
+ * tokens, revoke all of them.
+ */
 export type PasswordReset = {
   __typename?: 'PasswordReset';
-  errors?: Maybe<Scalars['ExpectedErrorType']>;
-  success?: Maybe<Scalars['Boolean']>;
-};
-
-export type PasswordSet = {
-  __typename?: 'PasswordSet';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
 };
@@ -481,13 +630,18 @@ export type PurchasedPointLogType = {
 
 export type Query = {
   __typename?: 'Query';
+  /** アカウント一覧取得 */
   accounts: Array<AccountType>;
   companyUsers: Array<CustomUserType>;
+  /** 景品取得 */
   item: ItemType;
+  /** 景品一覧取得 */
   items: Array<ItemType>;
   me?: Maybe<UserNode>;
   plan: PlanType;
-  plans?: Maybe<Array<PlanType>>;
+  /** プラン一覧取得 */
+  plans: Array<PlanType>;
+  /** プロフィール取得 */
   profile: ProfileType;
   user?: Maybe<UserNode>;
   userGaveDealings: Array<UserGaveDealingsType>;
@@ -541,7 +695,7 @@ export type QueryUsersArgs = {
   before?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['Float']>;
+  id?: InputMaybe<Scalars['ID']>;
   isActive?: InputMaybe<Scalars['Boolean']>;
   isAdmin?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -556,54 +710,97 @@ export type QueryUsersArgs = {
 
 export type RefreshInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
-  refreshToken: Scalars['String'];
+  refreshToken?: InputMaybe<Scalars['String']>;
 };
 
 export type RefreshPayload = {
   __typename?: 'RefreshPayload';
   clientMutationId?: Maybe<Scalars['String']>;
-  payload?: Maybe<Scalars['GenericScalar']>;
-  refreshToken?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
+  payload: Scalars['GenericScalar'];
+  refreshExpiresIn: Scalars['Int'];
+  refreshToken: Scalars['String'];
+  token: Scalars['String'];
 };
 
+/**
+ * Remove user secondary email.
+ *
+ * Require password confirmation.
+ */
 export type RemoveSecondaryEmail = {
   __typename?: 'RemoveSecondaryEmail';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/**
+ * Sends activation email.
+ *
+ * It is called resend because theoretically
+ * the first activation email was sent when
+ * the user registered.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
 export type ResendActivationEmail = {
   __typename?: 'ResendActivationEmail';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/** Same as `grapgql_jwt` implementation, with standard output. */
 export type RevokeToken = {
   __typename?: 'RevokeToken';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
-  revoked?: Maybe<Scalars['Int']>;
+  revoked: Scalars['Int'];
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/**
+ * Send password reset email.
+ *
+ * For non verified users, send an activation
+ * email instead.
+ *
+ * Accepts both primary and secondary email.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
 export type SendPasswordResetEmail = {
   __typename?: 'SendPasswordResetEmail';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/**
+ * Send activation to secondary email.
+ *
+ * User must be verified and confirm password.
+ */
 export type SendSecondaryEmailActivation = {
   __typename?: 'SendSecondaryEmailActivation';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/**
+ * Swap between primary and secondary emails.
+ *
+ * Require password confirmation.
+ */
 export type SwapEmails = {
   __typename?: 'SwapEmails';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/**
+ * Update user model fields, defined on settings.
+ *
+ * User must be verified.
+ */
 export type UpdateAccount = {
   __typename?: 'UpdateAccount';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
@@ -652,6 +849,7 @@ export type UpdateProfilePayload = {
   profile?: Maybe<ProfileType>;
 };
 
+/** ユーザーが過去にポイントを贈与した取引一覧 */
 export type UserGaveDealingsType = {
   __typename?: 'UserGaveDealingsType';
   createdAt: Scalars['String'];
@@ -664,6 +862,7 @@ export type UserNode = Node & {
   archived?: Maybe<Scalars['Boolean']>;
   company: CompanyType;
   email: Scalars['String'];
+  /** The ID of the object */
   id: Scalars['ID'];
   isActive: Scalars['Boolean'];
   isAdmin: Scalars['Boolean'];
@@ -678,16 +877,22 @@ export type UserNode = Node & {
 
 export type UserNodeConnection = {
   __typename?: 'UserNodeConnection';
+  /** Contains the nodes in this connection. */
   edges: Array<Maybe<UserNodeEdge>>;
+  /** Pagination data for this connection. */
   pageInfo: PageInfo;
 };
 
+/** A Relay edge containing a `UserNode` and its cursor. */
 export type UserNodeEdge = {
   __typename?: 'UserNodeEdge';
+  /** A cursor for use in pagination */
   cursor: Scalars['String'];
+  /** The item at the end of the edge */
   node?: Maybe<UserNode>;
 };
 
+/** ユーザーが過去にポイントを受領した取引一覧 */
 export type UserReceivedDealingsType = {
   __typename?: 'UserReceivedDealingsType';
   createdAt: Scalars['String'];
@@ -699,6 +904,13 @@ export type VerifyAccountInput = {
   token: Scalars['String'];
 };
 
+/**
+ * Verify user account.
+ *
+ * Receive the token that was sent by email.
+ * If the token is valid, make the user verified
+ * by making the `user.status.verified` field true.
+ */
 export type VerifyAccountPayload = {
   __typename?: 'VerifyAccountPayload';
   clientMutationId?: Maybe<Scalars['String']>;
@@ -708,15 +920,29 @@ export type VerifyAccountPayload = {
 
 export type VerifyInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
-  token: Scalars['String'];
+  token?: InputMaybe<Scalars['String']>;
 };
 
 export type VerifyPayload = {
   __typename?: 'VerifyPayload';
   clientMutationId?: Maybe<Scalars['String']>;
-  payload?: Maybe<Scalars['GenericScalar']>;
+  payload: Scalars['GenericScalar'];
 };
 
+/**
+ * Verify user secondary email.
+ *
+ * Receive the token that was sent by email.
+ * User is already verified when using this mutation.
+ *
+ * If the token is valid, add the secondary email
+ * to `user.status.secondary_email` field.
+ *
+ * Note that until the secondary email is verified,
+ * it has not been saved anywhere beyond the token,
+ * so it can still be used to create a new account.
+ * After being verified, it will no longer be available.
+ */
 export type VerifySecondaryEmail = {
   __typename?: 'VerifySecondaryEmail';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
@@ -750,7 +976,7 @@ export type TokenAuthMutationVariables = Exact<{
 }>;
 
 
-export type TokenAuthMutation = { __typename?: 'Mutation', tokenAuth?: { __typename?: 'ObtainJSONWebTokenPayload', token?: string | null, refreshToken?: string | null, user?: { __typename?: 'CustomUserType', id: string, name: string, email: string, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number }, account: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } } | null } | null };
+export type TokenAuthMutation = { __typename?: 'Mutation', tokenAuth?: { __typename?: 'ObtainJSONWebTokenPayload', token: string, refreshToken: string, user?: { __typename?: 'CustomUserType', id: string, name: string, email: string, isActive: boolean, isAdmin: boolean, company: { __typename?: 'CompanyType', id: string, name: string, point: number }, account: { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number } } | null } | null };
 
 export type VerifyAccountMutationVariables = Exact<{
   input: VerifyAccountInput;
@@ -762,7 +988,7 @@ export type VerifyAccountMutation = { __typename?: 'Mutation', verifyAccount?: {
 export type CompaniesNewInputInputPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CompaniesNewInputInputPageQuery = { __typename?: 'Query', plans?: Array<{ __typename?: 'PlanType', id: string, name: string, fee: number }> | null };
+export type CompaniesNewInputInputPageQuery = { __typename?: 'Query', plans: Array<{ __typename?: 'PlanType', id: string, name: string, fee: number }> };
 
 export type CreateCompanyAndAdminUserMutationVariables = Exact<{
   input: CreateCompanyAndAdminUserInput;

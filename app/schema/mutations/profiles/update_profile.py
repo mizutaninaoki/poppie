@@ -38,5 +38,5 @@ class UpdateProfile(graphene.relay.ClientIDMutation):
         return UpdateProfile(profile=profile)
 
 
-class ProfileMutation(graphene.AbstractType):
+class ProfileMutation(graphene.ObjectType):
     update_profile = UpdateProfile.Field()

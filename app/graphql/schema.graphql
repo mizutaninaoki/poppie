@@ -1,187 +1,28 @@
-schema {
-  query: Query
-  mutation: Mutation
-}
+type Query {
+  """景品一覧取得"""
+  items(companyId: ID!): [ItemType!]!
 
-type AccountType {
-  id: ID!
-  user: CustomUserType!
-  givablePoint: Int!
-  receivedPoint: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  company: CompanyType!
-}
+  """景品取得"""
+  item(itemId: ID!): ItemType!
 
-type ArchiveAccount {
-  success: Boolean
-  errors: ExpectedErrorType
-}
+  """アカウント一覧取得"""
+  accounts: [AccountType!]!
 
-type CompanyType {
-  id: ID!
-  plan: PlanType!
-  name: String!
-  email: String!
-  tel: String
-  point: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
+  """プロフィール取得"""
+  profile(userId: ID): ProfileType!
 
-input CreateCompanyAndAdminUserInput {
-  planId: ID!
-  name: String!
-  email: String!
-  tel: String!
-  clientMutationId: String
-}
-
-type CreateCompanyAndAdminUserPayload {
-  adminUser: CustomUserType
-  clientMutationId: String
-}
-
-input CreateDealingInput {
-  userId: ID!
-  amount: Int!
-  message: String!
-  clientMutationId: String
-}
-
-type CreateDealingPayload {
-  dealing: DealingType
-  clientMutationId: String
-}
-
-input CreateDistributesInput {
-  attributes: [DistributeAttributes]
-  clientMutationId: String
-}
-
-type CreateDistributesPayload {
-  distributeLog: DistributeLogType!
-  clientMutationId: String
-}
-
-input CreateItemInput {
-  companyId: ID!
-  name: String!
-  unit: String!
-  exchangablePoint: Int!
-  status: ItemStatusEnum!
-  quantity: Int!
-  imageKey: String
-  clientMutationId: String
-}
-
-type CreateItemPayload {
-  clientMutationId: String
-}
-
-input CreateOrUpdateExchangeAppliedItemsInput {
-  exchangeItems: [ExchangeItemType!]!
-  clientMutationId: String
-}
-
-type CreateOrUpdateExchangeAppliedItemsPayload {
-  account: AccountType!
-  clientMutationId: String
-}
-
-input CreatePurchasePointInput {
-  companyId: ID!
-  point: Int!
-  price: Int!
-  clientMutationId: String
-}
-
-type CreatePurchasePointPayload {
-  purchasedPointLog: PurchasedPointLogType!
-  clientMutationId: String
-}
-
-input CreateUserInput {
-  companyId: ID!
-  name: String!
-  email: String!
-  password1: String!
-  password2: String!
-  clientMutationId: String
-}
-
-type CreateUserPayload {
-  user: CustomUserType
-  clientMutationId: String
-}
-
-type CustomUserType {
-  id: ID!
-  email: String!
-  name: String!
-  isActive: Boolean!
-  isAdmin: Boolean!
-  password: String!
-  company: CompanyType!
-  profile: ProfileType!
-  account: AccountType!
-}
-
-scalar DateTime
-
-type DealingType {
-  id: ID!
-  amount: Int!
-  message: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  giver: AccountType!
-  receiver: AccountType!
-  company: CompanyType!
-}
-
-type DeleteAccount {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-input DistributeAttributes {
-  accountId: ID!
-  distributePoint: Int!
-}
-
-type DistributeLogType {
-  id: ID!
-  point: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  company: CompanyType!
-  account: AccountType!
-}
-
-input ExchangeItemType {
-  itemId: String!
-  userId: String!
-  exchangeQuantity: Int!
-}
-
-scalar ExpectedErrorType
-
-input GenerateS3PresignedUrlInput {
-  imageKey: String!
-  clientMutationId: String
-}
-
-type GenerateS3PresignedUrlPayload {
-  presignedUrl: String!
-  clientMutationId: String
-}
-
-scalar GenericScalar
-
-enum ItemStatusEnum {
-  PUBLIC
-  PRIVATE
+  """プラン一覧取得"""
+  plans: [PlanType!]!
+  plan(id: ID!): PlanType!
+  companyUsers(companyId: ID!): [CustomUserType!]!
+  userReceivedDealings(chartDisplayDate: String!): [UserReceivedDealingsType!]!
+  userGaveDealings(chartDisplayDate: String!): [UserGaveDealingsType!]!
+  user(
+    """The ID of the object"""
+    id: ID!
+  ): UserNode
+  users(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, email: String, name: String, name_Icontains: String, name_Istartswith: String, isActive: Boolean, isAdmin: Boolean, status_Archived: Boolean, status_Verified: Boolean, status_SecondaryEmail: String): UserNodeConnection
+  me: UserNode
 }
 
 type ItemType {
@@ -198,83 +39,55 @@ type ItemType {
   company: CompanyType!
 }
 
-type Mutation {
-  generateS3PresignedUrl(input: GenerateS3PresignedUrlInput!): GenerateS3PresignedUrlPayload
-  createOrUpdateExchangeAppliedItems(input: CreateOrUpdateExchangeAppliedItemsInput!): CreateOrUpdateExchangeAppliedItemsPayload
-  updateItem(input: UpdateItemInput!): UpdateItemPayload
-  createItem(input: CreateItemInput!): CreateItemPayload
-  createDistributes(input: CreateDistributesInput!): CreateDistributesPayload
-  createPurchasePoint(input: CreatePurchasePointInput!): CreatePurchasePointPayload
-  createDealing(input: CreateDealingInput!): CreateDealingPayload
-  createCompanyAndAdminUser(input: CreateCompanyAndAdminUserInput!): CreateCompanyAndAdminUserPayload
-  updateProfile(input: UpdateProfileInput!): UpdateProfilePayload
-  updatePlan(input: UpdatePlanInput!): UpdatePlanPayload
-  createUser(input: CreateUserInput!): CreateUserPayload
-  customRegister(input: CreateUserInput!): CreateUserPayload
-  verifyAccount(input: VerifyAccountInput!): VerifyAccountPayload
-  resendActivationEmail(email: String!): ResendActivationEmail
-  sendPasswordResetEmail(email: String!): SendPasswordResetEmail
-  passwordReset(token: String!, newPassword1: String!, newPassword2: String!): PasswordReset
-  passwordSet(token: String!, newPassword1: String!, newPassword2: String!): PasswordSet
-  passwordChange(oldPassword: String!, newPassword1: String!, newPassword2: String!): PasswordChange
-  updateAccount: UpdateAccount
-  archiveAccount(password: String!): ArchiveAccount
-  deleteAccount(password: String!): DeleteAccount
-  sendSecondaryEmailActivation(email: String!, password: String!): SendSecondaryEmailActivation
-  verifySecondaryEmail(token: String!): VerifySecondaryEmail
-  swapEmails(password: String!): SwapEmails
-  removeSecondaryEmail(password: String!): RemoveSecondaryEmail
-  tokenAuth(input: ObtainJSONWebTokenInput!): ObtainJSONWebTokenPayload
-  verifyToken(input: VerifyInput!): VerifyPayload
-  refreshToken(input: RefreshInput!): RefreshPayload
-  revokeToken(refreshToken: String!): RevokeToken
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+enum ItemStatusEnum {
+  PUBLIC
+  PRIVATE
 }
 
-interface Node {
+type CompanyType {
   id: ID!
-}
-
-input ObtainJSONWebTokenInput {
-  clientMutationId: String
+  plan: PlanType!
+  name: String!
   email: String!
-  password: String!
-}
-
-type ObtainJSONWebTokenPayload {
-  token: String
-  user: CustomUserType
-  clientMutationId: String
-  refreshToken: String
-}
-
-type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-  endCursor: String
-}
-
-type PasswordChange {
-  success: Boolean
-  errors: ExpectedErrorType
-  refreshToken: String
-  token: String
-}
-
-type PasswordReset {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-type PasswordSet {
-  success: Boolean
-  errors: ExpectedErrorType
+  tel: String
+  point: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type PlanType {
   id: ID!
   name: String!
   fee: Int!
+}
+
+type AccountType {
+  id: ID!
+  user: CustomUserType!
+  givablePoint: Int!
+  receivedPoint: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  company: CompanyType!
+}
+
+type CustomUserType {
+  id: ID!
+  email: String!
+  name: String!
+  isActive: Boolean!
+  isAdmin: Boolean!
+  password: String!
+  company: CompanyType!
+  profile: ProfileType!
+  account: AccountType!
 }
 
 type ProfileType {
@@ -288,123 +101,31 @@ type ProfileType {
   imageUrl: String
 }
 
-type PurchasedPointLogType {
+"""ユーザーが過去にポイントを受領した取引一覧"""
+type UserReceivedDealingsType {
+  dealings: [DealingType!]!
+  createdAt: String!
+}
+
+type DealingType {
   id: ID!
-  point: Int!
-  price: Int!
+  amount: Int!
+  message: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  giver: AccountType!
+  receiver: AccountType!
   company: CompanyType!
 }
 
-type Query {
-  items(companyId: ID!): [ItemType!]!
-  item(itemId: ID!): ItemType!
-  accounts: [AccountType!]!
-  profile(userId: ID): ProfileType!
-  plans: [PlanType!]
-  plan(id: ID!): PlanType!
-  companyUsers(companyId: ID!): [CustomUserType!]!
-  userReceivedDealings(chartDisplayDate: String!): [UserReceivedDealingsType!]!
-  userGaveDealings(chartDisplayDate: String!): [UserGaveDealingsType!]!
-  user(id: ID!): UserNode
-  users(offset: Int, before: String, after: String, first: Int, last: Int, id: Float, email: String, name: String, name_Icontains: String, name_Istartswith: String, isActive: Boolean, isAdmin: Boolean, status_Archived: Boolean, status_Verified: Boolean, status_SecondaryEmail: String): UserNodeConnection
-  me: UserNode
-}
-
-input RefreshInput {
-  refreshToken: String!
-  clientMutationId: String
-}
-
-type RefreshPayload {
-  token: String
-  payload: GenericScalar
-  clientMutationId: String
-  refreshToken: String
-}
-
-type RemoveSecondaryEmail {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-type ResendActivationEmail {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-type RevokeToken {
-  revoked: Int
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-type SendPasswordResetEmail {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-type SendSecondaryEmailActivation {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-type SwapEmails {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-type UpdateAccount {
-  success: Boolean
-  errors: ExpectedErrorType
-}
-
-input UpdateItemInput {
-  id: ID!
-  name: String!
-  unit: String!
-  exchangablePoint: Int!
-  status: ItemStatusEnum!
-  quantity: Int!
-  imageKey: String
-  clientMutationId: String
-}
-
-type UpdateItemPayload {
-  clientMutationId: String
-}
-
-input UpdatePlanInput {
-  planId: ID!
-  clientMutationId: String
-}
-
-type UpdatePlanPayload {
-  plan: PlanType
-  clientMutationId: String
-}
-
-input UpdateProfileInput {
-  userId: ID!
-  name: String!
-  department: String
-  comment: String
-  imageKey: String
-  clientMutationId: String
-}
-
-type UpdateProfilePayload {
-  profile: ProfileType
-  clientMutationId: String
-}
-
+"""ユーザーが過去にポイントを贈与した取引一覧"""
 type UserGaveDealingsType {
   dealings: [DealingType!]!
   createdAt: String!
 }
 
 type UserNode implements Node {
+  """The ID of the object"""
   id: ID!
   lastLogin: DateTime
   company: CompanyType!
@@ -421,43 +142,552 @@ type UserNode implements Node {
   secondaryEmail: String
 }
 
+"""An object with an ID"""
+interface Node {
+  """The ID of the object"""
+  id: ID!
+}
+
 type UserNodeConnection {
+  """Pagination data for this connection."""
   pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
   edges: [UserNodeEdge]!
 }
 
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""A Relay edge containing a `UserNode` and its cursor."""
 type UserNodeEdge {
+  """The item at the end of the edge"""
   node: UserNode
+
+  """A cursor for use in pagination"""
   cursor: String!
 }
 
-type UserReceivedDealingsType {
-  dealings: [DealingType!]!
-  createdAt: String!
+type Mutation {
+  generateS3PresignedUrl(input: GenerateS3PresignedUrlInput!): GenerateS3PresignedUrlPayload
+  createOrUpdateExchangeAppliedItems(input: CreateOrUpdateExchangeAppliedItemsInput!): CreateOrUpdateExchangeAppliedItemsPayload
+  updateItem(input: UpdateItemInput!): UpdateItemPayload
+  createItem(input: CreateItemInput!): CreateItemPayload
+  createDistributes(input: CreateDistributesInput!): CreateDistributesPayload
+  createPurchasePoint(input: CreatePurchasePointInput!): CreatePurchasePointPayload
+  createDealing(input: CreateDealingInput!): CreateDealingPayload
+  createCompanyAndAdminUser(input: CreateCompanyAndAdminUserInput!): CreateCompanyAndAdminUserPayload
+  updateProfile(input: UpdateProfileInput!): UpdateProfilePayload
+  updatePlan(input: UpdatePlanInput!): UpdatePlanPayload
+  createUser(input: CreateUserInput!): CreateUserPayload
+  customRegister(input: CreateUserInput!): CreateUserPayload
+
+  """
+  Verify user account.
+  
+  Receive the token that was sent by email.
+  If the token is valid, make the user verified
+  by making the `user.status.verified` field true.
+  """
+  verifyAccount(input: VerifyAccountInput!): VerifyAccountPayload
+
+  """
+  Sends activation email.
+  
+  It is called resend because theoretically
+  the first activation email was sent when
+  the user registered.
+  
+  If there is no user with the requested email,
+  a successful response is returned.
+  """
+  resendActivationEmail(email: String!): ResendActivationEmail
+
+  """
+  Send password reset email.
+  
+  For non verified users, send an activation
+  email instead.
+  
+  Accepts both primary and secondary email.
+  
+  If there is no user with the requested email,
+  a successful response is returned.
+  """
+  sendPasswordResetEmail(email: String!): SendPasswordResetEmail
+
+  """
+  Change user password without old password.
+  
+  Receive the token that was sent by email.
+  
+  If token and new passwords are valid, update
+  user password and in case of using refresh
+  tokens, revoke all of them.
+  """
+  passwordReset(token: String!, newPassword1: String!, newPassword2: String!): PasswordReset
+
+  """
+  Change account password when user knows the old password.
+  
+  A new token and refresh token are sent. User must be verified.
+  """
+  passwordChange(oldPassword: String!, newPassword1: String!, newPassword2: String!): PasswordChange
+
+  """
+  Update user model fields, defined on settings.
+  
+  User must be verified.
+  """
+  updateAccount: UpdateAccount
+
+  """
+  Archive account and revoke refresh tokens.
+  
+  User must be verified and confirm password.
+  """
+  archiveAccount(password: String!): ArchiveAccount
+
+  """
+  Delete account permanently or make `user.is_active=False`.
+  
+  The behavior is defined on settings.
+  Anyway user refresh tokens are revoked.
+  
+  User must be verified and confirm password.
+  """
+  deleteAccount(password: String!): DeleteAccount
+
+  """
+  Send activation to secondary email.
+  
+  User must be verified and confirm password.
+  """
+  sendSecondaryEmailActivation(email: String!, password: String!): SendSecondaryEmailActivation
+
+  """
+  Verify user secondary email.
+  
+  Receive the token that was sent by email.
+  User is already verified when using this mutation.
+  
+  If the token is valid, add the secondary email
+  to `user.status.secondary_email` field.
+  
+  Note that until the secondary email is verified,
+  it has not been saved anywhere beyond the token,
+  so it can still be used to create a new account.
+  After being verified, it will no longer be available.
+  """
+  verifySecondaryEmail(token: String!): VerifySecondaryEmail
+
+  """
+  Swap between primary and secondary emails.
+  
+  Require password confirmation.
+  """
+  swapEmails(password: String!): SwapEmails
+
+  """
+  Remove user secondary email.
+  
+  Require password confirmation.
+  """
+  removeSecondaryEmail(password: String!): RemoveSecondaryEmail
+  tokenAuth(input: ObtainJSONWebTokenInput!): ObtainJSONWebTokenPayload
+  verifyToken(input: VerifyInput!): VerifyPayload
+  refreshToken(input: RefreshInput!): RefreshPayload
+
+  """Same as `grapgql_jwt` implementation, with standard output."""
+  revokeToken(refreshToken: String): RevokeToken
 }
 
-input VerifyAccountInput {
+type GenerateS3PresignedUrlPayload {
+  presignedUrl: String!
   clientMutationId: String
-  token: String!
 }
 
+input GenerateS3PresignedUrlInput {
+  imageKey: String!
+  clientMutationId: String
+}
+
+type CreateOrUpdateExchangeAppliedItemsPayload {
+  account: AccountType!
+  clientMutationId: String
+}
+
+input CreateOrUpdateExchangeAppliedItemsInput {
+  exchangeItems: [ExchangeItemType!]!
+  clientMutationId: String
+}
+
+input ExchangeItemType {
+  itemId: String!
+  userId: String!
+  exchangeQuantity: Int!
+}
+
+type UpdateItemPayload {
+  clientMutationId: String
+}
+
+input UpdateItemInput {
+  id: ID!
+  name: String!
+  unit: String!
+  exchangablePoint: Int!
+  status: ItemStatusEnum!
+  quantity: Int!
+  imageKey: String
+  clientMutationId: String
+}
+
+type CreateItemPayload {
+  clientMutationId: String
+}
+
+input CreateItemInput {
+  companyId: ID!
+  name: String!
+  unit: String!
+  exchangablePoint: Int!
+  status: ItemStatusEnum!
+  quantity: Int!
+  imageKey: String
+  clientMutationId: String
+}
+
+type CreateDistributesPayload {
+  distributeLog: DistributeLogType!
+  clientMutationId: String
+}
+
+type DistributeLogType {
+  id: ID!
+  point: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  company: CompanyType!
+  account: AccountType!
+}
+
+input CreateDistributesInput {
+  attributes: [DistributeAttributes]
+  clientMutationId: String
+}
+
+input DistributeAttributes {
+  accountId: ID!
+  distributePoint: Int!
+}
+
+type CreatePurchasePointPayload {
+  purchasedPointLog: PurchasedPointLogType!
+  clientMutationId: String
+}
+
+type PurchasedPointLogType {
+  id: ID!
+  point: Int!
+  price: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  company: CompanyType!
+}
+
+input CreatePurchasePointInput {
+  companyId: ID!
+  point: Int!
+  price: Int!
+  clientMutationId: String
+}
+
+type CreateDealingPayload {
+  dealing: DealingType
+  clientMutationId: String
+}
+
+input CreateDealingInput {
+  userId: ID!
+  amount: Int!
+  message: String!
+  clientMutationId: String
+}
+
+type CreateCompanyAndAdminUserPayload {
+  adminUser: CustomUserType
+  clientMutationId: String
+}
+
+input CreateCompanyAndAdminUserInput {
+  planId: ID!
+  name: String!
+  email: String!
+  tel: String!
+  clientMutationId: String
+}
+
+type UpdateProfilePayload {
+  profile: ProfileType
+  clientMutationId: String
+}
+
+input UpdateProfileInput {
+  userId: ID!
+  name: String!
+  department: String
+  comment: String
+  imageKey: String
+  clientMutationId: String
+}
+
+type UpdatePlanPayload {
+  plan: PlanType
+  clientMutationId: String
+}
+
+input UpdatePlanInput {
+  planId: ID!
+  clientMutationId: String
+}
+
+type CreateUserPayload {
+  user: CustomUserType
+  clientMutationId: String
+}
+
+input CreateUserInput {
+  companyId: ID!
+  name: String!
+  email: String!
+  password1: String!
+  password2: String!
+  clientMutationId: String
+}
+
+"""
+Verify user account.
+
+Receive the token that was sent by email.
+If the token is valid, make the user verified
+by making the `user.status.verified` field true.
+"""
 type VerifyAccountPayload {
   success: Boolean
   errors: ExpectedErrorType
   clientMutationId: String
 }
 
-input VerifyInput {
-  token: String!
+"\n    Errors messages and codes mapped to\n    fields or non fields errors.\n    Example:\n    {\n        field_name: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ],\n        other_field: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ],\n        nonFieldErrors: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ]\n    }\n    "
+scalar ExpectedErrorType
+
+input VerifyAccountInput {
   clientMutationId: String
+  token: String!
+}
+
+"""
+Sends activation email.
+
+It is called resend because theoretically
+the first activation email was sent when
+the user registered.
+
+If there is no user with the requested email,
+a successful response is returned.
+"""
+type ResendActivationEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Send password reset email.
+
+For non verified users, send an activation
+email instead.
+
+Accepts both primary and secondary email.
+
+If there is no user with the requested email,
+a successful response is returned.
+"""
+type SendPasswordResetEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Change user password without old password.
+
+Receive the token that was sent by email.
+
+If token and new passwords are valid, update
+user password and in case of using refresh
+tokens, revoke all of them.
+"""
+type PasswordReset {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Change account password when user knows the old password.
+
+A new token and refresh token are sent. User must be verified.
+"""
+type PasswordChange {
+  success: Boolean
+  errors: ExpectedErrorType
+  refreshToken: String
+  token: String
+}
+
+"""
+Update user model fields, defined on settings.
+
+User must be verified.
+"""
+type UpdateAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Archive account and revoke refresh tokens.
+
+User must be verified and confirm password.
+"""
+type ArchiveAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Delete account permanently or make `user.is_active=False`.
+
+The behavior is defined on settings.
+Anyway user refresh tokens are revoked.
+
+User must be verified and confirm password.
+"""
+type DeleteAccount {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Send activation to secondary email.
+
+User must be verified and confirm password.
+"""
+type SendSecondaryEmailActivation {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Verify user secondary email.
+
+Receive the token that was sent by email.
+User is already verified when using this mutation.
+
+If the token is valid, add the secondary email
+to `user.status.secondary_email` field.
+
+Note that until the secondary email is verified,
+it has not been saved anywhere beyond the token,
+so it can still be used to create a new account.
+After being verified, it will no longer be available.
+"""
+type VerifySecondaryEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Swap between primary and secondary emails.
+
+Require password confirmation.
+"""
+type SwapEmails {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+"""
+Remove user secondary email.
+
+Require password confirmation.
+"""
+type RemoveSecondaryEmail {
+  success: Boolean
+  errors: ExpectedErrorType
+}
+
+type ObtainJSONWebTokenPayload {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  user: CustomUserType
+  clientMutationId: String
+  token: String!
+  refreshToken: String!
+}
+
+"""
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar
+
+input ObtainJSONWebTokenInput {
+  clientMutationId: String
+  email: String!
+  password: String!
 }
 
 type VerifyPayload {
-  payload: GenericScalar
+  payload: GenericScalar!
   clientMutationId: String
 }
 
-type VerifySecondaryEmail {
+input VerifyInput {
+  token: String
+  clientMutationId: String
+}
+
+type RefreshPayload {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  clientMutationId: String
+  token: String!
+  refreshToken: String!
+}
+
+input RefreshInput {
+  refreshToken: String
+  clientMutationId: String
+}
+
+"""Same as `grapgql_jwt` implementation, with standard output."""
+type RevokeToken {
+  revoked: Int!
   success: Boolean
   errors: ExpectedErrorType
 }

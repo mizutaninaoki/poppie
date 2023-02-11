@@ -19,7 +19,6 @@ class UpdateItem(graphene.relay.ClientIDMutation):
     @classmethod
     @login_required
     def mutate_and_get_payload(cls, root, info, **input):
-
         try:
             with transaction.atomic():
                 Item.objects.filter(pk=input.get("id")).update(**input)
@@ -31,5 +30,5 @@ class UpdateItem(graphene.relay.ClientIDMutation):
         return UpdateItem()
 
 
-class UpdateItemMutation(graphene.AbstractType):
+class UpdateItemMutation(graphene.ObjectType):
     update_item = UpdateItem.Field()

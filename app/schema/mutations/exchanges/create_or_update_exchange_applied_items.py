@@ -23,7 +23,6 @@ class CreateOrUpdateExchangeAppliedItems(graphene.relay.ClientIDMutation):
     @classmethod
     @login_required
     def mutate_and_get_payload(cls, root, info, **input):
-
         try:
             with transaction.atomic():
                 for exchange_item in input.get("exchange_items"):
@@ -64,5 +63,5 @@ class CreateOrUpdateExchangeAppliedItems(graphene.relay.ClientIDMutation):
         return CreateOrUpdateExchangeAppliedItems(account=current_user.account)
 
 
-class CreateOrUpdateExchangeAppliedItemsMutation(graphene.AbstractType):
+class CreateOrUpdateExchangeAppliedItemsMutation(graphene.ObjectType):
     create_or_update_exchange_applied_items = CreateOrUpdateExchangeAppliedItems.Field()

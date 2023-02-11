@@ -17,5 +17,5 @@ class UpdatePlan(graphene.relay.ClientIDMutation):
         return UpdatePlan(plan=plan)
 
 
-class PlanMutation(graphene.AbstractType):
+class PlanMutation(graphene.ObjectType):
     update_plan = UpdatePlan.Field()

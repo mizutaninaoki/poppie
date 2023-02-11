@@ -6,6 +6,7 @@ from account.schema import AuthMutation, UserMutation, CompanyUsersQuery
 # Resolvers
 #
 from app.schema.resolvers.plans.plan_query import PlanQuery
+from app.schema.resolvers.plans.plans_query import PlansQuery
 from app.schema.resolvers.profiles.profile_query import ProfileQuery
 from app.schema.resolvers.accounts.accounts_query import AccountQuery
 from app.schema.resolvers.items.item_query import ItemQuery
@@ -46,6 +47,7 @@ class Query(
     UserReceivedDealingsQuery,
     CompanyUsersQuery,
     PlanQuery,
+    PlansQuery,
     ProfileQuery,
     AccountQuery,
     ItemQuery,

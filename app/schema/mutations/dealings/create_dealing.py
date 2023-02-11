@@ -17,10 +17,8 @@ class CreateDealing(graphene.relay.ClientIDMutation):
     @classmethod
     @login_required
     def mutate_and_get_payload(cls, root, info, **input):
-
         try:
             with transaction.atomic():
-
                 # giverの授与可能ポイントを贈与するポイント分減らす
                 giver = info.context.user  # ログイン中(jwtに保存されている)のユーザー
                 giver.account.givable_point -= input.get("amount")
@@ -46,5 +44,5 @@ class CreateDealing(graphene.relay.ClientIDMutation):
         return CreateDealing(dealing=dealing)
 
 
-class DealingMutation(graphene.AbstractType):
+class DealingMutation(graphene.ObjectType):
     create_dealing = CreateDealing.Field()

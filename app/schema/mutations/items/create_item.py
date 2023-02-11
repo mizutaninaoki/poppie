@@ -18,7 +18,6 @@ class CreateItem(graphene.relay.ClientIDMutation):
     @classmethod
     @login_required
     def mutate_and_get_payload(cls, root, info, **input):
-
         try:
             with transaction.atomic():
                 Item.objects.create(**input)
@@ -29,5 +28,5 @@ class CreateItem(graphene.relay.ClientIDMutation):
         return CreateItem()
 
 
-class CreateItemMutation(graphene.AbstractType):
+class CreateItemMutation(graphene.ObjectType):
     create_item = CreateItem.Field()

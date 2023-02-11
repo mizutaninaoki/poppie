@@ -4,8 +4,6 @@ from graphql_jwt.decorators import login_required
 from account.models import Profile
 from app.schema.types.profile_type import ProfileType
 
-from app.services.amazon_s3_service import AmazonS3Service
-
 logger = logging.getLogger(__name__)
 
 

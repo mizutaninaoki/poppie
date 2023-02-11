@@ -7,11 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class PlanQuery(graphene.ObjectType):
-    plans = graphene.List(graphene.NonNull(PlanType))
     plan = graphene.Field(graphene.NonNull(PlanType), id=graphene.ID(required=True))
-
-    def resolve_plans(root, info):
-        return Plan.objects.all()
 
     def resolve_plan(root, info, id):
         try:

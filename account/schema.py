@@ -7,6 +7,7 @@ from .models import User
 
 from app.schema.types.custom_user_type import CustomUserType
 
+
 # graphql_auth.relayではなく、graphene.relayを使う
 class CreateUser(graphene.relay.ClientIDMutation):
     class Input:
@@ -21,7 +22,6 @@ class CreateUser(graphene.relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-
         user = User.objects.create_user(
             company_id=input.get("company_id"),
             name=input.get("name"),
@@ -34,7 +34,7 @@ class CreateUser(graphene.relay.ClientIDMutation):
         return CreateUser(user=user)
 
 
-class UserMutation(graphene.AbstractType):
+class UserMutation(graphene.ObjectType):
     create_user = CreateUser.Field()
 
 
@@ -72,7 +72,7 @@ class AuthMutation(graphene.ObjectType):
     resend_activation_email = mutations.ResendActivationEmail.Field()
     send_password_reset_email = mutations.SendPasswordResetEmail.Field()
     password_reset = mutations.PasswordReset.Field()
-    password_set = mutations.PasswordSet.Field()  # For passwordless registration
+    # password_set = mutations.PasswordSet.Field()  # For passwordless registration
     password_change = mutations.PasswordChange.Field()
     update_account = mutations.UpdateAccount.Field()
     archive_account = mutations.ArchiveAccount.Field()

@@ -39,5 +39,5 @@ class CreatePurchasePoint(graphene.relay.ClientIDMutation):
         return CreatePurchasePoint(purchased_point_log=purchased_point_log)
 
 
-class PurchaseMutation(graphene.AbstractType):
+class PurchaseMutation(graphene.ObjectType):
     create_purchase_point = CreatePurchasePoint.Field()

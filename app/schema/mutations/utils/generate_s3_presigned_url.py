@@ -32,5 +32,5 @@ class GenerateS3PresignedUrl(graphene.relay.ClientIDMutation):
         return GenerateS3PresignedUrl(presigned_url=presigned_url)
 
 
-class GenerateS3PresignedUrlMutation(graphene.AbstractType):
+class GenerateS3PresignedUrlMutation(graphene.ObjectType):
     generate_s3_presigned_url = GenerateS3PresignedUrl.Field()

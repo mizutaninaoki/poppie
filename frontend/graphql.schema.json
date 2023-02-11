@@ -134,7 +134,7 @@
       {
         "kind": "OBJECT",
         "name": "ArchiveAccount",
-        "description": null,
+        "description": "Archive account and revoke refresh tokens.\n\nUser must be verified and confirm password.",
         "fields": [
           {
             "name": "errors",
@@ -1263,7 +1263,7 @@
       {
         "kind": "SCALAR",
         "name": "DateTime",
-        "description": null,
+        "description": "The `DateTime` scalar type represents a DateTime\nvalue as specified by\n[iso8601](https://en.wikipedia.org/wiki/ISO_8601).",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1408,7 +1408,7 @@
       {
         "kind": "OBJECT",
         "name": "DeleteAccount",
-        "description": null,
+        "description": "Delete account permanently or make `user.is_active=False`.\n\nThe behavior is defined on settings.\nAnyway user refresh tokens are revoked.\n\nUser must be verified and confirm password.",
         "fields": [
           {
             "name": "errors",
@@ -1652,17 +1652,7 @@
       {
         "kind": "SCALAR",
         "name": "ExpectedErrorType",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Float",
-        "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+        "description": "\n    Errors messages and codes mapped to\n    fields or non fields errors.\n    Example:\n    {\n        field_name: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ],\n        other_field: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ],\n        nonFieldErrors: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ]\n    }\n    ",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1750,7 +1740,7 @@
       {
         "kind": "SCALAR",
         "name": "GenericScalar",
-        "description": null,
+        "description": "The `GenericScalar` scalar type represents a generic\nGraphQL scalar value that could be:\nString, Boolean, Int, Float, List or Object.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1986,7 +1976,7 @@
         "fields": [
           {
             "name": "archiveAccount",
-            "description": null,
+            "description": "Archive account and revoke refresh tokens.\n\nUser must be verified and confirm password.",
             "args": [
               {
                 "name": "password",
@@ -2247,7 +2237,7 @@
           },
           {
             "name": "deleteAccount",
-            "description": null,
+            "description": "Delete account permanently or make `user.is_active=False`.\n\nThe behavior is defined on settings.\nAnyway user refresh tokens are revoked.\n\nUser must be verified and confirm password.",
             "args": [
               {
                 "name": "password",
@@ -2305,7 +2295,7 @@
           },
           {
             "name": "passwordChange",
-            "description": null,
+            "description": "Change account password when user knows the old password.\n\nA new token and refresh token are sent. User must be verified.",
             "args": [
               {
                 "name": "newPassword1",
@@ -2366,7 +2356,7 @@
           },
           {
             "name": "passwordReset",
-            "description": null,
+            "description": "Change user password without old password.\n\nReceive the token that was sent by email.\n\nIf token and new passwords are valid, update\nuser password and in case of using refresh\ntokens, revoke all of them.",
             "args": [
               {
                 "name": "newPassword1",
@@ -2426,67 +2416,6 @@
             "deprecationReason": null
           },
           {
-            "name": "passwordSet",
-            "description": null,
-            "args": [
-              {
-                "name": "newPassword1",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "newPassword2",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "token",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "PasswordSet",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "refreshToken",
             "description": null,
             "args": [
@@ -2517,7 +2446,7 @@
           },
           {
             "name": "removeSecondaryEmail",
-            "description": null,
+            "description": "Remove user secondary email.\n\nRequire password confirmation.",
             "args": [
               {
                 "name": "password",
@@ -2546,7 +2475,7 @@
           },
           {
             "name": "resendActivationEmail",
-            "description": null,
+            "description": "Sends activation email.\n\nIt is called resend because theoretically\nthe first activation email was sent when\nthe user registered.\n\nIf there is no user with the requested email,\na successful response is returned.",
             "args": [
               {
                 "name": "email",
@@ -2575,19 +2504,15 @@
           },
           {
             "name": "revokeToken",
-            "description": null,
+            "description": "Same as `grapgql_jwt` implementation, with standard output.",
             "args": [
               {
                 "name": "refreshToken",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -2604,7 +2529,7 @@
           },
           {
             "name": "sendPasswordResetEmail",
-            "description": null,
+            "description": "Send password reset email.\n\nFor non verified users, send an activation\nemail instead.\n\nAccepts both primary and secondary email.\n\nIf there is no user with the requested email,\na successful response is returned.",
             "args": [
               {
                 "name": "email",
@@ -2633,7 +2558,7 @@
           },
           {
             "name": "sendSecondaryEmailActivation",
-            "description": null,
+            "description": "Send activation to secondary email.\n\nUser must be verified and confirm password.",
             "args": [
               {
                 "name": "email",
@@ -2678,7 +2603,7 @@
           },
           {
             "name": "swapEmails",
-            "description": null,
+            "description": "Swap between primary and secondary emails.\n\nRequire password confirmation.",
             "args": [
               {
                 "name": "password",
@@ -2736,7 +2661,7 @@
           },
           {
             "name": "updateAccount",
-            "description": null,
+            "description": "Update user model fields, defined on settings.\n\nUser must be verified.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2835,7 +2760,7 @@
           },
           {
             "name": "verifyAccount",
-            "description": null,
+            "description": "Verify user account.\n\nReceive the token that was sent by email.\nIf the token is valid, make the user verified\nby making the `user.status.verified` field true.",
             "args": [
               {
                 "name": "input",
@@ -2864,7 +2789,7 @@
           },
           {
             "name": "verifySecondaryEmail",
-            "description": null,
+            "description": "Verify user secondary email.\n\nReceive the token that was sent by email.\nUser is already verified when using this mutation.\n\nIf the token is valid, add the secondary email\nto `user.status.secondary_email` field.\n\nNote that until the secondary email is verified,\nit has not been saved anywhere beyond the token,\nso it can still be used to create a new account.\nAfter being verified, it will no longer be available.",
             "args": [
               {
                 "name": "token",
@@ -2929,11 +2854,11 @@
       {
         "kind": "INTERFACE",
         "name": "Node",
-        "description": null,
+        "description": "An object with an ID",
         "fields": [
           {
             "name": "id",
-            "description": null,
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3032,13 +2957,49 @@
             "deprecationReason": null
           },
           {
+            "name": "payload",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "GenericScalar",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refreshExpiresIn",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "refreshToken",
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3048,9 +3009,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3076,11 +3041,11 @@
       {
         "kind": "OBJECT",
         "name": "PageInfo",
-        "description": null,
+        "description": "The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.",
         "fields": [
           {
             "name": "endCursor",
-            "description": null,
+            "description": "When paginating forwards, the cursor to continue.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3092,7 +3057,7 @@
           },
           {
             "name": "hasNextPage",
-            "description": null,
+            "description": "When paginating forwards, are there more items?",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3108,7 +3073,7 @@
           },
           {
             "name": "hasPreviousPage",
-            "description": null,
+            "description": "When paginating backwards, are there more items?",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3124,7 +3089,7 @@
           },
           {
             "name": "startCursor",
-            "description": null,
+            "description": "When paginating backwards, the cursor to continue.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3143,7 +3108,7 @@
       {
         "kind": "OBJECT",
         "name": "PasswordChange",
-        "description": null,
+        "description": "Change account password when user knows the old password.\n\nA new token and refresh token are sent. User must be verified.",
         "fields": [
           {
             "name": "errors",
@@ -3202,42 +3167,7 @@
       {
         "kind": "OBJECT",
         "name": "PasswordReset",
-        "description": null,
-        "fields": [
-          {
-            "name": "errors",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ExpectedErrorType",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "success",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "PasswordSet",
-        "description": null,
+        "description": "Change user password without old password.\n\nReceive the token that was sent by email.\n\nIf token and new passwords are valid, update\nuser password and in case of using refresh\ntokens, revoke all of them.",
         "fields": [
           {
             "name": "errors",
@@ -3565,7 +3495,7 @@
         "fields": [
           {
             "name": "accounts",
-            "description": null,
+            "description": "アカウント一覧取得",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3630,7 +3560,7 @@
           },
           {
             "name": "item",
-            "description": null,
+            "description": "景品取得",
             "args": [
               {
                 "name": "itemId",
@@ -3663,7 +3593,7 @@
           },
           {
             "name": "items",
-            "description": null,
+            "description": "景品一覧取得",
             "args": [
               {
                 "name": "companyId",
@@ -3749,18 +3679,22 @@
           },
           {
             "name": "plans",
-            "description": null,
+            "description": "プラン一覧取得",
             "args": [],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PlanType",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "PlanType",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -3769,7 +3703,7 @@
           },
           {
             "name": "profile",
-            "description": null,
+            "description": "プロフィール取得",
             "args": [
               {
                 "name": "userId",
@@ -3802,7 +3736,7 @@
             "args": [
               {
                 "name": "id",
-                "description": null,
+                "description": "The ID of the object",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -3964,7 +3898,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "Float",
+                  "name": "ID",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -4128,13 +4062,9 @@
             "name": "refreshToken",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -4167,9 +4097,29 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "GenericScalar",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "GenericScalar",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refreshExpiresIn",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4179,9 +4129,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4191,9 +4145,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4207,7 +4165,7 @@
       {
         "kind": "OBJECT",
         "name": "RemoveSecondaryEmail",
-        "description": null,
+        "description": "Remove user secondary email.\n\nRequire password confirmation.",
         "fields": [
           {
             "name": "errors",
@@ -4242,7 +4200,7 @@
       {
         "kind": "OBJECT",
         "name": "ResendActivationEmail",
-        "description": null,
+        "description": "Sends activation email.\n\nIt is called resend because theoretically\nthe first activation email was sent when\nthe user registered.\n\nIf there is no user with the requested email,\na successful response is returned.",
         "fields": [
           {
             "name": "errors",
@@ -4277,7 +4235,7 @@
       {
         "kind": "OBJECT",
         "name": "RevokeToken",
-        "description": null,
+        "description": "Same as `grapgql_jwt` implementation, with standard output.",
         "fields": [
           {
             "name": "errors",
@@ -4296,9 +4254,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4324,7 +4286,7 @@
       {
         "kind": "OBJECT",
         "name": "SendPasswordResetEmail",
-        "description": null,
+        "description": "Send password reset email.\n\nFor non verified users, send an activation\nemail instead.\n\nAccepts both primary and secondary email.\n\nIf there is no user with the requested email,\na successful response is returned.",
         "fields": [
           {
             "name": "errors",
@@ -4359,7 +4321,7 @@
       {
         "kind": "OBJECT",
         "name": "SendSecondaryEmailActivation",
-        "description": null,
+        "description": "Send activation to secondary email.\n\nUser must be verified and confirm password.",
         "fields": [
           {
             "name": "errors",
@@ -4404,7 +4366,7 @@
       {
         "kind": "OBJECT",
         "name": "SwapEmails",
-        "description": null,
+        "description": "Swap between primary and secondary emails.\n\nRequire password confirmation.",
         "fields": [
           {
             "name": "errors",
@@ -4439,7 +4401,7 @@
       {
         "kind": "OBJECT",
         "name": "UpdateAccount",
-        "description": null,
+        "description": "Update user model fields, defined on settings.\n\nUser must be verified.",
         "fields": [
           {
             "name": "errors",
@@ -4828,7 +4790,7 @@
       {
         "kind": "OBJECT",
         "name": "UserGaveDealingsType",
-        "description": null,
+        "description": "ユーザーが過去にポイントを贈与した取引一覧",
         "fields": [
           {
             "name": "createdAt",
@@ -4939,7 +4901,7 @@
           },
           {
             "name": "id",
-            "description": null,
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5096,7 +5058,7 @@
         "fields": [
           {
             "name": "edges",
-            "description": null,
+            "description": "Contains the nodes in this connection.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5116,7 +5078,7 @@
           },
           {
             "name": "pageInfo",
-            "description": null,
+            "description": "Pagination data for this connection.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5139,11 +5101,11 @@
       {
         "kind": "OBJECT",
         "name": "UserNodeEdge",
-        "description": null,
+        "description": "A Relay edge containing a `UserNode` and its cursor.",
         "fields": [
           {
             "name": "cursor",
-            "description": null,
+            "description": "A cursor for use in pagination",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5159,7 +5121,7 @@
           },
           {
             "name": "node",
-            "description": null,
+            "description": "The item at the end of the edge",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -5178,7 +5140,7 @@
       {
         "kind": "OBJECT",
         "name": "UserReceivedDealingsType",
-        "description": null,
+        "description": "ユーザーが過去にポイントを受領した取引一覧",
         "fields": [
           {
             "name": "createdAt",
@@ -5268,7 +5230,7 @@
       {
         "kind": "OBJECT",
         "name": "VerifyAccountPayload",
-        "description": null,
+        "description": "Verify user account.\n\nReceive the token that was sent by email.\nIf the token is valid, make the user verified\nby making the `user.status.verified` field true.",
         "fields": [
           {
             "name": "clientMutationId",
@@ -5334,13 +5296,9 @@
             "name": "token",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -5373,9 +5331,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "GenericScalar",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "GenericScalar",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5389,7 +5351,7 @@
       {
         "kind": "OBJECT",
         "name": "VerifySecondaryEmail",
-        "description": null,
+        "description": "Verify user secondary email.\n\nReceive the token that was sent by email.\nUser is already verified when using this mutation.\n\nIf the token is valid, add the secondary email\nto `user.status.secondary_email` field.\n\nNote that until the secondary email is verified,\nit has not been saved anywhere beyond the token,\nso it can still be used to create a new account.\nAfter being verified, it will no longer be available.",
         "fields": [
           {
             "name": "errors",

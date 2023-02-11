@@ -43,5 +43,5 @@ class CreateDistributes(graphene.relay.ClientIDMutation):
         return CreateDistributes(distribute_log=distribute_log)
 
 
-class DistributeMutation(graphene.AbstractType):
+class DistributeMutation(graphene.ObjectType):
     create_distributes = CreateDistributes.Field()

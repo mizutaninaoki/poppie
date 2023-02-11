@@ -1,5 +1,6 @@
 import pytest
 from pytest_factoryboy import register
+from graphql_jwt.shortcuts import get_token
 
 from factories.plans import PlanFactory
 from factories.companies import CompanyFactory
@@ -19,12 +20,14 @@ register(ExchangeAppliedItemFactory)
 register(ExchangedItemLogFactory)
 register(PurchasedPointLogFactory)
 
+from pdb import set_trace as st
+
 
 @pytest.fixture(autouse=True)
 def test_generate_plan_fixtures(plan_factory):
-    plan_factory.create(name="free")
-    plan_factory.create(name="standard")
-    plan_factory.create(name="professional")
+    plan_factory.create(name="free", fee=0)
+    plan_factory.create(name="standard", fee=2000)
+    plan_factory.create(name="professional", fee=5000)
     assert True
 
 
@@ -43,3 +46,35 @@ def create_user_fixture(django_user_model):
         return django_user_model.objects.create_user(**kwargs)
 
     return make_user
+
+
+# from graphql_jwt.testcases import JSONWebTokenTestCase, JSONWebTokenClient
+# @pytest.fixture
+# def logged_in_client_fixture(company_fixture, create_user_fixture):
+#     user = create_user_fixture(
+#         email="user@test.jp",
+#         password="test_password",
+#         company=company_fixture,
+#         is_active=True,
+#         is_admin=True,
+#     )
+
+#     client = JSONWebTokenTestCase().client_class()
+#     client.authenticate(user)
+#     return client, user
+
+
+@pytest.fixture
+def logged_in_client_fixture(company_fixture, create_user_fixture):
+    """ログイン済みユーザーのfixture"""
+    user = create_user_fixture(
+        email="user@test.jp",
+        password="test_password",
+        company=company_fixture,
+        is_active=True,
+        is_admin=True,
+    )
+
+    headers = {"HTTP_AUTHORIZATION": f"JWT {get_token(user)}"}
+
+    return user, headers
