@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { schemaForType } from '@/validations/zodHelper';
 import { ItemListFormDataType } from '@/components/items/ItemListExchangeForm';
-import { ItemStatusEnum } from '@/generated/graphql';
+import { Statuses } from '@/generated/graphql';
 
 /**
  * 景品一覧からポイントを交換するフォームのバリデーション
@@ -15,7 +15,7 @@ export const ItemListExchangeFormDataZodSchema = schemaForType<ItemListFormDataT
         unit: z.string(),
         exchangablePoint: z.number(),
         quantity: z.number(),
-        status: z.nativeEnum(ItemStatusEnum),
+        status: z.nativeEnum(Statuses),
         userId: z.string(),
         exchangeQuantity: z.number(),
       }),

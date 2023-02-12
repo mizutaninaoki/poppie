@@ -28,7 +28,7 @@ def profile_query_fixture(logged_in_client_fixture):
 @pytest.mark.django_db
 def test_logged_in(profile_query_fixture):
     """認証トークンがない場合、エラーが発生すること"""
-    query, _, _ = profile_query_fixture
+    query, *_ = profile_query_fixture
 
     response = graphql_query(query, headers=None)
     content = json.loads(response.content)
@@ -59,4 +59,4 @@ def test_profile_query(profile_query_fixture):
             }
         }
     }
-    assert "errors" not in response
+    assert "errors" not in content

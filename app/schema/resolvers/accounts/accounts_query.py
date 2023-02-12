@@ -14,4 +14,6 @@ class AccountQuery(graphene.ObjectType):
 
     @login_required
     def resolve_accounts(root, info):
-        return Account.objects.filter(company_id=info.context.user.company.id)
+        return Account.objects.select_related("user", "company").filter(
+            company_id=info.context.user.company.id
+        )

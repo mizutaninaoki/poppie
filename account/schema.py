@@ -49,8 +49,8 @@ class CompanyUsersQuery(graphene.ObjectType):
     )
 
     def resolve_company_users(root, info, company_id):
-        return User.objects.select_related("account", "company").filter(
-            company_id=company_id
+        return User.objects.filter(company_id=company_id).select_related(
+            "account", "profile"
         )
 
 

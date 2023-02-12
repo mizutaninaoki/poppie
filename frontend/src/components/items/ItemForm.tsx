@@ -3,7 +3,11 @@ import { gql } from '@apollo/client';
 import { ItemFormDataZodSchema } from '@/validations/validateItem';
 import { useValidationErrors } from '@/hooks/useValidationErrors';
 import { ItemImageForm } from '@/components/items/ItemImageForm';
-import { ItemDataForItemFormFragment, ItemStatusEnum } from '@/generated/graphql';
+import {
+  ItemDataForItemFormFragment,
+  // ItemStatusEnum,
+  Statuses,
+} from '@/generated/graphql';
 
 gql`
   fragment ItemDataForItemForm on ItemType {
@@ -23,7 +27,7 @@ export type ItemFormDataType = {
   unit: string;
   exchangablePoint: number;
   quantity: number;
-  status: ItemStatusEnum;
+  status: Statuses;
   imageKey?: string;
   image?: File;
 };
@@ -43,7 +47,7 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item, editPage }) =>
     unit: item?.unit ?? '',
     exchangablePoint: item?.exchangablePoint ?? 0,
     quantity: item?.quantity ?? 0,
-    status: item?.status ?? ItemStatusEnum.Public,
+    status: item?.status ?? Statuses.Public,
     imageKey: item?.imageKey ?? '',
     image: undefined,
   });
@@ -174,12 +178,12 @@ export const ItemForm: FC<Props> = ({ onSubmit: onSubmitFn, item, editPage }) =>
                   onChange={(e) => {
                     setFormData({
                       ...formData,
-                      status: e.target.value as ItemStatusEnum,
+                      status: e.target.value as Statuses,
                     });
                   }}
                 >
-                  <option value={ItemStatusEnum.Public}>公開</option>
-                  <option value={ItemStatusEnum.Private}>非公開</option>
+                  <option value={Statuses.Public}>公開</option>
+                  <option value={Statuses.Private}>非公開</option>
                 </select>
               </div>
             </div>

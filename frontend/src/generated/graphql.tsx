@@ -135,7 +135,7 @@ export type CreateItemInput = {
   imageKey?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   quantity: Scalars['Int'];
-  status: ItemStatusEnum;
+  status: Statuses;
   unit: Scalars['String'];
 };
 
@@ -254,11 +254,6 @@ export type GenerateS3PresignedUrlPayload = {
   presignedUrl: Scalars['String'];
 };
 
-export enum ItemStatusEnum {
-  Private = 'PRIVATE',
-  Public = 'PUBLIC'
-}
-
 export type ItemType = {
   __typename?: 'ItemType';
   company: CompanyType;
@@ -269,7 +264,7 @@ export type ItemType = {
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   quantity: Scalars['Int'];
-  status: ItemStatusEnum;
+  status: Statuses;
   unit: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
@@ -785,6 +780,12 @@ export type SendSecondaryEmailActivation = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/** An enumeration. */
+export enum Statuses {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
+
 /**
  * Swap between primary and secondary emails.
  *
@@ -814,7 +815,7 @@ export type UpdateItemInput = {
   imageKey?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   quantity: Scalars['Int'];
-  status: ItemStatusEnum;
+  status: Statuses;
   unit: Scalars['String'];
 };
 
@@ -961,9 +962,9 @@ export type CompanyUserForDealingFormFragment = { __typename?: 'CustomUserType',
 
 export type DistributeFormDataFragment = { __typename?: 'AccountType', id: string, givablePoint: number, receivedPoint: number, user: { __typename?: 'CustomUserType', name: string, email: string, profile: { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageUrl?: string | null } } };
 
-export type ItemDataForItemCardFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null };
+export type ItemDataForItemCardFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: Statuses, imageKey?: string | null, imageUrl?: string | null };
 
-export type ItemDataForItemFormFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null };
+export type ItemDataForItemFormFragment = { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: Statuses, imageKey?: string | null, imageUrl?: string | null };
 
 export type ProfileDataFragment = { __typename?: 'ProfileType', id: string, department?: string | null, comment?: string | null, imageKey?: string | null, imageUrl?: string | null, user: { __typename?: 'CustomUserType', id: string, name: string } };
 
@@ -1049,14 +1050,14 @@ export type ExchangesIndexPageQueryVariables = Exact<{
 }>;
 
 
-export type ExchangesIndexPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null }> };
+export type ExchangesIndexPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: Statuses, imageKey?: string | null, imageUrl?: string | null }> };
 
 export type ItemsEditPageQueryVariables = Exact<{
   itemId: Scalars['ID'];
 }>;
 
 
-export type ItemsEditPageQuery = { __typename?: 'Query', item: { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null } };
+export type ItemsEditPageQuery = { __typename?: 'Query', item: { __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: Statuses, imageKey?: string | null, imageUrl?: string | null } };
 
 export type UpdateItemMutationVariables = Exact<{
   input: UpdateItemInput;
@@ -1070,7 +1071,7 @@ export type ItemsPageQueryVariables = Exact<{
 }>;
 
 
-export type ItemsPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: ItemStatusEnum, imageKey?: string | null, imageUrl?: string | null }> };
+export type ItemsPageQuery = { __typename?: 'Query', items: Array<{ __typename?: 'ItemType', id: string, name: string, unit: string, exchangablePoint: number, quantity: number, status: Statuses, imageKey?: string | null, imageUrl?: string | null }> };
 
 export type CreateItemMutationVariables = Exact<{
   input: CreateItemInput;

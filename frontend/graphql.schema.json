@@ -719,7 +719,7 @@
               "name": null,
               "ofType": {
                 "kind": "ENUM",
-                "name": "ItemStatusEnum",
+                "name": "Statuses",
                 "ofType": null
               }
             },
@@ -1768,29 +1768,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "ENUM",
-        "name": "ItemStatusEnum",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PRIVATE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PUBLIC",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "ItemType",
         "description": null,
@@ -1924,7 +1901,7 @@
               "name": null,
               "ofType": {
                 "kind": "ENUM",
-                "name": "ItemStatusEnum",
+                "name": "Statuses",
                 "ofType": null
               }
             },
@@ -4354,6 +4331,29 @@
         "possibleTypes": null
       },
       {
+        "kind": "ENUM",
+        "name": "Statuses",
+        "description": "An enumeration.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "PRIVATE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PUBLIC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "SCALAR",
         "name": "String",
         "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
@@ -4535,7 +4535,7 @@
               "name": null,
               "ofType": {
                 "kind": "ENUM",
-                "name": "ItemStatusEnum",
+                "name": "Statuses",
                 "ofType": null
               }
             },

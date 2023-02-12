@@ -1,6 +1,6 @@
-import { ItemStatusEnum } from '@/generated/graphql';
+import { Statuses } from '@/generated/graphql';
 
 export const ItemStatusName = {
-  [ItemStatusEnum.Public]: '公開',
-  [ItemStatusEnum.Private]: '非公開',
+  [Statuses.Public]: '公開',
+  [Statuses.Private]: '非公開',
 } as const;

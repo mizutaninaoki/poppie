@@ -1,6 +1,7 @@
 from django.db import transaction
 import graphene
 from account.models import Profile
+from graphql_jwt.decorators import login_required
 from app.schema.types.profile_type import ProfileType
 from graphql import GraphQLError
 import logging
@@ -19,6 +20,7 @@ class UpdateProfile(graphene.relay.ClientIDMutation):
     profile = graphene.Field(ProfileType)
 
     @classmethod
+    @login_required
     def mutate_and_get_payload(cls, root, info, **input):
         profile = Profile.objects.get(user_id=input.get("user_id"))
         profile.department = input.get("department")

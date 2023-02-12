@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { NextPageWithLayout } from '@/pages/_app';
@@ -46,7 +46,7 @@ const CompaniesNewInputPage: NextPageWithLayout = () => {
   const [createCompanyAndAdminUser, { loading: createLoading, error }] =
     useCreateCompanyAndAdminUserMutation({
       onCompleted: async (res) => {
-        if (!res?.createCompanyAndAdminUser) return;
+        if (!res?.createCompanyAndAdminUser?.adminUser) return;
         const { email } = res.createCompanyAndAdminUser.adminUser; // ここで返されるpasswordはエンコードされたpassword
         const isLoggedIn = await login({ email, password: 'poppie1234' });
         if (isLoggedIn) {

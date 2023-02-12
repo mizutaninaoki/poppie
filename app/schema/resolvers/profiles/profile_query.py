@@ -17,7 +17,7 @@ class ProfileQuery(graphene.ObjectType):
     @login_required
     def resolve_profile(root, info, user_id):
         try:
-            return Profile.objects.get(user_id=user_id)
+            return Profile.objects.select_related("user").get(user_id=user_id)
         except Profile.DoesNotExist:
             logger.info("プロフィール取得でエラーが発生しました。")
             return None

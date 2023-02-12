@@ -34,7 +34,7 @@ type ItemType {
   imageKey: String
   createdAt: DateTime!
   updatedAt: DateTime!
-  status: ItemStatusEnum!
+  status: Statuses!
   imageUrl: String
   company: CompanyType!
 }
@@ -46,7 +46,8 @@ value as specified by
 """
 scalar DateTime
 
-enum ItemStatusEnum {
+"""An enumeration."""
+enum Statuses {
   PUBLIC
   PRIVATE
 }
@@ -351,7 +352,7 @@ input UpdateItemInput {
   name: String!
   unit: String!
   exchangablePoint: Int!
-  status: ItemStatusEnum!
+  status: Statuses!
   quantity: Int!
   imageKey: String
   clientMutationId: String
@@ -366,7 +367,7 @@ input CreateItemInput {
   name: String!
   unit: String!
   exchangablePoint: Int!
-  status: ItemStatusEnum!
+  status: Statuses!
   quantity: Int!
   imageKey: String
   clientMutationId: String

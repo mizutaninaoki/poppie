@@ -38,9 +38,15 @@ class UserReceivedDealingsQuery(graphene.ObjectType):
         days_num = (enddt - strdt).days + 1  # （参考）括弧の部分はtimedelta型のオブジェクトになります
 
         # チャートで表示させる月のポイントを贈った取引(dealing)を取得
-        received_dealings = Dealing.objects.filter(
-            receiver_id=info.context.user.account.id, created_at__range=(strdt, enddt)
-        ).order_by("created_at")
+        # FIXME: N+1
+        received_dealings = (
+            Dealing.objects.select_related("receiver__user")
+            .filter(
+                receiver_id=info.context.user.account.id,
+                created_at__range=(strdt, enddt),
+            )
+            .order_by("created_at")
+        )
 
         date_list = []
         for i in range(days_num):
