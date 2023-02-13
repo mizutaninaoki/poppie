@@ -90,7 +90,7 @@ export const CompanyForm: FC<Props> = ({ onSubmit: onSubmitFn, plans }) => {
                     <h2 className="card-title">{plan.name}プラン</h2>
                     <p className="font-bold">{plan.fee} 円</p>
                     {plan.name == 'free' && (
-                      <div>
+                      <div data-cy="freePlan">
                         <ul className="list-disc text-left">
                           <li>1グループにつき最大10人まで登録可能</li>
                           <li>ポイント発行・配布等の基本機能の利用が可能</li>
@@ -148,6 +148,7 @@ export const CompanyForm: FC<Props> = ({ onSubmit: onSubmitFn, plans }) => {
                   onChange={(e) => {
                     setFormData({ ...formData, name: e.target.value });
                   }}
+                  data-cy="companyName"
                 />
               </div>
             </div>
@@ -172,6 +173,7 @@ export const CompanyForm: FC<Props> = ({ onSubmit: onSubmitFn, plans }) => {
                   onChange={(e) => {
                     setFormData({ ...formData, email: e.target.value });
                   }}
+                  data-cy="email"
                 />
               </div>
             </div>
@@ -196,6 +198,7 @@ export const CompanyForm: FC<Props> = ({ onSubmit: onSubmitFn, plans }) => {
                   onChange={(e) => {
                     setFormData({ ...formData, tel: e.target.value });
                   }}
+                  data-cy="tel"
                 />
               </div>
             </div>

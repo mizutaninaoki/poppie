@@ -84,6 +84,7 @@ const MypagePage: NextPageWithLayout = () => {
             <button
               className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-lg text-xs"
               onClick={onClick}
+              data-cy="givePointButton"
             >
               ポイントをあげる
             </button>

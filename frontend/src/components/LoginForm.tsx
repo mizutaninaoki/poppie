@@ -59,6 +59,7 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
                 email: e.target.value,
               })
             }
+            data-cy="email"
           />
         </div>
 
@@ -87,6 +88,7 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
                 password: e.target.value,
               })
             }
+            data-cy="password"
           />
         </div>
 
@@ -95,6 +97,7 @@ export const LoginForm: FC<Props> = ({ onSubmit: onSubmitFn }) => {
           type="button"
           className="bg-green-600 block mx-auto text-white rounded-lg font-bold text-sm uppercase shadow-md px-6 py-2 mt-10"
           onClick={onSubmit}
+          data-cy="loginButton"
         >
           ログイン
         </button>

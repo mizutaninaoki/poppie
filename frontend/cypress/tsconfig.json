@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "types": ["node", "cypress", "@testing-library/cypress"],
+    "baseUrl": "./cypress/",
+    "paths": { "fixtures": ["./types/index.d.ts"] }
+  },
+  "include": ["../node_modules/cypress", "./**/*.ts"]
+}

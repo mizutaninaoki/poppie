@@ -36,7 +36,8 @@
     "stories/**/*.js",
     "stories/**/*.jsx",
     "stories/**/*.ts",
-    "stories/**/*.tsx"
+    "stories/**/*.tsx",
+    "cypress.config.ts"
   ],
   "exclude": [
     "node_modules"

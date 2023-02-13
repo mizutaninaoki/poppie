@@ -80,6 +80,7 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
                 name: selectableUsers.find((user) => user.id === e.target.value).name,
               });
             }}
+            data-cy="userName"
           >
             <option value="">選択してください</option>
             {selectableUsers.map((user) => {
@@ -113,6 +114,7 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
               if (Number.isNaN(amount)) return;
               setFormData({ ...formData, amount });
             }}
+            data-cy="givePoint"
           />
           {errors?.amount && (
             <p className="text-red-600 text-xs">{errors?.amount.message}</p>
@@ -130,6 +132,7 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
             onChange={(e) => {
               setFormData({ ...formData, message: e.target.value });
             }}
+            data-cy="comment"
           ></textarea>
         </div>
 

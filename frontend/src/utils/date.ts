@@ -131,6 +131,18 @@ export const formatISO8601 = (date: string | Date): string => {
 };
 
 /*
+ * yyyy-MM-dd
+ */
+export const formatISO8601WithTime = (date: string | Date): string => {
+  const dateFormat = 'yyyy-MM-dd-HH-mm-ss';
+  if (typeof date === 'object' && date instanceof Date) {
+    return format(date, dateFormat);
+  }
+  return format(new Date(date), dateFormat);
+};
+
+
+/*
  * yyyy-MM
  */
 export const formatYearMonthISO8601 = (date: string | Date): string => {

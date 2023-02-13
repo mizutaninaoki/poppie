@@ -52,7 +52,11 @@ export const Header: FC = () => {
                   </button>
                 </Link>
                 <Link href="/companies/new/input/">
-                  <button type="button" className={styles.headerBtnRegistration}>
+                  <button
+                    type="button"
+                    data-cy="registrationInHeader"
+                    className={styles.headerBtnRegistration}
+                  >
                     poppieをはじめる
                   </button>
                 </Link>

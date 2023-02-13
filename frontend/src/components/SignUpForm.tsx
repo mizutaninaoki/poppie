@@ -68,6 +68,7 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
                 name: e.target.value,
               })
             }
+            data-cy="name"
           />
         </div>
         {errors?.email && (
@@ -95,6 +96,7 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
                 email: e.target.value,
               })
             }
+            data-cy="email"
           />
         </div>
         <p className="text-xs">※パスワードは8文字以上の英数字</p>
@@ -123,6 +125,7 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
                 password1: e.target.value,
               })
             }
+            data-cy="password"
           />
         </div>
         {createUserloading ? (
