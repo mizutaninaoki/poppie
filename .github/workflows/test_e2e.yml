@@ -68,7 +68,9 @@ jobs:
       - name: Run migrations and seed
         run: ./seed.sh
       - name: Run Django
-        run: python manage.py runserver
+        # バックグランド実行
+        # https://stackoverflow.com/questions/66877730/how-to-use-django-selenium-testing-in-github-actions
+        run: python manage.py runserver &
 
 
       - name: Run e2e test
