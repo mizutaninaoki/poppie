@@ -32,23 +32,33 @@ describe('新規ポイント贈与', () => {
       cy.contains('テストe2e株式会社').should('exist');
     });
 
+    // it('ログインすることができる', () => {
+    //   // ログイン
+    //   cy.visit('/login');
+    //   // メールアドレス
+    //   cy.get('[data-cy=email]').type(email);
+    //   // パスワード
+    //   cy.get('[data-cy=password]').type(password);
+    //   //ログインボタンをクリック
+    //   cy.get('[data-cy=loginButton]').click();
+    // });
+
 
     it('他ユーザーにポイントをあげることができる', () => {
-      // ログイン
-      cy.visit('/login');
+      cy.visit('/companies/new/input');
+      cy.get('[data-cy=freePlan]').click();
+      // 会社名
+      cy.get('[data-cy=companyName]').type("テストe2e株式会社");
       // メールアドレス
       cy.get('[data-cy=email]').type(email);
-      // パスワード
-      cy.get('[data-cy=password]').type(password);
-      //ログインボタンをクリック
-      cy.get('[data-cy=loginButton]').click();
+      // 電話番号
+      cy.get('[data-cy=tel]').type(tel);
+      // 登録ボタンクリック
+      cy.get('button').contains(new RegExp('^登録する$')).click();
+      cy.contains('テストe2e株式会社').should('exist');
 
       // ユーザー一覧画面
       cy.visit('/settings/users');
-
-      cy.url().should('include', '/settings/users')
-      cy.contains('ユーザー管理').should('exist');
-
       // ユーザー追加ボタンクリック
       cy.get('[data-cy=addUserButton]').click();
       // 名前

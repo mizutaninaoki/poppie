@@ -40,6 +40,9 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
             ${{ runner.os }}-
+      # fonts-noto をインストールする(失敗時、Github Actionsのスクショで日本語が文字化けするのを直す)
+      # - name: Install fonts-noto
+      #   run: sudo apt install fonts-noto
       - name: Install Dependencies
         working-directory: ./frontend
         run: yarn install --frozen-lockfile --prefer-offline
@@ -84,11 +87,11 @@ jobs:
       # Cypress実行時に生成されたビデオとスクリーンショットを保存
       - name: Save e2e screenshots at failure
         uses: actions/upload-artifact@v3
-        if: always()
         with:
           name: e2e-test-logs
           path: |
             ${{ github.workspace }}/frontend/cypress/screenshots/
             ${{ github.workspace }}/frontend/cypress/videos/
           retention-days: 1
+        if: failure()
         # if: failure() && steps.e2e_test.outcome == 'failure'
