@@ -297,14 +297,3 @@ STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # メディアファイルの設定。今回は「app」というプロジェクト名の例
 DEFAULT_FILE_STORAGE = "app.backends.MediaStorage"
-
-
-# DEFAULT_POSTGRESQL_ENGINES = (
-#     "django.db.backends.postgresql",
-#     "django.db.backends.postgresql_psycopg2",
-#     "django.db.backends.postgis",
-#     "django.contrib.gis.db.backends.postgis",
-#     "psqlextra.backend",
-#     "django_zero_downtime_migrations.backends.postgres",
-#     "django_zero_downtime_migrations.backends.postgis",
-# )
