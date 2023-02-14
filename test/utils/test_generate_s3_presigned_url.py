@@ -36,6 +36,7 @@ def test_logged_in(generate_s3_presigned_url_fixture):
 
 # mock_s3のアノテーションで、test_generate_s3_presigned_url内のs3へのアクセスを自動的にモック化してくれる
 @pytest.mark.django_db
+@mock_s3
 def test_generate_s3_presigned_url(generate_s3_presigned_url_fixture):
     """presigned_urlを発行・取得できること"""
     mutation, user, headers = generate_s3_presigned_url_fixture
