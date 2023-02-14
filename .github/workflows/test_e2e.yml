@@ -40,15 +40,15 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
             ${{ runner.os }}-
-      - name: Install Dependencies
-        working-directory: ./frontend
-        run: yarn install --frozen-lockfile --prefer-offline
-      - name: Run Next.js Build
-        working-directory: ./frontend
+        # - name: Install Dependencies
+        #   working-directory: ./frontend
+        #   run: yarn install --frozen-lockfile --prefer-offline
+        # - name: Run Next.js Build
+        #   working-directory: ./frontend
         # run: |
         #   yarn make-e2e-env
         #   yarn build
-        run: yarn make-e2e-env
+        # run: yarn make-e2e-env
       - name: Set up docker
         run: docker-compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d
 
@@ -86,6 +86,9 @@ jobs:
         working-directory: ./frontend
         run: |
           pwd
+          yarn install --frozen-lockfile --prefer-offline
+          yarn make-e2e-env
+          yarn build
           yarn start &
       # Cypress実行
       - name: Cypress run
