@@ -29,7 +29,8 @@ describe('新規ポイント贈与', () => {
       cy.get('[data-cy=tel]').type(tel);
       // 登録ボタンクリック
       cy.get('button').contains(new RegExp('^登録する$')).click();
-      cy.contains('テストe2e株式会社').should('exist');
+      // マイページトップが表示されていること
+      cy.url().should('include', '/mypage')
     });
 
     // it('ログインすることができる', () => {
@@ -55,7 +56,8 @@ describe('新規ポイント贈与', () => {
       cy.get('[data-cy=tel]').type(tel);
       // 登録ボタンクリック
       cy.get('button').contains(new RegExp('^登録する$')).click();
-      cy.contains('テストe2e株式会社').should('exist');
+      // マイページトップが表示されていること
+      cy.url().should('include', '/mypage')
 
       // ユーザー一覧画面
       cy.visit('/settings/users');
