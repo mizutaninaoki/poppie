@@ -6,7 +6,8 @@ describe('新規ポイント贈与', () => {
     const email_1 = `teste2e-${now}@test.com`;
     const email_2 = `teste2e-${now + "2"}@test.com`;
     const email_3 = `teste2e-${now + "3"}@test.com`;
-    const tel = "03" + randomEightDigitNumber()
+    const tel_1 = "03" + randomEightDigitNumber()
+    const tel_2 = "090" + randomEightDigitNumber()
     const password = "poppie1234"
 
     before(() => {
@@ -27,7 +28,7 @@ describe('新規ポイント贈与', () => {
       // メールアドレス
       cy.get('[data-cy=email]').type(email_1);
       // 電話番号
-      cy.get('[data-cy=tel]').type(tel);
+      cy.get('[data-cy=tel]').type(tel_1);
       // 登録ボタンクリック
       cy.get('button').contains(new RegExp('^登録する$')).click();
       // マイページトップが表示されていること
@@ -54,7 +55,7 @@ describe('新規ポイント贈与', () => {
       // メールアドレス
       cy.get('[data-cy=email]').type(email_2);
       // 電話番号
-      cy.get('[data-cy=tel]').type(tel);
+      cy.get('[data-cy=tel]').type(tel_2);
       // 登録ボタンクリック
       cy.get('button').contains(new RegExp('^登録する$')).click();
       // マイページトップが表示されていること
