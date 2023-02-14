@@ -44,8 +44,6 @@ pluggy==1.0.0
 promise==2.3
 psycopg2==2.9.5
 pycparser==2.21
-pydotplus==2.0.2
-pygraphviz==1.10
 PyJWT==2.6.0
 pyparsing==3.0.9
 pytest==7.2.1

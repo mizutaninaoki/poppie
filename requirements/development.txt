@@ -1,0 +1,2 @@
+pydotplus==2.0.2
+pygraphviz==1.10
