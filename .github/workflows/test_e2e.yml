@@ -87,8 +87,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          # Next.js (http://localhost:3000) の起動を待つ
-          wait-on: "http://localhost:3000"
           # Cypress を ./frontend/ に配置しているため、working-directoryを指定(デフォルトはルートディレクトリ)
           working-directory: frontend
       # Cypress実行時に生成されたビデオとスクリーンショットを保存
