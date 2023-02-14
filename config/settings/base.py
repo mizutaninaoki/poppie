@@ -5,7 +5,6 @@ from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -14,7 +13,7 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
-JWT_SECRET_KEY = env("JWT_SECRET_KEY")
+# JWT_SECRET_KEY = env("JWT_SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
