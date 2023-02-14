@@ -43,6 +43,7 @@ jobs:
       env:
         DJANGO_ENV: ${{secrets.DJANGO_ENV}}
         SECRET_KEY: ${{secrets.SECRET_KEY}}
+        JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
         ENGINE: ${{secrets.ENGINE}}
         POSTGRES_DB: ${{secrets.POSTGRES_DB}}
         POSTGRES_USER: ${{secrets.POSTGRES_USER}}
