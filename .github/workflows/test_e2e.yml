@@ -67,15 +67,8 @@ jobs:
       - name: Run Django
         # バックグランド実行
         # https://stackoverflow.com/questions/66877730/how-to-use-django-selenium-testing-in-github-actions
+        # ポート番号を8000に指定しないと、環境変数に設定しているpostgresのポート番号で立ち上げてしまう。(Next.jsはpackage.jsonの中でPORTを3000に指定)
         run: python manage.py runserver 8000 &
-
-
-      # - name: Run e2e test
-      #   id: e2e_test
-      #   run: |
-      #     cd ./frontend
-      #     yarn cy:run
-
 
       # Next.jsアプリを起動(バックグラウンド実行)
       - name: Start App
@@ -91,10 +84,11 @@ jobs:
       # Cypress実行時に生成されたビデオとスクリーンショットを保存
       - name: Save e2e screenshots at failure
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: e2e-test-logs
           path: |
             ${{ github.workspace }}/frontend/cypress/screenshots/
             ${{ github.workspace }}/frontend/cypress/videos/
           retention-days: 1
-        if: failure() && steps.e2e_test.outcome == 'failure'
+        # if: failure() && steps.e2e_test.outcome == 'failure'
