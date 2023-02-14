@@ -1,7 +1,7 @@
 import { formatISO8601WithTime, randomEightDigitNumber } from '../support/utils';
 
-describe('新規予約', () => {
-  context('新規会員登録から予約完了', () => {
+describe('新規ポイント贈与', () => {
+  context('新規会員登録からポイント贈与完了', () => {
     const now = formatISO8601WithTime(new Date())
     const email = `teste2e-${now}@test.com`;
     const another_email = `teste2e-${now + "another"}@test.com`;
@@ -45,6 +45,10 @@ describe('新規予約', () => {
 
       // ユーザー一覧画面
       cy.visit('/settings/users');
+
+      cy.url().should('include', '/settings/users')
+      cy.contains('ユーザー管理').should('exist');
+
       // ユーザー追加ボタンクリック
       cy.get('[data-cy=addUserButton]').click();
       // 名前
