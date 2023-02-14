@@ -134,6 +134,7 @@ export const SignUpForm: FC<Props> = ({ createUserloading, onSubmit: onSubmitFn 
           <button
             className="bg-green-600 hover:opacity-50 block mx-auto text-white font-bold text-sm uppercase rounded-lg px-8 py-2 mt-8"
             onClick={onSubmit}
+            data-cy="registerButton"
           >
             登録
           </button>

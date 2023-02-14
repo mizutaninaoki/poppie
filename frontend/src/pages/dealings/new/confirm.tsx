@@ -128,6 +128,7 @@ const DealingsNewConfirmPage: FC = () => {
                         className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white w-full font-bold py-2 px-4 rounded-lg"
                         type="button"
                         onClick={onSubmit}
+                        data-cy="givePointButton"
                       >
                         ポイントを贈る
                       </button>

@@ -40,7 +40,7 @@ const SettingsUsersPage: NextPageWithLayout = () => {
           </div>
           <div className="text-center">
             <Link href="/settings/users/register/">
-              <button className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold mt-3 mb-7 py-2 px-4 rounded-lg">
+              <button data-cy="addUserButton" className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold mt-3 mb-7 py-2 px-4 rounded-lg">
                 ユーザーを追加する
               </button>
             </Link>

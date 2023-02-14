@@ -45,7 +45,8 @@ describe('新規予約', () => {
 
       // ユーザー一覧画面
       cy.visit('/settings/users');
-      cy.get('button').contains(new RegExp('^ユーザーを追加する$')).click();
+      // ユーザー追加ボタンクリック
+      cy.get('[data-cy=addUserButton]').click();
       // 名前
       cy.get('[data-cy=name]').type('テスト2e2追加ユーザー');
       // メールアドレス
@@ -53,7 +54,7 @@ describe('新規予約', () => {
       // パスワード
       cy.get('[data-cy=password]').type(password);
       // ユーザー追加ボタンをクリック
-      cy.get('button').contains(new RegExp('^登録$')).click();
+      cy.get('[data-cy=registerButton]').click();
 
       // ポイントをあげる画面
       cy.visit('/dealings/new/input');
@@ -61,9 +62,9 @@ describe('新規予約', () => {
       cy.get('[data-cy=userName]').select('テスト2e2追加ユーザー')
       cy.get('[data-cy=givePoint]').type("100");
       cy.get('[data-cy=comment]').type("e2eテストコメント");
-      cy.get('button').contains(new RegExp('^確認する$')).click();
+      cy.get('[data-cy=confirmButton]').click();
       // 確認画面
-      cy.get('button').contains(new RegExp('^ポイントを贈る$')).click();
+      cy.get('[data-cy=givePointButton]').click();
       // マイページトップが表示されていること
       cy.url().should('include', '/mypage')
     });
