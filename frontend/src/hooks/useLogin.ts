@@ -56,7 +56,8 @@ export function useLogin(): Returning {
         });
 
         if (res.data?.tokenAuth?.user) {
-          const { token, refreshToken, success, errors } = res.data.tokenAuth;
+          // const { token, refreshToken, success, errors } = res.data.tokenAuth;
+          const { token, refreshToken } = res.data.tokenAuth;
           setTokensToCookie(token, refreshToken);
 
           const { id, email, name, isAdmin, isActive, company, account } = res.data.tokenAuth.user;

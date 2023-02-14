@@ -5,7 +5,6 @@ import { DealingFormDataType } from '@/components/dealings/DealingForm';
 /**
  * ポイント取引フォームのバリデーション
  */
-
 export const DealingFormDataZodSchema = schemaForType<DealingFormDataType>()(
   z.object({
     userId: z.string().nonempty({ message: "ユーザーを選択してください" }),
@@ -14,9 +13,6 @@ export const DealingFormDataZodSchema = schemaForType<DealingFormDataType>()(
       (amount) => amount !== 0,
       'ポイント数を入力してください',
     ),
-    message: z.string().optional(),
+    message: z.string(),
   }),
 );
-
-
-

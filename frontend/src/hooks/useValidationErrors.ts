@@ -1,21 +1,21 @@
 import { useCallback, useState } from 'react';
 import { usePageError } from '@/hooks/usePageError';
-import { ErrorMessage } from '@/components/form/ErrorMessage';
-
 import { z } from 'zod';
 import _groupby from 'lodash.groupby';
+
 
 type ValidationErrorType = {
   [k: string]: { message: string };
 };
 
-interface Returning {
+interface Returning<T> {
   errors: ValidationErrorType | undefined;
   setErrors: (error: z.ZodFormattedError<T>) => void;
   resetErrors: () => void;
 }
 
-export function useValidationErrors(): Returning {
+
+export function useValidationErrors<T = any>(): Returning<T> {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrorType | undefined
   >(undefined);
@@ -27,6 +27,7 @@ export function useValidationErrors(): Returning {
     // zodのエラーを email: { message: '入力してください' }　みたいな形に変更する
     Object.keys(errors).forEach((key) => {
       if (key === '_errors') return;
+      {/* @ts-ignore */}
       errs[key] = { message: errors[key]._errors.join('。') };
     });
 

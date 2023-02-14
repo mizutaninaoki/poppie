@@ -40,7 +40,7 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
   const { errors, setErrors, resetErrors } = useValidationErrors();
 
   // ポイントを贈ることができるユーザーは同じ会社の自分以外のユーザー
-  const selectableUsers: CompanyUserType[] = useMemo(() => {
+  const selectableUsers: CompanyUserForDealingFormFragment[] = useMemo(() => {
     return users.filter((user) => user.id !== currentUser.id);
   }, []);
 
@@ -77,7 +77,8 @@ export const DealingForm: FC<Props> = ({ onSubmit: onSubmitFn, users }) => {
               setFormData({
                 ...formData,
                 userId: e.target.value,
-                name: selectableUsers.find((user) => user.id === e.target.value).name,
+                name: selectableUsers.find((user) => user.id === e.target.value)
+                  ?.name as string,
               });
             }}
             data-cy="userName"

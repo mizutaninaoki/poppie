@@ -300,3 +300,6 @@ terraform.rc
 
 
 graph-model.png
+
+# yarn buildの結果はgithubにあげない
+public/
