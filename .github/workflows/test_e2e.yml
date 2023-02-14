@@ -45,9 +45,10 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
       - name: Run Next.js Build
         working-directory: ./frontend
-        run: |
-          yarn make-e2e-env
-          yarn build
+        # run: |
+        #   yarn make-e2e-env
+        #   yarn build
+        run: yarn make-e2e-env
       - name: Set up docker
         run: docker-compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d
 
@@ -81,13 +82,15 @@ jobs:
 
 
       # Next.jsアプリを起動(バックグラウンド実行)
-      - name: Start App
-        run: yarn start &
+      # - name: Start App
+      #   run: yarn start &
       # Cypress実行
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
           install: false
+          build: yarn build
+          start: yarn start
           wait-on: "http://localhost:3000"
           # Cypress を ./frontend/ に配置しているため、working-directoryを指定(デフォルトはルートディレクトリ)
           working-directory: ./frontend
