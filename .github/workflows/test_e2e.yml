@@ -87,8 +87,10 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
+          install: false
+          wait-on: "http://localhost:3000"
           # Cypress を ./frontend/ に配置しているため、working-directoryを指定(デフォルトはルートディレクトリ)
-          working-directory: frontend
+          working-directory: ./frontend
       # Cypress実行時に生成されたビデオとスクリーンショットを保存
       - name: Save e2e screenshots at failure
         uses: actions/upload-artifact@v3
