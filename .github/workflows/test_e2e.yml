@@ -58,7 +58,7 @@ jobs:
         # withでは、アクションで定義される入力パラメータを設定できます。
         with:
           python-version: 3.9
-        # Djangoの環境をインストール
+      # Djangoの環境をインストール
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -73,11 +73,25 @@ jobs:
         run: python manage.py runserver &
 
 
-      - name: Run e2e test
-        id: e2e_test
-        run: |
-          cd ./frontend
-          yarn cy:run
+      # - name: Run e2e test
+      #   id: e2e_test
+      #   run: |
+      #     cd ./frontend
+      #     yarn cy:run
+
+
+      # Next.jsアプリを起動(バックグラウンド実行)
+      - name: Start App
+        run: yarn start &
+      # Cypress実行
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          # Next.js (http://localhost:3000) の起動を待つ
+          wait-on: "http://localhost:3000"
+          # Cypress を ./frontend/ に配置しているため、working-directoryを指定(デフォルトはルートディレクトリ)
+          working-directory: frontend
+      # Cypress実行時に生成されたビデオとスクリーンショットを保存
       - name: Save e2e screenshots at failure
         uses: actions/upload-artifact@v3
         with:
