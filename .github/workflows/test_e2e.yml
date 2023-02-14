@@ -27,11 +27,11 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
             ${{ runner.os }}-
-        - name: Install Dependencies
-          working-directory: ./frontend
-          run: yarn install --frozen-lockfile --prefer-offline
-        - name: Run Next.js Build
-          working-directory: ./frontend
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: yarn install --frozen-lockfile --prefer-offline
+      - name: Run Next.js Build
+        working-directory: ./frontend
         run: |
           yarn make-e2e-env
           yarn build
