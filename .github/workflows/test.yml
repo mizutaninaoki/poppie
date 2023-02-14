@@ -16,13 +16,9 @@ jobs:
       postgres:
         image: postgres:13.3
         env:
-          DJANGO_ENV: ${{secrets.DJANGO_ENV}}
-          ENGINE: ${{secrets.ENGINE}}
           POSTGRES_DB: ${{secrets.POSTGRES_DB}}
           POSTGRES_USER: ${{secrets.POSTGRES_USER}}
           POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
-          HOST: ${{secrets.HOST}}
-          PORT: ${{secrets.PORT}}
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -46,6 +42,7 @@ jobs:
     - name: Run migrations
       env:
         DJANGO_ENV: ${{secrets.DJANGO_ENV}}
+        DJANGO_SECRET_KEY: ${{secrets.DJANGO_SECRET_KEY}}
         ENGINE: ${{secrets.ENGINE}}
         POSTGRES_DB: ${{secrets.POSTGRES_DB}}
         POSTGRES_USER: ${{secrets.POSTGRES_USER}}
