@@ -18,20 +18,20 @@ describe('新規ポイント贈与', () => {
       cy.contains('ご希望のプランを選択してください').should('exist');
     });
 
-    it('新規登録することができる', () => {
-      cy.visit('/companies/new/input');
-      cy.get('[data-cy=freePlan]').click();
-      // 会社名
-      cy.get('[data-cy=companyName]').type("テストe2e株式会社");
-      // メールアドレス
-      cy.get('[data-cy=email]').type(email);
-      // 電話番号
-      cy.get('[data-cy=tel]').type(tel);
-      // 登録ボタンクリック
-      cy.get('button').contains(new RegExp('^登録する$')).click();
-      // マイページトップが表示されていること
-      cy.url().should('include', '/mypage')
-    });
+    // it('新規登録することができる', () => {
+    //   cy.visit('/companies/new/input');
+    //   cy.get('[data-cy=freePlan]').click();
+    //   // 会社名
+    //   cy.get('[data-cy=companyName]').type("テストe2e株式会社");
+    //   // メールアドレス
+    //   cy.get('[data-cy=email]').type(email);
+    //   // 電話番号
+    //   cy.get('[data-cy=tel]').type(tel);
+    //   // 登録ボタンクリック
+    //   cy.get('button').contains(new RegExp('^登録する$')).click();
+    //   // マイページトップが表示されていること
+    //   cy.url().should('include', '/mypage')
+    // });
 
     // it('ログインすることができる', () => {
     //   // ログイン
@@ -45,7 +45,7 @@ describe('新規ポイント贈与', () => {
     // });
 
 
-    it('他ユーザーにポイントをあげることができる', () => {
+    it('新規登録して他ユーザーにポイントをあげることができる', () => {
       cy.visit('/companies/new/input');
       cy.get('[data-cy=freePlan]').click();
       // 会社名
