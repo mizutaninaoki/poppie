@@ -4,7 +4,7 @@ import os
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -70,29 +70,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-DATABASES = {
-    "default": {
-        "ENGINE": env("ENGINE"),
-        "NAME": env("NAME"),
-        "USER": env("USER"),
-        "PASSWORD": env("PASSWORD"),
-        "HOST": env("HOST"),
-        "PORT": env("PORT"),
-    }
-}
-
 AUTH_USER_MODEL = "account.User"
 
 # Password validation
