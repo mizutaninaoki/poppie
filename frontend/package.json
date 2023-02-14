@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export -o ../public",
-    "start": "next start",
+    "start": "PORT=3000 next start",
     "lint": "next lint",
     "make-e2e-env": "cp .env.e2e .env.production",
     "cy:run": "TZ=Asia/Tokyo cypress run",
