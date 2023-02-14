@@ -17,10 +17,10 @@ jobs:
         image: postgres:13.3
         env:
           DJANGO_ENV: ${{secrets.DJANGO_ENV}}
-          NAME: ${{secrets.NAME}}
-          USER: ${{secrets.USER}}
-          PASSWORD: ${{secrets.PASSWORD}}
           ENGINE: ${{secrets.ENGINE}}
+          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+          POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+          POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
           HOST: ${{secrets.HOST}}
           PORT: ${{secrets.PORT}}
         ports:
@@ -45,10 +45,10 @@ jobs:
     - name: Run migrations
       env:
         DJANGO_ENV: ${{secrets.DJANGO_ENV}}
-        NAME: ${{secrets.NAME}}
-        USER: ${{secrets.USER}}
-        PASSWORD: ${{secrets.PASSWORD}}
         ENGINE: ${{secrets.ENGINE}}
+        POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+        POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+        POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
         HOST: ${{secrets.HOST}}
         PORT: ${{secrets.PORT}}
       run: python manage.py migrate

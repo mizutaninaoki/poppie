@@ -9,9 +9,9 @@ env.read_env(os.path.join(BASE_DIR, ".env.test"))
 DATABASES = {
     "default": {
         "ENGINE": env("ENGINE"),
-        "NAME": env("NAME"),
-        "USER": env("USER"),
-        "PASSWORD": env("PASSWORD"),
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
         "HOST": env("HOST"),
         "PORT": env("PORT"),
     }
