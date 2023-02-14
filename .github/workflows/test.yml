@@ -40,25 +40,24 @@ jobs:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      # ジョブで利用するリポジトリをチェックアウトするには actions/checkout というアクションが提供されています。uses キーワードを使いアクションを実行することができます。
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v3
-      # withでは、アクションで定義される入力パラメータを設定できます。
-      with:
-        python-version: 3.9
-      # Djangoの環境をインストール
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements/base.txt
-        pip install -r requirements/test.txt
-        pip install pytest-django
-    - name: Run migrations
-      run: python manage.py migrate
-    - name: Run tests
-      run: pytest
+        # ジョブで利用するリポジトリをチェックアウトするには actions/checkout というアクションが提供されています。uses キーワードを使いアクションを実行することができます。
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v3
+        # withでは、アクションで定義される入力パラメータを設定できます。
+        with:
+          python-version: 3.9
+        # Djangoの環境をインストール
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/base.txt
+          pip install -r requirements/test.txt
+          pip install pytest-django
+      - name: Run migrations
+        run: python manage.py migrate
+      - name: Run tests
+        run: pytest
 
 
