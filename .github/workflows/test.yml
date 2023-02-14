@@ -28,20 +28,14 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    strategy:
-      # matrixはジョブで置き換える変数を定義できる
-      matrix:
-        # 実行するPythonバージョン
-        python-version: 3.9
-
     steps:
       # ジョブで利用するリポジトリをチェックアウトするには actions/checkout というアクションが提供されています。uses キーワードを使いアクションを実行することができます。
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.9
       uses: actions/setup-python@v3
       # withでは、アクションで定義される入力パラメータを設定できます。
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.9
       # Djangoの環境をインストール
     - name: Install dependencies
       run: |
