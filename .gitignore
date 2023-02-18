@@ -309,8 +309,8 @@ graph-model.png
 # yarn buildの結果はgithubにあげない
 public/
 
-./docker/db/createdb-dev-test.sql
-./docker/db/createdb-prod.sql
+docker/db/createdb-dev-test.sql
+docker/db/createdb-prod.sql
 
 
 terraform

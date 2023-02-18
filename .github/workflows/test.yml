@@ -1,18 +1,18 @@
 name: CI
 
 # CIを一時的に走らせたくない時、以下コメント解除
-# on:
-#   push:
-#     branches-ignore:
-#       - '**'
-
 on:
-  # push: push したら jobs を実行する。
-  # workflow_dispatch: github で手動で実行可能にする。(テストを実行するのに、プッシュやプルリクを送りたくない場合に記述しておくと良い)
   push:
-    paths-ignore:
-      - "**.md"
-  workflow_dispatch:
+    branches-ignore:
+      - '**'
+
+# on:
+#   # push: push したら jobs を実行する。
+#   # workflow_dispatch: github で手動で実行可能にする。(テストを実行するのに、プッシュやプルリクを送りたくない場合に記述しておくと良い)
+#   push:
+#     paths-ignore:
+#       - "**.md"
+#   workflow_dispatch:
 
 jobs:
   test_backend:
