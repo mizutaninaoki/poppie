@@ -44,16 +44,6 @@ resource "aws_internet_gateway" "this" {
 # Elastic IP作成
 # (Elastic IPは固定のパブリックIPのこと。NATゲートウェイに付与する。)
 #------------------------------------------
-# resource "aws_eip" "nat" {
-#   count = length(var.public_subnet_cidrs)
-
-#   vpc = true
-
-#   tags = {
-#     Name = "${var.app_name}-natgw-${count.index}"
-#   }
-# }
-#########以下はNATゲートウェイを片方しか置かない構成の場合(ポートフォリオ構成)##################
 resource "aws_eip" "nat" {
   # count = length(var.public_subnet_cidrs)
 
@@ -68,23 +58,11 @@ resource "aws_eip" "nat" {
     Name = "${var.app_name}-natgw"
   }
 }
-######################################################################################
 
 #------------------------------------------
 # NATゲートウェイをcidrの数だけ作成
 # (NATゲートウェイをぞれぞれのパブリックサブネットに配置して、NATゲートウェイ経由でプライベートサブネットにアクセスできるようにする)
 #------------------------------------------
-# resource "aws_nat_gateway" "this" {
-#   count = length(var.public_subnet_cidrs)
-
-#   subnet_id     = element(aws_subnet.publics.*.id, count.index) # NATゲートウェイを作成するパブリックサブネットを指定。
-#   allocation_id = element(aws_eip.nat.*.id, count.index)        # 先ほど作成したElastic IPをNATゲートウェイに付与する
-
-#   tags = {
-#     Name = "${var.app_name}-${count.index}"
-#   }
-# }
-#########以下はNATゲートウェイを片方しか置かない構成の場合(ポートフォリオ構成)##################
 resource "aws_nat_gateway" "this" {
   # count = length(var.public_subnet_cidrs)
 
@@ -97,7 +75,6 @@ resource "aws_nat_gateway" "this" {
     Name = "${var.app_name}"
   }
 }
-######################################################################################
 
 #------------------------------------------
 # Public Subnetに関連づけるルートテーブル作成
@@ -164,15 +141,6 @@ resource "aws_subnet" "privates" {
 # 各プライベートサブネットからの行き先はそれぞれのNATゲートウェイで、ルートテーブルのデフォルトの行き先はルートテーブルに１つしか定義できないため、
 # それぞれのプライベートサブネットからそれぞれ紐づくNATゲートウェイへのルートテーブルを２つ作成しなくてはならない。
 #-----------------------------------------------------
-# resource "aws_route_table" "privates" {
-#   count  = length(var.private_subnet_cidrs)
-#   vpc_id = aws_vpc.vpc.id # 紐付けるVPCのID
-
-#   tags = {
-#     Name = "${var.app_name}-private-${count.index}"
-#   }
-# }
-#########以下はNATゲートウェイを片方しか置かない構成の場合(ポートフォリオ構成)##################
 resource "aws_route_table" "private" {
   # count  = length(var.private_subnet_cidrs)
   vpc_id = aws_vpc.vpc.id # 紐付けるVPCのID
@@ -182,45 +150,27 @@ resource "aws_route_table" "private" {
     Name = "${var.app_name}-private"
   }
 }
-######################################################################################
 
 #-----------------------------------------------------
 # Private SubnetからNATゲートウェイへのルートを追加(ルートテーブルにルートのレコード追加)
 # プライベートサブネット -> NATゲートウェイ(Elastic IPを持つ) -> インターネットゲートウェイの流れで通信して欲しいため、
 # プライベートサブネットのためのルートテーブル(2つ)にはそれぞれ関連づけるNATゲートウェイを指定したレコード(ルール)を追加。
 #-----------------------------------------------------
-# resource "aws_route" "privates" {
-#   count                  = length(var.private_subnet_cidrs)
-#   destination_cidr_block = "0.0.0.0/0" # 0.0.0.0/0で全てのアクセスに対してのルートを設定
-
-#   route_table_id = element(aws_route_table.privates.*.id, count.index) # ルートテーブルを作成する２つのプライベートサブネットを指定
-#   nat_gateway_id = element(aws_nat_gateway.this.*.id, count.index)     # 紐づける２つのNATゲートウェイ
-# }
-#########以下はNATゲートウェイを片方しか置かない構成の場合(ポートフォリオ構成)##################
 resource "aws_route" "private" {
   destination_cidr_block = "0.0.0.0/0" # 0.0.0.0/0で全てのアクセスに対してのルートを設定
 
   route_table_id = aws_route_table.private.id # ルートテーブルを作成するプライベートサブネットを指定
   nat_gateway_id = aws_nat_gateway.this.id# 紐づけるNATゲートウェイ
 }
-######################################################################################
 
 #-----------------------------------------------------
 # 全てのPrivate Subnetにルートテーブルを関連づける
 # どのルートテーブルを使ってルーティングするかはサブネット単位で判断する。
 # VPC内に作成したルートテーブルをどのサブネットに適用する(関連づける)のかを定義している。
 #-----------------------------------------------------
-# resource "aws_route_table_association" "privates" {
-#   count = length(var.private_subnet_cidrs)
-
-#   subnet_id      = element(aws_subnet.privates.*.id, count.index)      # それぞれのプライベートサブネットにルートテーブルを紐づける
-#   route_table_id = element(aws_route_table.privates.*.id, count.index) # 紐付け対象のルートテーブルID
-# }
-#########以下はNATゲートウェイを片方しか置かない構成の場合(ポートフォリオ構成)##################
 resource "aws_route_table_association" "privates" {
   count = length(var.private_subnet_cidrs)
 
   subnet_id      = element(aws_subnet.privates.*.id, count.index)      # それぞれのプライベートサブネットにルートテーブルを紐づける
   route_table_id = aws_route_table.private.id
 }
-######################################################################################

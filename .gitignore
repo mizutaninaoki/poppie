@@ -5,7 +5,7 @@ terraform/ec2
 terraform/ecs
 terraform/elb
 terraform/iam_role
-terraform/network
+# terraform/network
 # terraform/ecr
 terraform/rds
 terraform/main.tf
