@@ -1,3 +1,19 @@
+# terraform
+terraform/acm
+terraform/cloudwatch
+terraform/ec2
+terraform/ecs
+terraform/elb
+terraform/iam_role
+terraform/network
+# terraform/ecr
+terraform/rds
+terraform/main.tf
+terraform/provider.tf
+terraform/.terraform.lock.hcl
+
+
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,terraform,react,nextjs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,terraform,react,nextjs
@@ -312,6 +328,4 @@ public/
 docker/db/createdb-dev-test.sql
 docker/db/createdb-prod.sql
 
-
-terraform
-terraform/*
+ecr_push.sh

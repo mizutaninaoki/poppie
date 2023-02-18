@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # ./db-reset.sh
 # python manage.py custom_createsuperuser --name admin --email admin@example.com --password password
 
@@ -8,7 +9,6 @@
 # 参照：https://mattsegal.dev/reset-django-local-database.html
 #      https://django-extensions.readthedocs.io/en/latest/reset_db.html
 #------------------------------
-#!/bin/sh
 
 set -e
 
