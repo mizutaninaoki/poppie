@@ -18,8 +18,6 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -122,7 +120,6 @@ GRAPHENE = {
     # TODO: 後でconfig配下にschema.py作成し、accountとapp配下のschema.pyをまとめる
     "SCHEMA": "config.schema.schema",
     "MIDDLEWARE": [
-        # 追加
         "graphql_jwt.middleware.JSONWebTokenMiddleware",
     ],
 }
@@ -195,10 +192,6 @@ GRAPHQL_AUTH = {
         "status__secondary_email": ["exact"],
     },
 }
-
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -280,20 +273,7 @@ LOGGING = {
     },
 }
 
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
-
-
-# AWS 共通の設定
-AWS_S3_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID")
-AWS_S3_SECRET_ACCESS_KEY = env("AWS_S3_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = env("AWS_REGION_NAME")
-
 # 静的ファイルの設定
 AWS_LOCATION = "static"
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-# メディアファイルの設定。今回は「app」というプロジェクト名の例
-DEFAULT_FILE_STORAGE = "app.backends.MediaStorage"
+DEFAULT_FILE_STORAGE = "config.backends.MediaStorage"

@@ -22,6 +22,9 @@ const LoginPage: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (loginError) {
+      if (loginError.message == 'Please enter valid credentials') {
+        loginError.message = 'パスワードが正しくありません';
+      }
       setPageError(loginError);
     }
   }, [loginError, setPageError]);

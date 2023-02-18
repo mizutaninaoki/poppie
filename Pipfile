@@ -23,6 +23,7 @@ boto3 = "*"
 psycopg2 = "*"
 moto = "*"
 pytest-mock = "*"
+gunicorn = "*"
 
 [dev-packages]
 pygraphviz = "*"

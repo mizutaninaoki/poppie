@@ -1,10 +1,16 @@
-import { FC } from 'react';
-import styles from './404.module.scss';
+import { FC, ReactElement, useContext } from 'react';
+
+import { NextPageWithLayout } from '@/pages/_app';
+import { NormalLayout } from '@/components/layout/NormalLayout';
+import { AuthContext } from '@/providers/AuthProvider';
+import { LayoutWithSideBar } from '@/components/layout/LayoutWithSideBar';
 
 /**
  * 404ページ
  */
-const Poppie404Page: FC = () => {
+const Poppie404Page: NextPageWithLayout = () => {
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <div className="container mx-auto">
       <div className="h-screen flex justify-center items-center">
@@ -13,12 +19,21 @@ const Poppie404Page: FC = () => {
           <p className="mb-5">
             URLが間違っているか、ページが削除された可能性があります。
           </p>
-          <a
-            className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-8 rounded-lg"
-            href="/"
-          >
-            トップページへ
-          </a>
+          {currentUser.isLoggedIn ? (
+            <a
+              className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-8 rounded-lg"
+              href="/mypage"
+            >
+              マイページへ
+            </a>
+          ) : (
+            <a
+              className="shadow bg-green-600 hover:opacity-50 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-8 rounded-lg"
+              href="/"
+            >
+              トップページへ
+            </a>
+          )}
         </div>
       </div>
     </div>
@@ -26,3 +41,7 @@ const Poppie404Page: FC = () => {
 };
 
 export default Poppie404Page;
+
+Poppie404Page.getLayout = function getLayout(page: ReactElement) {
+  return <NormalLayout>{page}</NormalLayout>;
+};

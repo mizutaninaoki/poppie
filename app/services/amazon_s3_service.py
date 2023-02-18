@@ -48,4 +48,10 @@ class AmazonS3Service:
     #
 
     def __s3_client(self):
-        return boto3.client("s3", config=Config(signature_version="s3v4"))
+        return boto3.client(
+            "s3",
+            aws_access_key_id=env("AWS_S3_ACCESS_KEY_ID"),
+            aws_secret_access_key=env("AWS_S3_SECRET_ACCESS_KEY"),
+            region_name=env("AWS_REGION_NAME"),
+            config=Config(signature_version="s3v4"),
+        )

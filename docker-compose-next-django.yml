@@ -1,0 +1,62 @@
+services:
+  django:
+    container_name: django
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    # wsgi.pyのパスを指定
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/poppie/staticfiles
+      - media_volume:/poppie/mediafiles
+    ports:
+      - 8000:8000
+    environment:
+      ENV_NAME: 'production'
+    env_file:
+      - ./.env
+      - ./.env.production
+    depends_on:
+      - db
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - static_volume:/poppie/staticfiles
+      - media_volume:/poppie/mediafiles
+    ports:
+      # - "80:80"
+      - 1335:80
+    depends_on:
+      - django
+
+  next:
+    container_name: next
+    build:
+      context: ./frontend
+      dockerfile: ../docker/next/Dockerfile
+    environment:
+      ENV_NAME: 'production'
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env.production
+
+  db:
+    container_name: db
+    image: postgres:13.3-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env.production
+
+
+volumes:
+  db_data:
+  static_volume:
+  media_volume:
