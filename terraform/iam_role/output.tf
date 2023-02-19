@@ -1,7 +1,7 @@
-# output "iam_role_arn" {
-#   value = aws_iam_role.this.arn
-# }
+output "aws_iam_role_backend_task" {
+  value = aws_iam_role.backend_task
+}
 
-# output "iam_role_name" {
-#   value = aws_iam_role.this.name
-# }
+output "aws_iam_role_ecs_task_execution" {
+  value = aws_iam_role.ecs_task_execution
+}

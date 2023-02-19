@@ -67,7 +67,7 @@ resource "aws_alb_listener" "http" {
     type             = "forward"
     target_group_arn = aws_alb_target_group.default_target_group.arn
   }
-  # # httpでアクセスしてきたら、httpsへリダイレクトさせる
+  # httpでアクセスしてきたら、httpsへリダイレクトさせる
   # default_action {
   #   type = "redirect"
 
@@ -116,23 +116,25 @@ resource "aws_alb_listener" "http" {
 #   ssl_policy        = "ELBSecurityPolicy-2016-08" # AWSではこのセキュリティポリシーの利用が推奨されている
 #   load_balancer_arn = aws_lb.this.arn             # 紐付けるロードバランサーのarn
 #   certificate_arn   = var.acm_id                  # acm証明書のid。ALBとACM証明書の紐付けはaws_lb_listenerのcertificate_arn Argumentに証明書のARNを代入することでできます。
+#   depends_on        = [aws_alb_target_group.default_target_group]
 
-#   # default_action {
-#   #   type             = "forward"
-#   #   # ここにECSのサービスをターゲットとして指定する
-#   #   # target_group_arn = aws_lb_target_group.this.arn
-#   #   target_group_arn = var.alb_arn
-#   # }
+
+#   default_action {
+#     type             = "forward"
+#     # ここにECSのサービスをターゲットとして指定する
+#     # target_group_arn = aws_lb_target_group.this.arn
+#     target_group_arn = var.alb_arn
+#   }
 
 #   # "ok" という固定レスポンスを設定する(TODO: ECSコンテナが用意できたらターゲットをECSに修正)
-#   default_action {
-#     type = "fixed-response" # ルーティングアクション
-#     fixed_response {
-#       content_type = "text/plain"
-#       status_code  = "200"
-#       message_body = "ok"
-#     }
-#   }
+#   # default_action {
+#   #   type = "fixed-response" # ルーティングアクション
+#   #   fixed_response {
+#   #     content_type = "text/plain"
+#   #     status_code  = "200"
+#   #     message_body = "ok"
+#   #   }
+#   # }
 # }
 
 

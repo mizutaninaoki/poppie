@@ -28,8 +28,8 @@ services:
       - static_volume:/poppie/staticfiles
       - media_volume:/poppie/mediafiles
     ports:
-      # - "80:80"
-      - 1335:80
+      - "80:80"
+      # - 1335:80
     depends_on:
       - django
 

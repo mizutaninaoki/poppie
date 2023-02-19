@@ -1,10 +1,10 @@
 #------------------------------------------
 # variable
 #------------------------------------------
-# variable "apps_name" {
-#   type    = list(string)
-#   default = ["nginx", "rails"]
-# }
+variable "apps_name" {
+  type    = list(string)
+  default = ["nginx", "next", "django"]
+}
 
 variable "app_name" {
   type    = string
