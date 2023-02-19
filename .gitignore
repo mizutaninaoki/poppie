@@ -2,7 +2,10 @@
 terraform/acm
 # terraform/cloudwatch
 terraform/ec2
-terraform/ecs
+# terraform/ecs/ecs_cluster
+terraform/ecs/ecs_nginx
+terraform/ecs/ecs_rails
+terraform/ecs/ecs_security_group
 # terraform/keypair
 # terraform/elb
 # terraform/iam_role
