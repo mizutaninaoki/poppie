@@ -1,10 +1,11 @@
 # terraform
 terraform/acm
-terraform/cloudwatch
+# terraform/cloudwatch
 terraform/ec2
 terraform/ecs
+# terraform/keypair
 # terraform/elb
-terraform/iam_role
+# terraform/iam_role
 # terraform/security_group
 # terraform/network
 # terraform/ecr
