@@ -14,7 +14,7 @@ terraform/ecs/ecs_security_group
 # terraform/security_group
 # terraform/network
 # terraform/ecr
-terraform/rds
+# terraform/rds
 terraform/main.tf
 terraform/provider.tf
 terraform/.terraform.lock.hcl
