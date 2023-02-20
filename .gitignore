@@ -2,6 +2,7 @@
 terraform/acm
 # terraform/cloudwatch
 terraform/ec2
+terraform/route53
 # terraform/ecs/cluster
 terraform/ecs/services
 terraform/ecs/ecs_nginx

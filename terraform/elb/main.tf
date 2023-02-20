@@ -138,29 +138,3 @@ resource "aws_alb_listener" "http" {
 # }
 
 
-
-
-# #---------------------------------------------------
-# # data (Route53に登録したpoppie.jpのホストゾーンを取得)
-# #---------------------------------------------------
-# data "aws_route53_zone" "this" {
-#   name         = var.domain
-#   private_zone = false # パブリックホストゾーン指定
-# }
-
-# #----------------------------------------------------------------------------------------------
-# # ALBの情報を元にRoute53にAレコードを設定(ドメインとALBのDNSを紐付け)
-# # (Route53に登録したドメイン(poppie.site)でアクセスしてきた時、ロードバランサーに飛ぶように、Aレコードを作成)
-# #----------------------------------------------------------------------------------------------
-# resource "aws_route53_record" "this" {
-#   type    = "A"                           # レコードタイプ
-#   name    = var.domain                    # レコード名
-#   zone_id = data.aws_route53_zone.this.id # ホストゾーンのID
-
-#   alias {
-#     name                   = aws_lb.this.dns_name # DNS
-#     zone_id                = aws_lb.this.zone_id  # ホストゾーン
-#     evaluate_target_health = true                 # 指定されたリソースのヘルスを評価するかどうか
-#   }
-# }
-

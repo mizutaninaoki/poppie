@@ -56,12 +56,12 @@ resource "aws_security_group" "ecs" {
 
   # ポート 220 の ECS クラスターに関連付けられているセキュリティ グループのインバウンド ルールに注意してください。
   # これは、EC2 インスタンスに SSH 接続して、最初の DB 移行を実行し、スーパー ユーザーを追加できるようにするためです。
-  ingress {
-    from_port   = 220
-    to_port     = 220
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # ingress {
+  #   from_port   = 220
+  #   to_port     = 220
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
 
   # アウトバウンドルール
   egress {

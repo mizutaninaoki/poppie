@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 
 # CorsMiddlewareはCommonMiddleWareより上に挿入
 MIDDLEWARE = [
+    "config.middleware.HealthCheckMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
