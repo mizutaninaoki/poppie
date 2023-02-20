@@ -29,6 +29,6 @@ variable "health_check_path" {
   type = string
 }
 
-# variable "acm_id" {
-#   type = string
-# }
+variable "acm_id" {
+  type = string
+}

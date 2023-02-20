@@ -63,20 +63,20 @@ resource "aws_alb_listener" "http" {
   # redirect: 別のHTTPにリダイレクト
 
   # TODO: 一時的に80ポートでアクセスできるか確認のため!!
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.default_target_group.arn
-  }
-  # httpでアクセスしてきたら、httpsへリダイレクトさせる
   # default_action {
-  #   type = "redirect"
-
-  #   redirect {
-  #     port        = "443"
-  #     protocol    = "HTTPS" # ALBではHTTP or HTTPSのみ指定可能
-  #     status_code = "HTTP_301"
-  #   }
+  #   type             = "forward"
+  #   target_group_arn = aws_alb_target_group.default_target_group.arn
   # }
+  # httpでアクセスしてきたら、httpsへリダイレクトさせる
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS" # ALBではHTTP or HTTPSのみ指定可能
+      status_code = "HTTP_301"
+    }
+  }
 }
 
 
@@ -107,34 +107,34 @@ resource "aws_alb_listener" "http" {
 
 
 
-# #-----------------------------------------------------------------------
-# # リスナーの作成(ALBとターゲットグループのひも付け)(HTTPSでのアクセスを受け付ける)
-# #-----------------------------------------------------------------------
-# resource "aws_alb_listener" "https" {
-#   port              = "443"
-#   protocol          = "HTTPS"
-#   ssl_policy        = "ELBSecurityPolicy-2016-08" # AWSではこのセキュリティポリシーの利用が推奨されている
-#   load_balancer_arn = aws_lb.this.arn             # 紐付けるロードバランサーのarn
-#   certificate_arn   = var.acm_id                  # acm証明書のid。ALBとACM証明書の紐付けはaws_lb_listenerのcertificate_arn Argumentに証明書のARNを代入することでできます。
-#   depends_on        = [aws_alb_target_group.default_target_group]
+#-----------------------------------------------------------------------
+# リスナーの作成(ALBとターゲットグループのひも付け)(HTTPSでのアクセスを受け付ける)
+#-----------------------------------------------------------------------
+resource "aws_alb_listener" "https" {
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08" # AWSではこのセキュリティポリシーの利用が推奨されている
+  load_balancer_arn = aws_lb.this.arn             # 紐付けるロードバランサーのarn
+  certificate_arn   = var.acm_id                  # acm証明書のid。ALBとACM証明書の紐付けはaws_lb_listenerのcertificate_arn Argumentに証明書のARNを代入することでできます。
+  depends_on        = [aws_alb_target_group.default_target_group]
 
 
-#   default_action {
-#     type             = "forward"
-#     # ここにECSのサービスをターゲットとして指定する
-#     # target_group_arn = aws_alb_target_group.this.arn
-#     target_group_arn = var.alb_arn
-#   }
+  default_action {
+    type             = "forward"
+    # ここにECSのサービスをターゲットとして指定する
+    target_group_arn = aws_alb_target_group.default_target_group.arn
+    # target_group_arn = var.alb_arn
+  }
 
-#   # "ok" という固定レスポンスを設定する(TODO: ECSコンテナが用意できたらターゲットをECSに修正)
-#   # default_action {
-#   #   type = "fixed-response" # ルーティングアクション
-#   #   fixed_response {
-#   #     content_type = "text/plain"
-#   #     status_code  = "200"
-#   #     message_body = "ok"
-#   #   }
-#   # }
-# }
+  # "ok" という固定レスポンスを設定する(TODO: ECSコンテナが用意できたらターゲットをECSに修正)
+  # default_action {
+  #   type = "fixed-response" # ルーティングアクション
+  #   fixed_response {
+  #     content_type = "text/plain"
+  #     status_code  = "200"
+  #     message_body = "ok"
+  #   }
+  # }
+}
 
 
