@@ -17,3 +17,7 @@ output "aws_lb" {
 output "aws_alb_listener_http" {
   value = aws_alb_listener.http
 }
+
+output "aws_alb_target_group_ecs_arn" {
+  value = aws_alb_target_group.default_target_group.arn
+}

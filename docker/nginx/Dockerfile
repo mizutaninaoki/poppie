@@ -15,7 +15,7 @@ ADD ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD ./docker/nginx/default-prod.conf /etc/nginx/conf.d/default-prod.conf
 
 # ALBからnginxコンテナにアクセスできるように80番ポートを開けておく
-# EXPOSE 80
+EXPOSE 80
 
 # ビルド完了後にNginxを起動
 CMD /usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/nginx.conf

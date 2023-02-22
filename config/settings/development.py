@@ -7,6 +7,7 @@ env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env.development"))
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+# ALLOWED_HOSTS = []
 
 DATABASES = {
     "default": {
@@ -22,6 +23,7 @@ DATABASES = {
 DEBUG = True
 
 # CORSの設定
+# CORS_ALLOW_ALL_ORIGINS = True // CORSを無効化する場合
 CORS_ORIGIN_WHITELIST = [
     os.environ.get("CORS_WHITELIST"),
 ]

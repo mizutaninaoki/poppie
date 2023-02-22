@@ -6,8 +6,9 @@ from app.models.plan import Plan
 from account.models import Account
 from app.schema.types.user_gave_dealings_type import UserGaveDealingsType
 
-import datetime
 import calendar
+from django.utils import timezone
+from django.utils.timezone import localtime
 
 
 class UserGaveDealingsQuery(graphene.ObjectType):
@@ -22,7 +23,9 @@ class UserGaveDealingsQuery(graphene.ObjectType):
     @login_required
     def resolve_user_gave_dealings(root, info, chart_display_date):
         # フロントから送られてきた、チャートに表示させる日付をdate型に変換
-        chart_date = datetime.datetime.strptime(chart_display_date, "%Y-%m-%d").date()
+        chart_date = (
+            localtime(timezone.now()).strptime(chart_display_date, "%Y-%m-%d").date()
+        )
 
         # チャートで表示させる月初日を取得
         first_day = chart_date.replace(day=1)
@@ -31,8 +34,8 @@ class UserGaveDealingsQuery(graphene.ObjectType):
             day=calendar.monthrange(chart_date.year, chart_date.month)[1]
         )
         # 日付条件の設定
-        strdt = datetime.datetime.strptime(str(first_day), "%Y-%m-%d")  # 開始日
-        enddt = datetime.datetime.strptime(str(last_day), "%Y-%m-%d")  # 終了日
+        strdt = localtime(timezone.now()).strptime(str(first_day), "%Y-%m-%d")  # 開始日
+        enddt = localtime(timezone.now()).strptime(str(last_day), "%Y-%m-%d")  # 終了日
 
         # 日付差の日数を算出（リストに最終日も含めたいので、＋１しています）
         days_num = (enddt - strdt).days + 1  # （参考）括弧の部分はtimedelta型のオブジェクトになります

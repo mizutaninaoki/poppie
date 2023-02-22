@@ -13,6 +13,8 @@ services:
       - dev_db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
+      # DjangoでPostgresを使う場合、タイムゾーンの環境変数を指定しておかないと、__rangeでクエリを投げた時、デフォルトのUTCでデータを取得してしまう
+      - TZ=Asia/Tokyo
     # env_file: .docker_env
 
   # TODO: djangoでmailcatcherを使えるようにする

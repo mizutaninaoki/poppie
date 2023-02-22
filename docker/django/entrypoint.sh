@@ -16,12 +16,11 @@ fi
 # python manage.py migrate
 # python manage.py init_data
 
-docker-compose exec django python manage.py flush --no-input
-docker-compose exec django python manage.py migrate
-
 # TODO: 初回デプロイ後、削除
 ./seed.sh
 
-docker-compose exec django python manage.py collectstatic --no-input --clear
+# python manage.py flush --no-input
+# python manage.py migrate
+# python manage.py collectstatic --no-input --clear
 
 exec "$@"
