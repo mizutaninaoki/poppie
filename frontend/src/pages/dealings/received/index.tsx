@@ -129,7 +129,7 @@ const DealingsReceivedPage: NextPageWithLayout = () => {
                           (receivedDealingData) => {
                             return receivedDealingData.dealings.map((dealing) => {
                               return (
-                                <tr>
+                                <tr key={dealing.id}>
                                   <th className="font-medium">
                                     {dealing.receiver.user.name}
                                   </th>

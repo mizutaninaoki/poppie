@@ -126,7 +126,7 @@ const DealingsGavePage: NextPageWithLayout = () => {
                         {assignedGaveDealingsData.gaveDealings.map((gaveDealingData) => {
                           return gaveDealingData.dealings.map((dealing) => {
                             return (
-                              <tr>
+                              <tr key={dealing.id}>
                                 <th className="font-medium">{dealing.giver.user.name}</th>
                                 <td>{dealing.amount} ポイント</td>
                                 <td className="whitespace-pre-wrap break-all">

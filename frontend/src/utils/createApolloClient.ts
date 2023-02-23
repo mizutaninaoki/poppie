@@ -15,14 +15,12 @@ const REFRESH_TOKEN = `
 `;
 
 export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
-  // Djangoのlocalhost
   const port = 8000;
-  const uri = `http://localhost:${port}/graphql`;
 
   const getNewToken = async (refreshTokenStr: string) => {
     try {
       // apolloインスタンス生成前のため、fetchで投げる
-      const response = await fetch(uri, {
+      const response = await fetch(`http://localhost:${port}/graphql`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -49,6 +47,7 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     }
   };
 
+  const uri = `http://localhost:${port}/graphql`;
   const httpLink = new HttpLink({
     uri,
   });
