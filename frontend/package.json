@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export -o ../public",
-    "start": "PORT=3000 next start",
+    "build": "next build",
+    "start": "NODE_ENV=production PORT=3000 next start",
+    "export": "NODE_ENV=production next build && next export",
+    "serve": "NODE_ENV=production serve ./out",
+    "clean": "rimraf .next out",
     "lint": "next lint",
     "make-e2e-env": "cp .env.e2e .env.production",
     "cy:run": "TZ=Asia/Tokyo cypress run",
@@ -53,6 +56,7 @@
     "eslint-config-next": "12.1.0",
     "postcss": "^8.4.8",
     "rimraf": "^4.1.2",
+    "serve": "^14.2.0",
     "tailwindcss": "^3.0.23",
     "typescript": "4.6.2"
   }
