@@ -4,10 +4,7 @@
 terraform/ec2
 # terraform/route53
 # terraform/ecs/cluster
-terraform/ecs/services
-terraform/ecs/ecs_nginx
-terraform/ecs/ecs_rails
-terraform/ecs/ecs_security_group
+# terraform/ecs/services
 # terraform/keypair
 # terraform/elb
 # terraform/iam_role
@@ -15,9 +12,8 @@ terraform/ecs/ecs_security_group
 # terraform/network
 # terraform/ecr
 # terraform/rds
-terraform/main.tf
-terraform/provider.tf
-terraform/.terraform.lock.hcl
+# terraform/main.tf
+# terraform/provider.tf
 
 
 
@@ -323,6 +319,9 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+# .terraform.lock.hclは他の人がterraformを操作した時に依存関係を固定してterraformを操作するために必要なので、githubへのプッシュを推奨されているが、
+# poppieは一人で開発&public repositoryで管理しているので、念の為、gitignoreに追加してgithubにあげないようにしている。（別にプッシュしてもいいかも）
+terraform/.terraform.lock.hcl
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,terraform,react,nextjs
 
@@ -336,3 +335,6 @@ docker/db/createdb-dev-test.sql
 docker/db/createdb-prod.sql
 
 ecr_push.sh
+
+frontend/.env
+frontend/.env.*

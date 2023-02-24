@@ -7,7 +7,6 @@ data "aws_route53_zone" "public" {
 }
 
 
-
 #--------------------------------------------------------------
 # Route53のパブリックホストゾーンを作成(terraformでホストゾーンを作成する場合。お名前comのドメインを使用する場合、terraform destroyするたびに、お名前comでネームサーバーを登録して30分程度待つ必要があるため、ホストゾーンだけ手動で作成して、terraformで管理しない方が、メンテナンスしやすい。)
 #--------------------------------------------------------------
@@ -19,19 +18,40 @@ data "aws_route53_zone" "public" {
 #   name = var.domain
 # }
 
+
+# フロントエンド側のロードバランサーに紐づけるAレコード
 #----------------------------------------------------------------------------------------------
 # ALBの情報を元にRoute53にAレコードを設定(ドメインとALBのDNSを紐付け)
 # (Route53に登録したドメイン(poppie.site)でアクセスしてきた時、ロードバランサーに飛ぶように、Aレコードを作成)
 #----------------------------------------------------------------------------------------------
 resource "aws_route53_record" "this" {
-  type    = "A"                           # レコードタイプ
-  name    = var.domain                    # レコード名
-  # zone_id = data.aws_route53_zone.public.id # ホストゾーンのID
-  zone_id = aws_route53_zone.public.id # ホストゾーンのID
+  type    = "A"                             # レコードタイプ
+  name    = var.domain                      # レコード名
+  zone_id = data.aws_route53_zone.public.id # ホストゾーンのID(手動で生成したホストゾーンを指定する場合)
+  # zone_id = aws_route53_zone.public.id    # ホストゾーンのID(resourceでterraformにて生成する場合)
 
   alias {
-    name                   = var.aws_lb.dns_name # DNS
-    zone_id                = var.aws_lb.zone_id  # ホストゾーン
+    name                   = var.aws_lb_frontend.dns_name # DNS
+    zone_id                = var.aws_lb_frontend.zone_id  # ホストゾーン
+    evaluate_target_health = true                 # 指定されたリソースのヘルスを評価するかどうか
+  }
+}
+
+
+# バックエンド側のロードバランサーに紐づけるAレコード
+#----------------------------------------------------------------------------------------------
+# ALBの情報を元にRoute53にAレコードを設定(ドメインとALBのDNSを紐付け)
+# (Route53に登録したドメイン(poppie.site)でアクセスしてきた時、ロードバランサーに飛ぶように、Aレコードを作成)
+#----------------------------------------------------------------------------------------------
+resource "aws_route53_record" "backend" {
+  type    = "A"                             # レコードタイプ
+  name    = var.backend_sub_domain          # バックエンドのレコード名
+  zone_id = data.aws_route53_zone.public.id # ホストゾーンのID(手動で生成したホストゾーンを指定する場合)
+  # zone_id = aws_route53_zone.public.id    # ホストゾーンのID(resourceでterraformにて生成する場合)
+
+  alias {
+    name                   = var.aws_lb_backend.dns_name # DNS
+    zone_id                = var.aws_lb_backend.zone_id  # ホストゾーン
     evaluate_target_health = true                 # 指定されたリソースのヘルスを評価するかどうか
   }
 }

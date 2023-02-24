@@ -9,17 +9,11 @@ variable "vpc_id" {
   type = string
 }
 
-# variable "alb_security_group" {
-#   type = string
-# }
-
 variable "alb_security_group_ecs" {
   type = object({
     id: string
   })
 }
-
-
 
 variable "private_subnet_ids" {}
 

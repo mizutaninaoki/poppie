@@ -79,6 +79,8 @@ RUN chown -R app:app $APP_HOME
 # change to the app user
 USER app
 
+EXPOSE 8000
+
 # run entrypoint.prod.sh
 # "$APP_HOME/entrypoint.sh"の書き方はエラーになる
 ENTRYPOINT ["/poppie/entrypoint.sh"]

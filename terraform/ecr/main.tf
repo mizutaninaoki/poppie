@@ -11,10 +11,10 @@ locals {
         action = {
           type = "expire"
         }
-        description  = "最新のイメージを5つだけ残す"
+        description  = "最新のイメージを3つだけ残す"
         rulePriority = 1
         selection = {
-          countNumber = 5
+          countNumber = 3
           countType   = "imageCountMoreThan"
           tagStatus   = "any"
         }

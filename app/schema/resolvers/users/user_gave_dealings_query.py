@@ -1,14 +1,12 @@
-import logging
 import graphene
 from graphql_jwt.decorators import login_required
 from app.models.dealing import Dealing
-from app.models.plan import Plan
-from account.models import Account
 from app.schema.types.user_gave_dealings_type import UserGaveDealingsType
 
 import calendar
 from django.utils import timezone
 from django.utils.timezone import localtime
+import datetime
 
 
 class UserGaveDealingsQuery(graphene.ObjectType):
@@ -27,30 +25,46 @@ class UserGaveDealingsQuery(graphene.ObjectType):
             localtime(timezone.now()).strptime(chart_display_date, "%Y-%m-%d").date()
         )
 
-        # チャートで表示させる月初日を取得
-        first_day = chart_date.replace(day=1)
-        # チャートで表示させる月末日を取得
+        # # チャートで表示させる月初日を取得
+        first_day = chart_date.replace(day=1).day
+        # # チャートで表示させる月末日を取得
         last_day = chart_date.replace(
             day=calendar.monthrange(chart_date.year, chart_date.month)[1]
-        )
-        # 日付条件の設定
-        strdt = localtime(timezone.now()).strptime(str(first_day), "%Y-%m-%d")  # 開始日
-        enddt = localtime(timezone.now()).strptime(str(last_day), "%Y-%m-%d")  # 終了日
+        ).day
 
-        # 日付差の日数を算出（リストに最終日も含めたいので、＋１しています）
-        days_num = (enddt - strdt).days + 1  # （参考）括弧の部分はtimedelta型のオブジェクトになります
+        # 日付条件の設定
+        # 開始日
+        strdt = localtime(timezone.now()).replace(
+            day=first_day, hour=0, minute=0, second=0
+        )
+
+        # 終了日
+        enddt = localtime(timezone.now()).replace(
+            day=last_day,
+            hour=23,
+            minute=59,
+            second=59,
+        )
+
+        # 月の日数を取得
+        days_num = enddt.day
 
         # チャートで表示させる月のポイントを贈った取引(dealing)を取得
-        # FIXME: N+1
+        # FIXME: N+1, Django ORMで取得時、UTC基準の月初 〜 月末で取得してしまう。timedeltaで9時間プラスしているのを修正したい。
         gave_dealings = (
             Dealing.objects.select_related("giver__user")
             .filter(
-                giver_id=info.context.user.account.id, created_at__range=(strdt, enddt)
+                giver_id=info.context.user.account.id,
+                created_at__range=(
+                    strdt + datetime.timedelta(hours=9),
+                    enddt + datetime.timedelta(hours=9),
+                ),
             )
             .order_by("created_at")
         )
 
         date_list = []
+        # 1月だったら、days_numに31が入っている。rangeで0~30の31回ループが回る
         for i in range(days_num):
             date_list.append(
                 {

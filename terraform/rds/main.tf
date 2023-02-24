@@ -46,7 +46,6 @@ resource "aws_db_subnet_group" "db_subnet_group" {
   }
 }
 
-
 #------------------------------------------
 # RDSを作成
 #------------------------------------------
@@ -61,8 +60,8 @@ resource "aws_db_instance" "postgres" {
   engine              = "postgres"    # DBデータベースエンジン
   engine_version      = "13.3"        # DBエンジンバージョン
   instance_class      = "db.t3.micro" # DBインスタンスサイズ
-  # multi_az            = true          # マルチAZはtrue(異なるアベイラビリティゾーンのサブネットをaws_db_subnet_groupで指定しておかなければいけない)
-  multi_az            = false          # マルチAZはtrue(異なるアベイラビリティゾーンのサブネットをaws_db_subnet_groupで指定しておかなければいけない)
+  # multi_az            = true        # マルチAZはtrue(異なるアベイラビリティゾーンのサブネットをaws_db_subnet_groupで指定しておかなければいけない)
+  multi_az            = false         # マルチAZはtrue(異なるアベイラビリティゾーンのサブネットをaws_db_subnet_groupで指定しておかなければいけない)
   publicly_accessible = false         # publicly_accessibleをfalseにすると、VPC外からのアクセスを遮断する
 
   # バックアップ設定(RDSでは毎日バックアップが行われる。メンテナンス前にバックアップをとっておくと安心感が増す。)
@@ -81,7 +80,7 @@ resource "aws_db_instance" "postgres" {
   apply_immediately = false # RDSの設定変更のタイミングには「即時」と「メンテナンスウィンドウ」がある。RDSでは一部の設定変更に再起動が伴い、予期せぬダウンタイムが起こり得る。そのため、apply_immediatelyをfalseにして即時反映を避ける。
 
   identifier = var.db_identifier # DBName must begin with a letter and contain only alphanumeric characters(半角英数字のみRDSの識別子に使用可能)
-  db_name       = var.postgres_db
+  db_name    = var.postgres_db
   username   = var.postgres_user     # マスターユーザー名
   password   = var.postgres_password # マスターパスワード
   port       = var.db_port  # postgresqlのポート番号

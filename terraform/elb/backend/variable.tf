@@ -21,11 +21,7 @@ variable "public_subnet_ids" {
   type = list(any)
 }
 
-variable "domain" {
-  type = string
-}
-
-variable "health_check_path" {
+variable "nginx_health_check_path" {
   type = string
 }
 

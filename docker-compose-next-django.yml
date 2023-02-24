@@ -5,7 +5,10 @@ services:
       context: .
       dockerfile: ./docker/django/Dockerfile
     # wsgi.pyのパスを指定
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    # command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    # -wでworker数を指定。デフォルトのworker数は1。(手元のPCで本番環境で確認する際はworkerは1にする)
+    # https://docs.gunicorn.org/en/stable/settings.html#workers
+    command: gunicorn -w 1 -b 0.0.0.0:8000 config.wsgi:application
     volumes:
       - static_volume:/poppie/staticfiles
       - media_volume:/poppie/mediafiles
@@ -40,6 +43,7 @@ services:
       dockerfile: ../docker/next/Dockerfile
     environment:
       ENV_NAME: 'production'
+      NODE_ENV: 'production'
     ports:
       - 3000:3000
     env_file:

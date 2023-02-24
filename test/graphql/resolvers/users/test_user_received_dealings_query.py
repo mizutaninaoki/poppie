@@ -1,8 +1,9 @@
 import pytest
 import json
 from graphene_django.utils.testing import graphql_query
-import datetime
 import calendar
+from django.utils import timezone
+from django.utils.timezone import localtime
 
 
 @pytest.fixture
@@ -58,7 +59,7 @@ def test_logged_in(user_received_dealings_query_fixture):
         query,
         headers=None,
         operation_name="GetReceivedDealings",
-        variables={"chartDisplayDate": datetime.date.today().isoformat()},
+        variables={"chartDisplayDate": localtime(timezone.now()).isoformat()},
     )
     content = json.loads(response.content)
     assert "errors" in content
@@ -73,12 +74,12 @@ def test_user_received_dealings_query(user_received_dealings_query_fixture):
         query,
         headers=headers,
         operation_name="GetReceivedDealings",
-        variables={"chartDisplayDate": datetime.date.today().isoformat()},
+        variables={"chartDisplayDate": localtime(timezone.now()).isoformat()},
     )
     content = json.loads(response.content)
 
     # インデックスのため、-1する
-    assert content["data"]["receivedDealings"][datetime.date.today().day - 1] == {
+    assert content["data"]["receivedDealings"][localtime(timezone.now()).day - 1] == {
         "dealings": [
             {
                 "id": str(dealing.id),
@@ -88,11 +89,11 @@ def test_user_received_dealings_query(user_received_dealings_query_fixture):
                 "giver": {"user": {"name": ""}},
             }
         ],
-        "createdAt": datetime.date.today().isoformat(),
+        "createdAt": localtime(timezone.now()).isoformat(),
     }
 
     last_day = calendar.monthrange(
-        datetime.date.today().year, datetime.date.today().month
+        localtime(timezone.now()).year, localtime(timezone.now()).month
     )[1]
 
     # テストを実行する月の日数分、receivedDealingsの配列が返ってくること

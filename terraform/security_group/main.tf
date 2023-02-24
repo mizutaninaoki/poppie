@@ -32,7 +32,7 @@ resource "aws_security_group" "load-balancer" {
   }
 
   tags = {
-    Name = "${var.app_name}-alb"
+    Name = "${var.app_name}-security-group-alb"
   }
 }
 
@@ -48,30 +48,21 @@ resource "aws_security_group" "ecs" {
 
   # インバウンドルール　
   ingress {
-    from_port       = 0
+    from_port       = 0 # 0を指定するとすべてのportに対してインバウンドを許可する
     to_port         = 0
-    protocol        = "-1"
+    protocol        = "-1" # すべてのプロトコルを許可
     security_groups = [aws_security_group.load-balancer.id]
   }
 
-  # ポート 220 の ECS クラスターに関連付けられているセキュリティ グループのインバウンド ルールに注意してください。
-  # これは、EC2 インスタンスに SSH 接続して、最初の DB 移行を実行し、スーパー ユーザーを追加できるようにするためです。
-  # ingress {
-  #   from_port   = 220
-  #   to_port     = 220
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
-
   # アウトバウンドルール
   egress {
-    from_port   = 0
+    from_port   = 0 # 0を指定するとすべてのportに対してアウトバウンドを許可する
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
-    Name = "${var.app_name}-ecs"
+    Name = "${var.app_name}-security-group-ecs"
   }
 }

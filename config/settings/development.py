@@ -7,7 +7,6 @@ env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env.development"))
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
-# ALLOWED_HOSTS = []
 
 DATABASES = {
     "default": {
@@ -24,9 +23,10 @@ DEBUG = True
 
 # CORSの設定
 # CORS_ALLOW_ALL_ORIGINS = True // CORSを無効化する場合
-CORS_ORIGIN_WHITELIST = [
-    os.environ.get("CORS_WHITELIST"),
-]
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS").split(" ")
+# ORS_ALLOW_CREDENTIALSは、Trueに設定する事でCookie をクロスオリジンの HTTP リクエストに含めることができます
+CORS_ALLOW_CREDENTIALS = True
 
 # AWS 共通の設定
 AWS_S3_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID")
