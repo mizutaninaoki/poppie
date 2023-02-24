@@ -13,7 +13,13 @@ variable "cluster_arn" {
   type = string
 }
 
-variable "aws_iam_role_ecs_task_execution" {
+variable "aws_iam_ecs_task_execution_role" {
+  type = object({
+    arn = string
+  })
+}
+
+variable "aws_iam_ecs_task_role" {
   type = object({
     arn = string
   })

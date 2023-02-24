@@ -206,7 +206,8 @@ module "ecs_frontend" {
   app_name                        = var.app_name
   vpc_id                          = module.network.vpc_id
   cluster_arn                     = module.cluster.cluster_arn
-  aws_iam_role_ecs_task_execution = module.iam_role.aws_iam_role_ecs_task_execution
+  aws_iam_ecs_task_execution_role = module.iam_role.aws_iam_ecs_task_execution_role # タスク実行ロール
+  aws_iam_ecs_task_role           = module.iam_role.aws_iam_ecs_task_role # タスクロール
   db_instance_postgres            = module.rds.db_instance_postgres # task-definitionのdepends_onに指定する時に使用(フロントも一応DB作成後に起動させている)
 
   aws_alb_target_group_ecs_frontend_arn = module.elb_frontend.aws_alb_target_group_ecs_frontend_arn
@@ -229,7 +230,8 @@ module "ecs_backend" {
   app_name                        = var.app_name
   vpc_id                          = module.network.vpc_id
   cluster_arn                     = module.cluster.cluster_arn
-  aws_iam_role_ecs_task_execution = module.iam_role.aws_iam_role_ecs_task_execution
+  aws_iam_ecs_task_execution_role = module.iam_role.aws_iam_ecs_task_execution_role # タスク実行ロール
+  aws_iam_ecs_task_role           = module.iam_role.aws_iam_ecs_task_role # タスクロール
   db_instance_postgres            = module.rds.db_instance_postgres # task-definitionのdepends_onに指定する時に使用
 
   aws_alb_target_group_ecs_backend_arn = module.elb_backend.aws_alb_target_group_ecs_backend_arn

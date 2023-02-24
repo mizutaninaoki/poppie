@@ -17,7 +17,11 @@ resource "aws_ecs_task_definition" "frontend" {
   network_mode             = "awsvpc"                                    # Fargateの場合、NICが付与されるネットワークモードのawsvpcのみ指定可能
   requires_compatibilities = ["FARGATE"]                                 # 起動モード
   skip_destroy             = false                                       # 古いタスク定義を残すかどうか。デフォルトはfalseで残さない。
-  execution_role_arn       = var.aws_iam_role_ecs_task_execution.arn # タスク実行ロール
+  # タスク実行ロール -> タスクを実行する際(djangoコンテナ等を立ち上げる際)に必要な権限のロール
+  # タスクロール -> タスク実行して起動したコンテナたちがAWSリソースにアクセスする際の権限のロール
+  # see: https://zenn.dev/sugay0519/articles/88f13ca589fcba
+  execution_role_arn       = var.aws_iam_ecs_task_execution_role.arn # タスク実行ロール
+  task_role_arn            = var.aws_iam_ecs_task_role.arn # タスクロール(ECS Execを有効化する場合に必要)
   # container_definitions.json内で変数を使うため、data.tfからrenderedで呼び出す
   container_definitions = data.template_file.frontend_container_definitions.rendered # タスクで実行するコンテナ定義
   depends_on            = [var.db_instance_postgres] # nextも念の為、RDSインスタンスが作成されるのを待ってからタスク定義を作成するようにする
@@ -39,6 +43,9 @@ resource "aws_ecs_service" "frontend" {
   name            = "${var.app_name}-frontend-service"          # サービス名
   launch_type     = "FARGATE"                                   # タスク定義の起動タイプ
   desired_count   = "1"                                         # ECSタスクを起動するコンテナ数
+  # ECS Execを有効化する場合はTrue。以下コマンドでECS Fargateのコンテナ内に入れる。
+  # aws ecs execute-command --task=【タスクID】 --interactive --cluster=【クラスター名】 --container=【コンテナ名】 --command /bin/sh
+  enable_execute_command   = true
   cluster         = var.cluster_arn                             # 当該ECSサービスを配置するECSクラスターの指定
   task_definition = aws_ecs_task_definition.frontend.arn        # タスク定義
   depends_on      = [aws_ecs_task_definition.frontend]          # リソースの作成が完了するのを待ってから当該リソースの作成を開始する。
