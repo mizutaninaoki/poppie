@@ -11,16 +11,18 @@ then
     echo "PostgreSQL started"
 fi
 
-# ex. Here is a list of commands you want to run after PostgreSQL is started.
-# python manage.py flush --no-input
-# python manage.py migrate
-# python manage.py init_data
-
-# TODO: 初回デプロイ後、削除
-./seed.sh
-
 # python manage.py flush --no-input
 # python manage.py migrate
 # python manage.py collectstatic --no-input --clear
+
+
+# DBリセット & シード生成（初回デプロイやDBの初期化をする時、有効化する）
+if "$DB_RESET_AND_SEED"; then
+  echo "seed environment valid"
+  # DBリセット&シード生成実行
+  ./seed.sh
+else
+  echo "no db reset and generate seed"
+fi
 
 exec "$@"

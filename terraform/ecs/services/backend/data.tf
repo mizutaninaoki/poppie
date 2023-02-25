@@ -24,6 +24,7 @@ data "template_file" "backend_container_definitions" {
     postgres_password  = var.postgres_password
     db_host  = var.db_host
     db_port  = var.db_port
+    db_reset_and_seed  = var.db_reset_and_seed
     database  = var.database
     allowed_hosts  = var.allowed_hosts
     cors_allowed_origins  = var.cors_allowed_origins

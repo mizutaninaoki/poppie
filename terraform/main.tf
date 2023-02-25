@@ -60,6 +60,7 @@ variable "postgres_user" {}
 variable "postgres_password" {}
 variable "db_host" {}
 variable "db_port" {}
+variable "db_reset_and_seed" {}
 variable "database" {}
 variable "allowed_hosts" {}
 variable "cors_allowed_origins" {}
@@ -242,6 +243,7 @@ module "ecs_backend" {
   postgres_password           = var.postgres_password
   db_host                     = module.rds.db_instance_postgres.address # RDSのエンドポイントをhostに指定する
   db_port                     = var.db_port
+  db_reset_and_seed           = var.db_reset_and_seed
   database                    = var.database
   allowed_hosts               = var.allowed_hosts
   cors_allowed_origins        = var.cors_allowed_origins

@@ -95,8 +95,8 @@
           "value": "${db_port}"
         },
         {
-          "name": "DATABASE",
-          "value": "${database}"
+          "name": "DB_RESET_AND_SEED",
+          "value": "${db_reset_and_seed}"
         },
         {
           "name": "DATABASE",

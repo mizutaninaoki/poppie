@@ -92,6 +92,10 @@ variable "db_port" {
   type = number
 }
 
+variable "db_reset_and_seed" {
+  type = bool
+}
+
 variable "database" {
   type = string
 }
