@@ -159,15 +159,6 @@ module "cloudwatch" {
 }
 
 #------------------------------------------
-# keypair
-#------------------------------------------
-module "keypair" {
-  source          = "./keypair"
-  app_name        = var.app_name
-  public_key_path = var.public_key_path
-}
-
-#------------------------------------------
 # RDS
 #------------------------------------------
 module "rds" {
@@ -257,14 +248,24 @@ module "ecs_backend" {
 }
 
 
-#------------------------------------------
-# EC2(RDSへsshできるよう踏み台サーバーとしての役割)
-#------------------------------------------
+
+# #------------------------------------------
+# # keypair
+# #------------------------------------------
+# module "keypair" {
+#   source          = "./keypair"
+#   app_name        = var.app_name
+#   public_key_path = var.public_key_path
+# }
+
+# #------------------------------------------
+# # EC2(RDSへsshできるよう踏み台サーバーとしての役割)
+# #------------------------------------------
 # module "ec2" {
 #   source = "./ec2"
 
-#   app_name              = var.app_name
+#   app_name          = var.app_name
 #   vpc_id            = module.network.vpc_id
 #   public_subnet_ids = module.network.public_subnet_ids
-#   public_key_path   = var.public_key_path
+#   aws_key_pair_public_key_id = module.keypair.aws_key_pair_public_key_id
 # }
