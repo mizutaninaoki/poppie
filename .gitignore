@@ -309,7 +309,7 @@ terraform/.terraform.lock.hcl
 # End of https://www.toptal.com/developers/gitignore/api/python,django,terraform,react,nextjs
 
 # 生成したDjangoモデルのER図
-graph-model.png
+# graph-model.png
 
 # yarn buildの結果はgithubにあげない
 public/
