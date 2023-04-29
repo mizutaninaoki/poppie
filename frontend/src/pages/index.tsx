@@ -39,12 +39,14 @@ const IndexPage: NextPageWithLayout = () => {
             />
           </div>
 
-          <button
-            type="button"
-            className="px-12 text-white bg-green-600 rounded-full hover:opacity-50 focus:ring-4 focus:ring-green-300 font-bold text-sm py-2.5 text-center md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-          >
-            <Link href="/companies/new/input/">poppieをはじめる</Link>
-          </button>
+          <Link href="/companies/new/input/">
+            <button
+              type="button"
+              className="px-12 text-white bg-green-600 rounded-full hover:opacity-50 focus:ring-4 focus:ring-green-300 font-bold text-sm py-2.5 text-center md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >
+              poppieをはじめる
+            </button>
+          </Link>
         </div>
 
         <div className="hidden sm:block col-span-5 xlg:col-span-4 2xl:col-span-3">

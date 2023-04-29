@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import Link from 'next/link';
 import { gql } from '@apollo/client';
 import { CompanyFormDataZodSchema } from '@/validations/validateCompany';
 import { useValidationErrors } from '@/hooks/useValidationErrors';
@@ -201,6 +202,17 @@ export const CompanyForm: FC<Props> = ({ onSubmit: onSubmitFn, plans }) => {
                   data-cy="tel"
                 />
               </div>
+            </div>
+
+            <div className="mb-5 bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4">
+              <p className="mb-1">
+                採用担当の方はログイン画面記載のテストアカウントをご利用ください
+              </p>
+              <Link href="/login/">
+                <p className="text-center hover:cursor-pointer text-blue-500">
+                  ログイン画面へ
+                </p>
+              </Link>
             </div>
 
             <div className="text-center mx-auto">

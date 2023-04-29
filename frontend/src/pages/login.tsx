@@ -37,6 +37,11 @@ const LoginPage: NextPageWithLayout = () => {
             <div className="text-2xl font-bold text-center text-green-600 mb-6">
               ログイン
             </div>
+            <div className="w-4/5 mx-auto mb-5 bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4">
+              <p className="mb-1">採用担当の方は以下のテストアカウントをご利用ください</p>
+              <p>メールアドレス: test@test.com</p>
+              <p>パスワード: test1234</p>
+            </div>
             <LoginForm onSubmit={loginButtonClicked} />
           </div>
         </div>
