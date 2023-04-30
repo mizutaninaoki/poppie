@@ -2,8 +2,7 @@ import pytest
 import json
 from graphene_django.utils.testing import graphql_query
 import calendar
-from django.utils import timezone
-from django.utils.timezone import localtime
+import datetime
 
 
 @pytest.fixture
@@ -59,7 +58,7 @@ def test_logged_in(user_gave_dealings_query_fixture):
         query,
         headers=None,
         operation_name="GetGaveDealings",
-        variables={"chartDisplayDate": localtime(timezone.now()).date().isoformat()},
+        variables={"chartDisplayDate": datetime.datetime.now().date().isoformat()},
     )
     content = json.loads(response.content)
     assert "errors" in content
@@ -74,27 +73,26 @@ def test_user_gave_dealings_query(user_gave_dealings_query_fixture):
         query,
         headers=headers,
         operation_name="GetGaveDealings",
-        variables={"chartDisplayDate": localtime(timezone.now()).date().isoformat()},
+        variables={"chartDisplayDate": datetime.datetime.now().date().isoformat()},
     )
     content = json.loads(response.content)
 
-    # TODO: テストを日付が変わってすぐに実行すると、createdAtでdiffが出て、テストがエラーになる
-    # # インデックスのため、-1する
-    # assert content["data"]["gaveDealings"][localtime(timezone.now()).day - 1] == {
-    #     "dealings": [
-    #         {
-    #             "id": str(dealing.id),
-    #             "amount": dealing.amount,
-    #             "message": dealing.message,
-    #             "createdAt": dealing.created_at.isoformat(),
-    #             "giver": {"user": {"name": ""}},
-    #         }
-    #     ],
-    #     "createdAt": localtime(timezone.now()).date().isoformat(),
-    # }
+    # インデックスのため、-1する
+    assert content["data"]["gaveDealings"][datetime.datetime.now().day - 1] == {
+        "dealings": [
+            {
+                "id": str(dealing.id),
+                "amount": dealing.amount,
+                "message": dealing.message,
+                "createdAt": dealing.created_at.isoformat(),
+                "giver": {"user": {"name": ""}},
+            }
+        ],
+        "createdAt": datetime.datetime.now().date().isoformat(),
+    }
 
     last_day = calendar.monthrange(
-        localtime(timezone.now()).year, localtime(timezone.now()).month
+        datetime.datetime.now().year, datetime.datetime.now().month
     )[1]
 
     # テストを実行する月の日数分、gaveDealingsの配列が返ってくること

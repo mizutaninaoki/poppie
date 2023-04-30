@@ -101,7 +101,7 @@ const DealingsReceivedPage: NextPageWithLayout = () => {
                     {new Date(
                       chartDisplayDate.getFullYear(),
                       chartDisplayDate.getMonth() + 1,
-                      chartDisplayDate.getDay(),
+                      chartDisplayDate.getDate(),
                     ) <= today && (
                       <IoChevronForward
                         className="text-green-600 inline cursor-pointer hover:opacity-50"

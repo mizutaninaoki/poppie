@@ -4,8 +4,6 @@ from app.models.dealing import Dealing
 from app.schema.types.user_received_dealings_type import UserReceivedDealingsType
 
 import calendar
-from django.utils import timezone
-from django.utils.timezone import localtime
 import datetime
 
 
@@ -22,7 +20,7 @@ class UserReceivedDealingsQuery(graphene.ObjectType):
     def resolve_user_received_dealings(root, info, chart_display_date):
         # フロントから送られてきた、チャートに表示させる日付をdate型に変換
         chart_date = (
-            localtime(timezone.now()).strptime(chart_display_date, "%Y-%m-%d").date()
+            datetime.datetime.now().strptime(chart_display_date, "%Y-%m-%d").date()
         )
 
         # チャートで表示させる月初日を取得
@@ -34,12 +32,19 @@ class UserReceivedDealingsQuery(graphene.ObjectType):
 
         # 日付条件の設定
         # 開始日
-        strdt = localtime(timezone.now()).replace(
-            day=first_day, hour=0, minute=0, second=0
+        strdt = datetime.datetime.now().replace(
+            year=chart_date.year,
+            month=chart_date.month,
+            day=first_day,
+            hour=0,
+            minute=0,
+            second=0,
         )
 
         # 終了日
-        enddt = localtime(timezone.now()).replace(
+        enddt = datetime.datetime.now().replace(
+            year=chart_date.year,
+            month=chart_date.month,
             day=last_day,
             hour=23,
             minute=59,
@@ -55,10 +60,7 @@ class UserReceivedDealingsQuery(graphene.ObjectType):
             Dealing.objects.select_related("receiver__user")
             .filter(
                 receiver_id=info.context.user.account.id,
-                created_at__range=(
-                    strdt + datetime.timedelta(hours=9),
-                    enddt + datetime.timedelta(hours=9),
-                ),
+                created_at__range=(strdt, enddt),
             )
             .order_by("created_at")
         )
@@ -78,5 +80,4 @@ class UserReceivedDealingsQuery(graphene.ObjectType):
             date_list[received_dealing.created_at.day - 1]["dealings"].append(
                 received_dealing
             )
-
         return date_list

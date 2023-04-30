@@ -18,6 +18,7 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   // 本番環境の場合はnginxのポート番号を指定する。
   // E2Eテストの時はuriをlocalhostに指定する。
   // # INFO: next build、next start時はNODE_ENVを指定しても、next.jsの仕様で必ずproductionで上書きされる
+  // see: https://maku.blog/p/gbpeyov/
   const scheme = !process.env.NEXT_PUBLIC_IS_E2E && process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_SCHEME : "http";
   const port = !process.env.NEXT_PUBLIC_IS_E2E && process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_NGINX_PORT : ":8000";
   const host = !process.env.NEXT_PUBLIC_IS_E2E && process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_POPPIE_HOST : "localhost";

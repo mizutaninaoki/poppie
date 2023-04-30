@@ -102,7 +102,13 @@ TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
-USE_TZ = True
+# TODO: USE_TZはTrueにして、上げたポイント、もらったポイントのグラフ周りが正しく表示できるようにする。
+# USE_TZをTrueにすると、DBにはJSTで保存されているが、Django ORMで取得した時、createdAt等の時間がUTCになってしまう。
+# DBに保存されている時間も、Django ORMで取得した時の時間もどちらもJSTで統一するためにUSE_TZをFalseにしている。
+# ただ一般的にUSE_TZはTrueにしておくべきなので、あまり良い施策ではない。
+# see: https://sleepless-se.net/2018/06/09/django%E3%83%A2%E3%83%87%E3%83%ABmodels-datetimefield%E3%81%AB%E7%8F%BE%E5%9C%A8%E3%81%AE%E6%99%82%E9%96%93%E3%82%92%E6%8C%BF%E5%85%A5%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/
+# USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

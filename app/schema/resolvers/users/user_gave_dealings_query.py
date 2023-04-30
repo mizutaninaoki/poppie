@@ -4,8 +4,6 @@ from app.models.dealing import Dealing
 from app.schema.types.user_gave_dealings_type import UserGaveDealingsType
 
 import calendar
-from django.utils import timezone
-from django.utils.timezone import localtime
 import datetime
 
 
@@ -22,24 +20,31 @@ class UserGaveDealingsQuery(graphene.ObjectType):
     def resolve_user_gave_dealings(root, info, chart_display_date):
         # フロントから送られてきた、チャートに表示させる日付をdate型に変換
         chart_date = (
-            localtime(timezone.now()).strptime(chart_display_date, "%Y-%m-%d").date()
+            datetime.datetime.now().strptime(chart_display_date, "%Y-%m-%d").date()
         )
 
-        # # チャートで表示させる月初日を取得
+        # チャートで表示させる月初日を取得
         first_day = chart_date.replace(day=1).day
-        # # チャートで表示させる月末日を取得
+        # チャートで表示させる月末日を取得
         last_day = chart_date.replace(
             day=calendar.monthrange(chart_date.year, chart_date.month)[1]
         ).day
 
         # 日付条件の設定
         # 開始日
-        strdt = localtime(timezone.now()).replace(
-            day=first_day, hour=0, minute=0, second=0
+        strdt = datetime.datetime.now().replace(
+            year=chart_date.year,
+            month=chart_date.month,
+            day=first_day,
+            hour=0,
+            minute=0,
+            second=0,
         )
 
         # 終了日
-        enddt = localtime(timezone.now()).replace(
+        enddt = datetime.datetime.now().replace(
+            year=chart_date.year,
+            month=chart_date.month,
             day=last_day,
             hour=23,
             minute=59,
@@ -55,10 +60,7 @@ class UserGaveDealingsQuery(graphene.ObjectType):
             Dealing.objects.select_related("giver__user")
             .filter(
                 giver_id=info.context.user.account.id,
-                created_at__range=(
-                    strdt + datetime.timedelta(hours=9),
-                    enddt + datetime.timedelta(hours=9),
-                ),
+                created_at__range=(strdt, enddt),
             )
             .order_by("created_at")
         )

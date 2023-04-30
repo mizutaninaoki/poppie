@@ -13,10 +13,7 @@ from app.models.dealing import Dealing
 from app.models.distribute_log import DistributeLog
 from app.models.purchased_point_log import PurchasedPointLog
 
-
 import datetime
-from django.utils import timezone
-from django.utils.timezone import localtime
 import logging
 
 logger = logging.getLogger(__name__)
@@ -116,8 +113,8 @@ def create_seed_data():
         company=company,
         point=purchase_point,
         price=purchase_point,
-        created_at=localtime(timezone.now()) - datetime.timedelta(days=31),
-        updated_at=localtime(timezone.now()) - datetime.timedelta(days=31),
+        created_at=datetime.datetime.now() - datetime.timedelta(days=31),
+        updated_at=datetime.datetime.now() - datetime.timedelta(days=31),
     )
 
     #
@@ -134,8 +131,8 @@ def create_seed_data():
             company=company,
             account=account,
             point=distribute_point,
-            created_at=localtime(timezone.now()) - datetime.timedelta(days=31),
-            updated_at=localtime(timezone.now()) - datetime.timedelta(days=31),
+            created_at=datetime.datetime.now() - datetime.timedelta(days=31),
+            updated_at=datetime.datetime.now() - datetime.timedelta(days=31),
         )
 
     #
@@ -165,10 +162,10 @@ def create_seed_data():
         )
 
         # update_fieldsを使用して、auto_nowをオーバーライドして、強制的に指定した時間で保存するようにしています。
-        dealing.created_at = localtime(timezone.now()) - datetime.timedelta(
+        dealing.created_at = datetime.datetime.now() - datetime.timedelta(
             days=(generate_days + 1) - i
         )
-        dealing.updated_at = localtime(timezone.now()) - datetime.timedelta(
+        dealing.updated_at = datetime.datetime.now() - datetime.timedelta(
             days=(generate_days + 1) - i
         )
         dealing.save(update_fields=["created_at", "updated_at"])
@@ -192,10 +189,10 @@ def create_seed_data():
             message="こちらこそいつもありがとう！",
         )
 
-        dealing.created_at = localtime(timezone.now()) - datetime.timedelta(
+        dealing.created_at = datetime.datetime.now() - datetime.timedelta(
             days=(generate_days + 1) - i
         )
-        dealing.updated_at = localtime(timezone.now()) - datetime.timedelta(
+        dealing.updated_at = datetime.datetime.now() - datetime.timedelta(
             days=(generate_days + 1) - i
         )
         dealing.save(update_fields=["created_at", "updated_at"])
