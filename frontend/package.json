@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NODE_ENV=test next build",
+    "build": "next build",
     "make-e2e-env": "cp .e2e.env .env.production",
-    "e2e-start": "NODE_ENV=test PORT=3000 next start",
     "start": "NODE_ENV=production PORT=3000 next start",
     "export": "NODE_ENV=production next build && next export",
     "serve": "NODE_ENV=production serve ./out",
