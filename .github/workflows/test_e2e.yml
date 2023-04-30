@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV_NAME: ${{secrets.ENV_NAME}}
+      # TODO: NODE_ENVをproductionでここに指定するとnext buildでエラーが出る。
       # NODE_ENV: ${{secrets.NODE_ENV}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       ENGINE: ${{secrets.ENGINE}}
@@ -87,7 +88,8 @@ jobs:
       # Next.jsアプリを起動(バックグラウンド実行)
       - name: Start App
         working-directory: ./frontend
-        run: yarn start &
+        # run: yarn start &
+        run: yarn dev &
       # Cypress実行
       - name: Cypress run
         uses: cypress-io/github-action@v5
