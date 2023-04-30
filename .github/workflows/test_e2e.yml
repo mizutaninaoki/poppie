@@ -68,6 +68,8 @@ jobs:
         run: |
           yarn make-e2e-env
           yarn build
+          cat .e2e.env
+          cat .env.production
       - name: Set up docker
         run: docker-compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d
 
@@ -93,8 +95,7 @@ jobs:
       # Next.jsアプリを起動(バックグラウンド実行)
       - name: Start App
         working-directory: ./frontend
-        # run: yarn start &
-        run: yarn e2e-start &
+        run: yarn start &
       # Cypress実行
       - name: Cypress run
         uses: cypress-io/github-action@v5
