@@ -16,9 +16,12 @@ const REFRESH_TOKEN = `
 
 export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   // 本番環境の場合はnginxのポート番号を指定する
-  const scheme = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_SCHEME : "http";
-  const port = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_NGINX_PORT : ":8000";
-  const host = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_POPPIE_HOST : "localhost";
+  // const scheme = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_SCHEME : "http";
+  // const port = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_NGINX_PORT : ":8000";
+  // const host = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_POPPIE_HOST : "localhost";
+  const scheme = "http";
+  const port = ":8000";
+  const host = "localhost";
   const uri = `${scheme}://${host}${port}/graphql`;
   // const uri = `http://localhost:8000/graphql`;
 
