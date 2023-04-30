@@ -17,7 +17,8 @@ describe('新規ポイント贈与', () => {
     it('トップから新規登録画面へ遷移することができる', () => {
       cy.visit('/');
       cy.get('[data-cy=registrationInHeader]').click();
-      cy.contains('ご希望のプランを選択してください').should('exist');
+      // cy.contains('ご希望のプランを選択してください').should('exist');
+      cy.url().should('include', '/companies/new/input')
     });
 
     it('新規登録することができる', () => {

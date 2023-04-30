@@ -55,8 +55,8 @@ jobs:
           restore-keys: ${{ runner.os }}-yarn-
             ${{ runner.os }}-
       # fonts-noto をインストールする(失敗時、Github Actionsのスクショで日本語が文字化けするのを直す)
-      # - name: Install fonts-noto
-      #   run: sudo apt install fonts-noto
+      - name: Install fonts-noto
+        run: sudo apt install fonts-noto
       - name: Install Dependencies
         working-directory: ./frontend
         run: yarn install --frozen-lockfile --prefer-offline
@@ -88,8 +88,8 @@ jobs:
       # Next.jsアプリを起動(バックグラウンド実行)
       - name: Start App
         working-directory: ./frontend
-        # run: yarn start &
-        run: yarn dev &
+        run: yarn e2e_start &
+        # run: yarn dev &
       # Cypress実行
       - name: Cypress run
         uses: cypress-io/github-action@v5
