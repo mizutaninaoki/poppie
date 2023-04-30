@@ -22,11 +22,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV_NAME: ${{secrets.ENV_NAME}}
+      NODE_ENV: ${{secrets.NODE_ENV}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       ENGINE: ${{secrets.ENGINE}}
       POSTGRES_DB: ${{secrets.POSTGRES_DB}}
       POSTGRES_USER: ${{secrets.POSTGRES_USER}}
       POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+      DATABASE: ${{secrets.DATABASE}}
       DB_HOST: ${{secrets.DB_HOST}}
       DB_PORT: ${{secrets.DB_PORT}}
       AWS_S3_ACCESS_KEY_ID: ${{secrets.AWS_S3_ACCESS_KEY_ID}}
@@ -34,6 +36,7 @@ jobs:
       AWS_STORAGE_BUCKET_NAME: ${{secrets.AWS_STORAGE_BUCKET_NAME}}
       AWS_REGION_NAME: ${{secrets.AWS_REGION_NAME}}
       ALLOWED_HOSTS: ${{secrets.ALLOWED_HOSTS}}
+      CORS_ALLOWED_ORIGINS: ${{secrets.CORS_ALLOWED_ORIGINS}}
     steps:
       - uses: actions/checkout@v3
       - name: Set up node
