@@ -41,6 +41,7 @@ jobs:
       NEXT_PUBLIC_SCHEME: ${{secrets.NEXT_PUBLIC_SCHEME}}
       NEXT_PUBLIC_NGINX_PORT: ${{secrets.NEXT_PUBLIC_NGINX_PORT}}
       NEXT_PUBLIC_POPPIE_HOST: ${{secrets.NEXT_PUBLIC_POPPIE_HOST}}
+      NEXT_PUBLIC_IS_E2E: ${{secrets.NEXT_PUBLIC_IS_E2E}}
     steps:
       - uses: actions/checkout@v3
       - name: Set up node
