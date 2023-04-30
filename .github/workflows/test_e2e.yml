@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV_NAME: ${{secrets.ENV_NAME}}
-      NODE_ENV: ${{secrets.NODE_ENV}}
+      # NODE_ENV: ${{secrets.NODE_ENV}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       ENGINE: ${{secrets.ENGINE}}
       POSTGRES_DB: ${{secrets.POSTGRES_DB}}
