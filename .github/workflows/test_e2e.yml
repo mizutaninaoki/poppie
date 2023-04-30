@@ -61,8 +61,11 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
       - name: Run Next.js Build
         working-directory: ./frontend
-        run: |
-          yarn build
+        env:
+          # NODE_ENVをproductionにすると、yarn build(next build)でtypescriptとかがないのでエラーになるため、
+          # NODE_ENVはdevelopmentを指定
+          NODE_ENV: development
+        run: yarn build
       - name: Set up docker
         run: docker-compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d
 
