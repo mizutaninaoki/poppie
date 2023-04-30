@@ -33,6 +33,7 @@ jobs:
       AWS_S3_SECRET_ACCESS_KEY: ${{secrets.AWS_S3_SECRET_ACCESS_KEY}}
       AWS_STORAGE_BUCKET_NAME: ${{secrets.AWS_STORAGE_BUCKET_NAME}}
       AWS_REGION_NAME: ${{secrets.AWS_REGION_NAME}}
+      ALLOWED_HOSTS: ${{secrets.ALLOWED_HOSTS}}
     steps:
       - uses: actions/checkout@v3
       - name: Set up node
@@ -58,7 +59,6 @@ jobs:
       - name: Run Next.js Build
         working-directory: ./frontend
         run: |
-          yarn make-e2e-env
           yarn build
       - name: Set up docker
         run: docker-compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d

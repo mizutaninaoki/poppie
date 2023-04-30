@@ -10,7 +10,6 @@
     "serve": "NODE_ENV=production serve ./out",
     "clean": "rimraf .next out",
     "lint": "next lint",
-    "make-e2e-env": "cp .env.e2e .env.production",
     "cy:run": "TZ=Asia/Tokyo cypress run",
     "cy:run:dev": "TZ=Asia/Tokyo cypress run --env CYPRESS_ENV=dev",
     "cy:open": "cypress open --env CYPRESS_ENV=dev",
