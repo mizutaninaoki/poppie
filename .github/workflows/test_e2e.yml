@@ -93,7 +93,8 @@ jobs:
       # Next.jsアプリを起動(バックグラウンド実行)
       - name: Start App
         working-directory: ./frontend
-        run: yarn start &
+        # run: yarn start &
+        run: yarn e2e-start &
       # Cypress実行
       - name: Cypress run
         uses: cypress-io/github-action@v5
