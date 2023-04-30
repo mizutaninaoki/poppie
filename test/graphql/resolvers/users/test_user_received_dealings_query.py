@@ -59,7 +59,7 @@ def test_logged_in(user_received_dealings_query_fixture):
         query,
         headers=None,
         operation_name="GetReceivedDealings",
-        variables={"chartDisplayDate": localtime(timezone.now()).isoformat()},
+        variables={"chartDisplayDate": localtime(timezone.now()).date().isoformat()},
     )
     content = json.loads(response.content)
     assert "errors" in content
@@ -74,7 +74,7 @@ def test_user_received_dealings_query(user_received_dealings_query_fixture):
         query,
         headers=headers,
         operation_name="GetReceivedDealings",
-        variables={"chartDisplayDate": localtime(timezone.now()).isoformat()},
+        variables={"chartDisplayDate": localtime(timezone.now()).date().isoformat()},
     )
     content = json.loads(response.content)
 
@@ -89,7 +89,7 @@ def test_user_received_dealings_query(user_received_dealings_query_fixture):
                 "giver": {"user": {"name": ""}},
             }
         ],
-        "createdAt": localtime(timezone.now()).isoformat(),
+        "createdAt": localtime(timezone.now()).date().isoformat(),
     }
 
     last_day = calendar.monthrange(
