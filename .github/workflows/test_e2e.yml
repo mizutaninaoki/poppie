@@ -23,7 +23,7 @@ jobs:
     env:
       ENV_NAME: ${{secrets.ENV_NAME}}
       # TODO: NODE_ENVをproductionでここに指定するとnext buildでエラーが出る。
-      # NODE_ENV: ${{secrets.NODE_ENV}}
+      NODE_ENV: ${{secrets.NODE_ENV}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       ENGINE: ${{secrets.ENGINE}}
       POSTGRES_DB: ${{secrets.POSTGRES_DB}}
@@ -62,7 +62,9 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
       - name: Run Next.js Build
         working-directory: ./frontend
-        run: yarn build
+        run: |
+          yarn make-e2e-env
+          yarn build
       - name: Set up docker
         run: docker-compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d
 
