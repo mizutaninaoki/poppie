@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "NODE_ENV=development next build",
     "start": "NODE_ENV=production PORT=3000 next start",
     "export": "NODE_ENV=production next build && next export",
     "serve": "NODE_ENV=production serve ./out",
