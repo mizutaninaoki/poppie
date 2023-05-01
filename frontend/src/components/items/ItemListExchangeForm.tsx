@@ -30,6 +30,11 @@ export const ItemListExchangeForm: FC<Props> = ({ onConfirm: onConfirmFn, items 
   const { errors, setErrors, resetErrors } = useValidationErrors();
 
   const onConfirm = () => {
+    if (selectedItemTotalPoint >= currentUser.account?.receivedPoint) {
+      alert('交換可能ポイントが足りません');
+      return;
+    }
+
     resetErrors();
     const result = ItemListExchangeFormDataZodSchema.safeParse(ListFormData);
     if (!result.success) {

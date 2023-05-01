@@ -12,6 +12,7 @@ from app.models.account import Account
 from app.models.dealing import Dealing
 from app.models.distribute_log import DistributeLog
 from app.models.purchased_point_log import PurchasedPointLog
+from app.models.item import Item
 
 import datetime
 import logging
@@ -81,7 +82,8 @@ def create_seed_data():
     #
     company_admin_user = User.objects.create_user(
         company_id=company.id,
-        name="管理者ユーザー",
+        # name="管理者ユーザー",
+        name="テストユーザー",
         email=company_admin_user_email,
         password=test_password,
         is_active=True,
@@ -91,10 +93,10 @@ def create_seed_data():
     #
     # User(Account, Profile)作成(一般ユーザー)
     #
-    for i in range(3):
+    for i in range(1, 4):
         User.objects.create_user(
             company_id=company.id,
-            name=f"テストユーザー{i}",
+            name=f"サンプルユーザー{i}",
             email=f"user{i}@user.com",
             password=test_password,
             is_active=True,
@@ -136,6 +138,64 @@ def create_seed_data():
         )
 
     #
+    # 景品を登録(6商品)
+    #
+    Item.objects.create(
+        company=company,
+        name="Amazonギフト券1000円分",
+        unit="枚",
+        exchangable_point=1000,
+        status=0,
+        quantity=100,
+        image_key=None,
+    )
+    Item.objects.create(
+        company=company,
+        name="Amazonギフト券5000円分",
+        unit="枚",
+        exchangable_point=5000,
+        status=0,
+        quantity=100,
+        image_key=None,
+    )
+    Item.objects.create(
+        company=company,
+        name="Amazonギフト券10000円分",
+        unit="枚",
+        exchangable_point=10000,
+        status=0,
+        quantity=100,
+        image_key=None,
+    )
+    Item.objects.create(
+        company=company,
+        name="図書カード3000円分",
+        unit="枚",
+        exchangable_point=3000,
+        status=0,
+        quantity=100,
+        image_key=None,
+    )
+    Item.objects.create(
+        company=company,
+        name="会社ロゴ入りマグカップ",
+        unit="個",
+        exchangable_point=500,
+        status=0,
+        quantity=100,
+        image_key=None,
+    )
+    Item.objects.create(
+        company=company,
+        name="ビール1ケース(350ml 24缶入り)",
+        unit="個",
+        exchangable_point=4800,
+        status=0,
+        quantity=100,
+        image_key=None,
+    )
+
+    #
     # ユーザー１によるポイント贈与(90日前から１日１回ポイントの取引があったことを想定)
     #
 
@@ -161,12 +221,13 @@ def create_seed_data():
             message="いつもありがとう！",
         )
 
+        # seedを実行した日の前日まで、ポイント交換(dealing)のレコードを作成
         # update_fieldsを使用して、auto_nowをオーバーライドして、強制的に指定した時間で保存するようにしています。
         dealing.created_at = datetime.datetime.now() - datetime.timedelta(
-            days=(generate_days + 1) - i
+            days=(generate_days) - i
         )
         dealing.updated_at = datetime.datetime.now() - datetime.timedelta(
-            days=(generate_days + 1) - i
+            days=(generate_days) - i
         )
         dealing.save(update_fields=["created_at", "updated_at"])
 
