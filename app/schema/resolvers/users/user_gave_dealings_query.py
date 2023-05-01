@@ -55,7 +55,7 @@ class UserGaveDealingsQuery(graphene.ObjectType):
         days_num = enddt.day
 
         # チャートで表示させる月のポイントを贈った取引(dealing)を取得
-        # FIXME: N+1, Django ORMで取得時、UTC基準の月初 〜 月末で取得してしまう。timedeltaで9時間プラスしているのを修正したい。
+        # FIXME: N+1, Django ORMで取得時、UTC基準の月初 〜 月末で取得してしまう。timedeltaで9時間プラスしているのを修正したい
         gave_dealings = (
             Dealing.objects.select_related("giver__user")
             .filter(

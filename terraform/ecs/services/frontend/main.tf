@@ -50,6 +50,14 @@ resource "aws_ecs_service" "frontend" {
   task_definition = aws_ecs_task_definition.frontend.arn        # タスク定義
   depends_on      = [aws_ecs_task_definition.frontend]          # リソースの作成が完了するのを待ってから当該リソースの作成を開始する。
 
+  # タグをlatestのままECRにプッシュしているため、そのままではTerraformがECRのimageが変わったことを検知してくれない。
+  # そのため、ECSサービスは毎回、強制的にデプロイしてタスク定義をlatestの最新のものを生成するようにしている。(force_new_deploymentとtriggers、２つの設定が必要)
+  # see: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#redeploy-service-on-every-apply
+  force_new_deployment = true
+  triggers = {
+    redeployment = timestamp()
+  }
+
   # サービスのネットワーク設定
   network_configuration {
     security_groups  = [var.alb_security_group_ecs.id]

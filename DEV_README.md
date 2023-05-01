@@ -32,3 +32,11 @@ $ pytest
 $ cd frontend
 $ yarn run cy:run:dev
 ```
+
+### デプロイ
+```sh
+$ ./ecr_push.sh
+$ cd terraform
+$ terraform plan
+$ terraform apply
+```
