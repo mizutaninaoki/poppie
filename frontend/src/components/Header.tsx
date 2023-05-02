@@ -29,7 +29,7 @@ export const Header: FC = () => {
             <div className="mr-1">
               <img src="/images/point_icon.png" alt="point_icon" className="w-6 md:w-8" />
             </div>
-            <span className="text-green-600 self-center text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="text-green-600 self-center text-xl md:text-2xl font-semibold whitespace-nowrap">
               Poppie
             </span>
           </div>
