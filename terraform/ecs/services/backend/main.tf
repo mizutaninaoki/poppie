@@ -59,10 +59,10 @@ resource "aws_ecs_service" "ecs_service" {
   # そのため、ECSサービスは毎回、強制的にデプロイしてタスク定義をlatestの最新のものを生成するようにしている。(force_new_deploymentとtriggers、２つの設定が必要)
   # see: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#redeploy-service-on-every-apply
   # TODO: 以下のforce_new_deploymentとtriggers、2つを設定したが、ECRにimageをだけ変更しても変更を検知してくれない。terraform planで検知される方法を探す。
-  force_new_deployment = true
-  triggers = {
-    redeployment = timestamp()
-  }
+  # force_new_deployment = true
+  # triggers = {
+  #   redeployment = timestamp()
+  # }
 
   # サービスのネットワーク設定
   network_configuration {

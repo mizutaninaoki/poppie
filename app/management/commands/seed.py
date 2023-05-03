@@ -64,7 +64,7 @@ def create_seed_data():
     logger.info("Creating seed data...")
 
     company_admin_user_email = "test@test.com"
-    test_password = "test1234"  # TODO: 変える！
+    test_password = "poppie1234"  # TODO: 変える！
 
     #
     # Company作成
