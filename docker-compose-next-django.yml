@@ -15,7 +15,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      ENV_NAME: 'production'
+      ENV_NAME: "production"
     env_file:
       - ./.env
       - ./.env.production
@@ -42,8 +42,8 @@ services:
       context: ./frontend
       dockerfile: ../docker/next/Dockerfile
     environment:
-      ENV_NAME: 'production'
-      NODE_ENV: 'production'
+      ENV_NAME: "production"
+      NODE_ENV: "production"
     ports:
       - 3000:3000
     env_file:
@@ -51,14 +51,13 @@ services:
 
   db:
     container_name: db
-    image: postgres:13.3-alpine
+    image: postgres:17.5-alpine
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     env_file:
       - ./.env.production
-
 
 volumes:
   db_data:

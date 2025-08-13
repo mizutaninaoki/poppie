@@ -58,7 +58,7 @@ resource "aws_db_instance" "postgres" {
   # 暗号化を手動で行う場合は以下記事参考
   # https://dev.classmethod.jp/articles/encrypt-unencrypted-rds-db-instance-ja/
   engine              = "postgres"    # DBデータベースエンジン
-  engine_version      = "13.3"        # DBエンジンバージョン
+  engine_version      = "17.5"        # DBエンジンバージョン
   instance_class      = "db.t3.micro" # DBインスタンスサイズ
   # multi_az            = true        # マルチAZはtrue(異なるアベイラビリティゾーンのサブネットをaws_db_subnet_groupで指定しておかなければいけない)
   multi_az            = false         # マルチAZはtrue(異なるアベイラビリティゾーンのサブネットをaws_db_subnet_groupで指定しておかなければいけない)

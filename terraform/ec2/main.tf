@@ -2,7 +2,7 @@
 # EC2へは「ssh ec2-user@生成したElastic IPのアドレス」のコマンドでEC2へ接続できる。(ポートはデフォルトの22のみ接続可)
 # EC2へ接続後はスーパーユーザーでpsqlコマンドを使えるようにするため、以下コマンドを打つ。
 # sudo su -
-# amazon-linux-extras install -y postgresql13
+# amazon-linux-extras install -y postgresql17
 # その後、以下コマンドでRDS(Postgres)に接続
 # psql -h <RDSエンドポイント> -U <ユーザ名> -d <DB名>
 ###############################################################################
@@ -23,8 +23,8 @@ resource "aws_security_group" "ec2_sg" {
   # 踏み台サーバーとしてここでは使っているからポート22でも良いが、セキュアにEC2をterraformで作成する場合、SSMエージェントをEC2作成時にインストールするようにして、
   # セッションマネージャで接続するようにした方が良い。
   ingress {
-    from_port = 22
-    to_port   = 22
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # 本当はここは許可したIPアドレスのみに制限した方がいい
   }

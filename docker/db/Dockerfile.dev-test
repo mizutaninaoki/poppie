@@ -1,5 +1,5 @@
-# 2021/10時点で安定版でRDSに対応している最新版
-FROM postgres:13.3
+# 2025/08時点で安定版でRDSに対応している最新版
+FROM postgres:17.5
 
 # 依存のインストール
 RUN find /etc/apt -name '*.list' | xargs sed -i 's/httpredir.debian.org/ftp.jp.debian.org/' && \

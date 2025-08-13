@@ -1,5 +1,4 @@
-version: "3"
-
+version: '3'
 
 services:
   db:
@@ -7,9 +6,9 @@ services:
       context: . # /simuly ディレクトリにてdockerfile内のステップを実行する
       dockerfile: ./docker/db/Dockerfile.dev-test
     image: poppie:postgres
-    # image: postgres:13.4
+    # image: postgres:17.5
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - db_data:/var/lib/postgresql/data
     env_file: .docker_env
@@ -17,8 +16,8 @@ services:
   mail:
     image: helder/mailcatcher
     ports:
-      - "1026:25"
-      - "1081:80"
+      - '1026:25'
+      - '1081:80'
 
   # INFO: 今のところメモリーストアはmemory_storeを指定しているため、redisは不要。
   # redis:
@@ -31,10 +30,8 @@ services:
 volumes:
   db_data:
 
-
-
   # postgres:
-  #   image: postgres:13.3
+  #   image: postgres:17.5
   #   ports:
   #     - 5432:5432
   #   environment:

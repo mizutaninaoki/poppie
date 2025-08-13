@@ -36,7 +36,7 @@ jobs:
       CORS_ALLOWED_ORIGINS: ${{secrets.CORS_ALLOWED_ORIGINS}}
     services:
       postgres:
-        image: postgres:13.3
+        image: postgres:17.5
         env:
           POSTGRES_DB: ${{secrets.POSTGRES_DB}}
           POSTGRES_USER: ${{secrets.POSTGRES_USER}}
@@ -46,7 +46,7 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-        # ジョブで利用するリポジトリをチェックアウトするには actions/checkout というアクションが提供されています。uses キーワードを使いアクションを実行することができます。
+      # ジョブで利用するリポジトリをチェックアウトするには actions/checkout というアクションが提供されています。uses キーワードを使いアクションを実行することができます。
       - uses: actions/checkout@v3
       - name: Set up Python 3.9
         uses: actions/setup-python@v3
@@ -64,5 +64,3 @@ jobs:
         run: python manage.py migrate
       - name: Run tests
         run: pytest
-
-
