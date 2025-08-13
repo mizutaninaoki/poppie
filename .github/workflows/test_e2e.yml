@@ -97,14 +97,14 @@ jobs:
         run: yarn start &
       # Cypress実行
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           install: false
           working-directory: frontend
           wait-on: "http://localhost:3000"
       # Cypress実行時に生成されたビデオとスクリーンショットを保存
       - name: Save e2e screenshots at failure
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: e2e-test-logs
           path: |
