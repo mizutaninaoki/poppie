@@ -3,7 +3,7 @@
 ### Docker Compose
 
 ```sh
-$ docker-compose up
+$ docker compose up
 ```
 
 ### pipenv

@@ -71,7 +71,7 @@ jobs:
           yarn make-e2e-env
           yarn build
       - name: Set up docker
-        run: docker-compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d
+        run: docker compose -f ./docker/e2e/docker-compose-e2e.yml up --build -d
       - name: Set up Python 3.9
         uses: actions/setup-python@v3
         with:
